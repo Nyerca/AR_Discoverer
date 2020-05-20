@@ -1,0 +1,134 @@
+{
+  animations: [
+    {
+      clips: [
+        {
+          name: 'Action.002',
+        },
+        {
+          name: 'Armature|Action',
+        },
+        {
+          name: 'Armature|Action.001',
+        },
+        {
+          name: 'Armature|Action.002',
+        },
+        {
+          name: 'Armature|eye move',
+        },
+        {
+          name: 'Armature|head move',
+        },
+        {
+          name: 'Armature|head move.001',
+        },
+        {
+          name: 'Armature|stand',
+        },
+        {
+          name: 'Armature|walk',
+        },
+        {
+          name: 'Armature|wiggle',
+        },
+        {
+          name: 'Armature|wiggle.001',
+        },
+      ],
+      path: 'sampledata/models/robot for scetchfab.fbx',
+    },
+    {
+      clips: [
+        {
+          name: 'Action.002',
+        },
+        {
+          name: 'Armature|Action',
+        },
+        {
+          name: 'Armature|Action.001',
+        },
+        {
+          name: 'Armature|Action.002',
+        },
+        {
+          name: 'Armature|eye move',
+        },
+        {
+          name: 'Armature|head move',
+        },
+        {
+          name: 'Armature|head move.001',
+        },
+        {
+          name: 'Armature|stand',
+        },
+        {
+          name: 'Armature|walk',
+        },
+        {
+          name: 'Armature|wiggle',
+        },
+        {
+          name: 'Armature|wiggle.001',
+        },
+      ],
+      path: 'sampledata/models/robot for scetchfab.fbx',
+    },
+  ],
+  materials: [
+    {
+      name: 'robot',
+      parameters: [
+        {
+          baseColor: [
+            0.80000000000000004,
+            0.80000000000000004,
+            0.80000000000000004,
+            1,
+          ],
+        },
+        {
+          baseColorMap: null,
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'TexCoord',
+      'Orientation',
+      'BoneIndices',
+      'BoneWeights',
+    ],
+    collision: {},
+    file: 'sampledata/models/robot for scetchfab.fbx',
+    name: 'robot for scetchfab',
+    recenter: 'root',
+  },
+  version: '0.54:2',
+}
