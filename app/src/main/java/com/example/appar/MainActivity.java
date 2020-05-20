@@ -22,6 +22,7 @@ import com.google.ar.sceneform.ux.TransformableNode;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,11 +39,13 @@ public class MainActivity extends AppCompatActivity {
     private boolean isTracking;
     private boolean isHitting;
     private ModelLoader modelLoader;
+    private String qrcode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -61,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
             onUpdate();
         });
         modelLoader = new ModelLoader(new WeakReference<>(this));
+
+        qrcode = getIntent().getStringExtra("Qr_code");
+
         initializeGallery();
     }
 
@@ -147,8 +153,9 @@ public class MainActivity extends AppCompatActivity {
         andy.setImageResource(R.drawable.droid_thumb);
         andy.setContentDescription("andy_dance");
         andy.setOnClickListener(view ->{
-            addObject(Uri.parse("andy_dance.sfb"));
+            //addObject(Uri.parse("andy_dance.sfb"));
             //addObject(Uri.parse("https://raw.githubusercontent.com/Nyerca/ar_images/master/bat.sfb"));
+            addObject(Uri.parse(qrcode));
         });
         gallery.addView(andy);
     }
