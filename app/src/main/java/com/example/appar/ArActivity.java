@@ -1,5 +1,7 @@
 package com.example.appar;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +28,22 @@ public class ArActivity extends AppCompatActivity {
         btnScan = findViewById(R.id.btnScan);
         tv_qr_readTxt = findViewById(R.id.tv_qr_readTxt);
 
+        // 1. Instantiate an <code><a href="/reference/android/app/AlertDialog.Builder.html">AlertDialog.Builder</a></code> with its constructor
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // 2. Chain together various setter methods to set the dialog characteristics
+                builder.setMessage("ciao")
+                        .setTitle("title")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Log.e("Scan", "Scanned");
+                            }
+                        });
+
+        // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
+                AlertDialog dialog = builder.create();
+
+                dialog.show();
 
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override

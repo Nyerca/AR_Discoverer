@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "174501714365",
+    "firebase_url": "https://ar-discoverer.firebaseio.com",
+    "project_id": "ar-discoverer",
+    "storage_bucket": "ar-discoverer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174501714365:android:82e6f8bb131fd507a49ad4",
+        "android_client_info": {
+          "package_name": "com.example.appar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174501714365-aeon1e1c3brnpt1pbv255ccc6e5af8fc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.appar",
+            "certificate_hash": "bce75113d125e55a35ba06763df85a22de654ce9"
+          }
+        },
+        {
+          "client_id": "174501714365-4bm3tv0rnv0buqn5sbbqpbnbs8odk2is.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyO27m8kyOx4gX_JR9M4X3FjWeO_CANqc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174501714365-4bm3tv0rnv0buqn5sbbqpbnbs8odk2is.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
