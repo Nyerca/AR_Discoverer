@@ -48,8 +48,6 @@ public class Position extends AppCompatActivity implements LocationListener {
         }
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        Toast.makeText(Position.this, "so far so good",
-                Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -58,12 +56,24 @@ public class Position extends AppCompatActivity implements LocationListener {
         Toast.makeText(Position.this, "Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude(),
                 Toast.LENGTH_LONG).show();
          */
-        Toast.makeText(Position.this, "" + getDistance(location.getLatitude(), location.getLongitude(), 44.0, 42.0),
+        Toast.makeText(Position.this, "" + getMeasure(location.getLatitude(), location.getLongitude(), 44.13086749, 12.22772357),
                 Toast.LENGTH_LONG).show();
     }
 
     private double getDistance(double lat1, double long1, double lat2, double long2) {
         return Math.sqrt(Math.pow(long2 - long1, 2) + Math.pow(lat2 - lat1, 2));
+    }
+
+    private double getMeasure(double lat1, double lon1, double lat2, double lon2){  // generally used geo measurement function
+        double R = 6378.137; // Radius of earth in KM
+        double dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
+        double dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                        Math.sin(dLon/2) * Math.sin(dLon/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double d = R * c;
+        return d * 1000; // meters
     }
 
     @Override
