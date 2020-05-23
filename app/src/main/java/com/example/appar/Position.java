@@ -18,13 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Position extends AppCompatActivity implements LocationListener {
     protected LocationManager locationManager;
-    protected LocationListener locationListener;
-    protected Context context;
-    TextView txtLat;
-    String lat;
-    String provider;
-    protected String latitude, longitude;
-    protected boolean gps_enabled, network_enabled;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
