@@ -40,6 +40,8 @@ dependencies {
 
     implementation 'com.google.zxing:core:3.2.1'
     implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
+
+    implementation "com.sothree.slidinguppanel:library:3.4.0"
 }
 
 
