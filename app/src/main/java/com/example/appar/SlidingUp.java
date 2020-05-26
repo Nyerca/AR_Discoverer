@@ -22,6 +22,32 @@ public class SlidingUp extends AppCompatActivity implements LocationListener {
 
     protected LocationManager locationManager;
     protected ListView listView;
+
+    private enum Distance {
+        ONE(10),
+        TWO(20),
+        THREE(30),
+        FAR(31);
+
+        private int distance;
+        private Distance(int dist) {
+            this.distance = dist;
+        }
+
+        public int getDistance() {
+            return distance;
+        }
+        public static Distance getStep(double value) {
+            if(value < 10) return ONE;
+            else if(value < 20) return TWO;
+            else if(value < 30) return THREE;
+            else return FAR;
+        }
+        public String toString() {
+            return this.distance + "";
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,9 +101,10 @@ public class SlidingUp extends AppCompatActivity implements LocationListener {
                 Toast.LENGTH_LONG).show();
          */
         Double returnDistance = getMeasure(location.getLatitude(), location.getLongitude(), 44.13086749, 12.22772357);
+        Distance step = Distance.getStep(returnDistance);
 
         listView.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, new String[] {"" + returnDistance}));
+                android.R.layout.simple_list_item_1, new String[] {"" + step}));
     }
 
     private double getDistance(double lat1, double long1, double lat2, double long2) {
