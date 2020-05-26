@@ -2,6 +2,8 @@
 <resources>
     <declare-styleable name="DistanceAnimalView">
         <attr name="shapeColor" format="color" />
+        <attr name="distance" format="float" />
+        <attr name="imagePath" format="string" />
         <attr name="displayShapeName" format="boolean" />
     </declare-styleable>
 </resources>

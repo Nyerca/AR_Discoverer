@@ -23,7 +23,7 @@ public class SlidingUp extends AppCompatActivity implements LocationListener {
     protected LocationManager locationManager;
     protected ListView listView;
 
-    private enum Distance {
+    public enum Distance {
         ONE(10),
         TWO(20),
         THREE(30),
