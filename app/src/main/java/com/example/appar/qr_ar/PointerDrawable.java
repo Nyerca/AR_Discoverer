@@ -1,4 +1,4 @@
-package com.example.appar;
+package com.example.appar.qr_ar;
 
 import android.graphics.Canvas;
 import android.graphics.Color;

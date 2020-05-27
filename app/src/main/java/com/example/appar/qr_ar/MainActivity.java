@@ -1,9 +1,10 @@
-package com.example.appar;
+package com.example.appar.qr_ar;
 
 import android.app.AlertDialog;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.example.appar.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.ar.core.Anchor;
@@ -22,7 +23,6 @@ import com.google.ar.sceneform.ux.TransformableNode;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;

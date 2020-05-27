@@ -1,12 +1,10 @@
-package com.example.appar;
+package com.example.appar.qr_ar;
 
 import android.net.Uri;
 import android.util.Log;
 
 import com.google.ar.core.Anchor;
-import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.rendering.ModelRenderable;
-import com.google.ar.sceneform.ux.TransformableNode;
 
 import java.lang.ref.WeakReference;
 

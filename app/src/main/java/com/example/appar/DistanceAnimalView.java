@@ -121,7 +121,7 @@ public class DistanceAnimalView extends View {
 
 
 
-        canvas.drawText("" + distance, shapeWidth + textXOffset, shapeHeight + textXOffset, paintShape);
+        //canvas.drawText("" + distance, shapeWidth + textXOffset, shapeHeight + textXOffset, paintShape);
 
     }
 

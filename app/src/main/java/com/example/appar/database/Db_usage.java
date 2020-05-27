@@ -1,7 +1,8 @@
-package com.example.appar;
+package com.example.appar.database;
 
 import android.os.Bundle;
 
+import com.example.appar.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
@@ -14,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,9 +48,38 @@ public class Db_usage extends AppCompatActivity {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot){
+
+                /*
                 String value = dataSnapshot.child("message").getValue(String.class); //This is a1
                 Toast.makeText(Db_usage.this, "id: " + value,
                         Toast.LENGTH_LONG).show();
+
+                */
+
+                dataSnapshot.child("sensors").getChildren().forEach(el -> {
+                    String value = el.child("position").getValue(String.class); //This is a1
+                    //Toast.makeText(Db_usage.this, "id: " + el.getKey(),
+                         //   Toast.LENGTH_LONG).show();
+
+
+                    DatabaseReference myRef =  FirebaseDatabase.getInstance().getReference();
+                    myRef.child("sensor_sounds").orderByKey().equalTo(el.getKey()).addListenerForSingleValueEvent(new ValueEventListener(){
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot2){
+
+                            dataSnapshot2.child(el.getKey()).getChildren().forEach(el2 -> {
+                                String value = el2.child("sound").getValue(String.class); //This is a1
+                                Toast.makeText(Db_usage.this, "id: " + value, Toast.LENGTH_LONG).show();
+                            });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                    });
+
+                });
+
+
             }
 
             @Override
