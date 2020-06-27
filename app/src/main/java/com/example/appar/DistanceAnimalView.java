@@ -12,12 +12,16 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.util.Base64;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class DistanceAnimalView extends View {
 
-    private int shapeColor;
-    private boolean displayShapeName;
+    //private int shapeColor;
+    //private boolean displayShapeName;
     private float distance;
     private String imagePath;
 
@@ -32,8 +36,8 @@ public class DistanceAnimalView extends View {
         TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.DistanceAnimalView, 0, 0);
         // Extract custom attributes into member variables
         try {
-            shapeColor = a.getColor(R.styleable.DistanceAnimalView_shapeColor, Color.BLACK);
-            displayShapeName = a.getBoolean(R.styleable.DistanceAnimalView_displayShapeName, false);
+            //shapeColor = a.getColor(R.styleable.DistanceAnimalView_shapeColor, Color.RED);
+            //displayShapeName = a.getBoolean(R.styleable.DistanceAnimalView_displayShapeName, true);
             distance = a.getFloat(R.styleable.DistanceAnimalView_distance, 0);
             imagePath = a.getString(R.styleable.DistanceAnimalView_imagePath);
         } finally {
@@ -62,6 +66,7 @@ public class DistanceAnimalView extends View {
         requestLayout();
     }
 
+    /*
     public boolean isDisplayingShapeName() {
         return displayShapeName;
     }
@@ -82,7 +87,7 @@ public class DistanceAnimalView extends View {
         invalidate();
         requestLayout();
     }
-
+*/
     public DistanceAnimalView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setupAttributes(attrs);
@@ -94,11 +99,14 @@ public class DistanceAnimalView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        //canvas.drawRect(0, 0, shapeWidth, shapeHeight, paintShape);
+        /*
+        canvas.drawRect(0, 0, shapeWidth, shapeHeight, paintShape);
         if (displayShapeName) {
             //canvas.drawText("Square", shapeWidth + textXOffset, shapeHeight + textXOffset, paintShape);
         }
+         */
         Resources res = getResources();
+
         Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.droid_thumb);
 
         byte [] encodeByte = Base64.decode(imagePath,Base64.DEFAULT);
@@ -128,8 +136,34 @@ public class DistanceAnimalView extends View {
     private void setupPaint() {
         paintShape = new Paint();
         paintShape.setStyle(Style.FILL);
-        paintShape.setColor(shapeColor);
+        //paintShape.setColor(shapeColor);
         paintShape.setTextSize(30);
+    }
+
+    public static LinearLayout createView(Context context, int left, int distance) {
+        LinearLayout top = new LinearLayout(context);
+        top.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+        DistanceAnimalView distance_animal_view = new DistanceAnimalView(context, null);
+        distance_animal_view.setDistance(distance);
+        distance_animal_view.setImagePath("http://www.pngall.com/wp-content/uploads/2016/06/Bat-Download-PNG.png");
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        Log.d("Latitude","" + pxFromDp(context, left));
+        params.setMargins(pxFromDp(context, left), 0,0,0);
+        distance_animal_view.setLayoutParams(params);
+        top.addView(distance_animal_view);
+        return top;
+    }
+
+    public static int dpFromPx(final Context context, final int px) {
+        return Math.round(px / context.getResources().getDisplayMetrics().density);
+    }
+
+    public static int pxFromDp(final Context context, final float dp) {
+        return Math.round(dp * context.getResources().getDisplayMetrics().density);
     }
 
 }

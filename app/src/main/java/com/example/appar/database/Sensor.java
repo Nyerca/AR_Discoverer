@@ -5,11 +5,13 @@ public class Sensor {
     private int id;
     private double lat;
     private double lon;
+    private String animal;
 
-    public Sensor(String id, String lat_long) {
+    public Sensor(String id, String lat_long, String animal) {
         this.id = Integer.parseInt(id);
         this.lat = Double.parseDouble(lat_long.split(";")[0]);
         this.lon = Double.parseDouble(lat_long.split(";")[1]);
+        this.animal = animal;
     }
 
     public int getId() {
@@ -22,6 +24,10 @@ public class Sensor {
 
     public double getLon() {
         return this.lon;
+    }
+
+    public String getAnimal() {
+        return this.animal;
     }
 
     public String toString() {

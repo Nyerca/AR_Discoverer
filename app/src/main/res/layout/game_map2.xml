@@ -6,60 +6,135 @@
     xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="170dp">
 
-        <ImageView
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+        android:id="@+id/sliding_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        sothree:umanoPanelHeight="0dp"
+        sothree:umanoShadowHeight="4dp">
+
+        <LinearLayout
+            android:background="@color/colorPrimaryDark"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/sky"/>
+            android:orientation="vertical">
 
-        <View
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="170dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/sky"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/gradientsky"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <com.mapbox.mapboxsdk.maps.MapView
+                    android:id="@+id/mapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    mapbox:mapbox_cameraTargetLat="44.1327626"
+                    mapbox:mapbox_cameraTargetLng="12.2285754"
+                    mapbox:mapbox_cameraTilt="60"
+                    mapbox:mapbox_cameraZoom="16.5"
+
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom">
+
+                        <Button
+                            android:id="@+id/btnPlay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:text="Scan"
+                            android:textAllCaps="false"
+                            android:textSize="16sp"></Button>
+
+                        <RelativeLayout
+                            android:id="@+id/main_layout"
+                            android:background="@color/colorPrimaryDark"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp">
+
+
+                        </RelativeLayout>
+                    </LinearLayout>
+                </com.mapbox.mapboxsdk.maps.MapView>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#2200ff00"/>
+
+
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/gradientsky"/>
-    </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:id="@+id/dragview"
+            android:clickable="true"
+            android:focusable="false"
+            android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="68dp">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16sp"
+                    android:layout_centerVertical="true"
+                    android:paddingStart="15dp"
+                    android:text="Actions"></TextView>
+            </RelativeLayout>
 
-        <com.mapbox.mapboxsdk.maps.MapView
-            android:id="@+id/mapView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            mapbox:mapbox_cameraTargetLat="44.1327626"
-            mapbox:mapbox_cameraTargetLng="12.2285754"
-            mapbox:mapbox_cameraTilt="60"
-            mapbox:mapbox_cameraZoom="16.5"
-
-            >
-
+            <!--
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom">
-
-                <Button
-                    android:id="@+id/btnPlay"
+                android:layout_height="300dp">
+                <com.example.appar.DistanceAnimalView
+                    app:shapeColor="#7f0000"
+                    app:displayShapeName="true"
+                    app:distance="2"
+                    app:imagePath="http://www.pngall.com/wp-content/uploads/2016/06/Bat-Download-PNG.png"
+                    android:layout_margin="0dp"
+                    android:id="@+id/el1"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:text="Scan"
-                    android:textAllCaps="false"
-                    android:textSize="16sp"></Button>
+                    android:layout_height="wrap_content"
+                    />
             </LinearLayout>
-        </com.mapbox.mapboxsdk.maps.MapView>
+            -->
+        </LinearLayout>
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#2200ff00"/>
-
-
-    </RelativeLayout>
 
 </LinearLayout>

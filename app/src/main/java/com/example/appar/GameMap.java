@@ -1,6 +1,14 @@
 package com.example.appar;
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.appar.database.Sensor;
@@ -24,6 +32,7 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,11 +46,50 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
     PermissionsManager permissionsManager;
     private MapboxMap mapboxMap;
 
+    /*
+    public void setDistance(List<Double> positions) {
+        //Toast.makeText(this, "DISTANZA: " + positions.get(0) + " DISTANZA2: " + positions.get(1), Toast.LENGTH_LONG).show();
+        Log.d("DISTANZE","DISTANZA: " + positions.get(0) + " DISTANZA2: " + positions.get(1));
+    }*/
+
+    RelativeLayout root;
+    LinearLayout slidedview;
+    public void setDistance(List<AnimalFigure> animals) {
+        Toast.makeText(this, "DISTANZA: " + animals.get(0).getDistance() + " DISTANZA2: " + animals.get(1).getDistance()+ " DISTANZA3: " + animals.get(2).getDistance(), Toast.LENGTH_LONG).show();
+        Log.d("DISTANZE","DISTANZA: " + animals.get(0).getDistance() + " DISTANZA2: " + animals.get(1).getDistance()+ " DISTANZA3: " + animals.get(2).getDistance());
+        
+        root.removeAllViewsInLayout();
+        for(int i=0; i<9 && i< animals.size(); i++) {
+            if (i<3 && DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance() <= 3) {
+                root.addView(DistanceAnimalView.createView(this, i * 100, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
+            }
+            if(DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance() <= 3) {
+                slidedview.addView(DistanceAnimalView.createView(this, i * 100, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(this, "pk.eyJ1IjoibnllcmNhIiwiYSI6ImNrYW1jY2R2azA1ZHUyc3Bmb2JqYmRjN2EifQ.E4YLUOB7CH5VGbqs5Tj4vg");
         setContentView(R.layout.game_map2);
+        root = (RelativeLayout) findViewById(R.id.main_layout);
+        slidedview = (LinearLayout) findViewById(R.id.dragview);
+        //root.addView(DistanceAnimalView.createView(this, 0));
+        //root.addView(DistanceAnimalView.createView(this, 100));
+        SlidingUpPanelLayout layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        root.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Log.d("Latitude","disaaaaaaaaaaaaaaaaaaaaable");
+                                        layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                                    }
+                                });
+
+
+
+
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(new OnMapReadyCallback() {
@@ -70,10 +118,11 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
 
 
                         dataSnapshot.child("sensors").getChildren().forEach(el -> {
-                            String value = el.child("position").getValue(String.class); //This is a1
+                            String position = el.child("position").getValue(String.class); //This is a1
+                            String animal = el.child("animal").getValue(String.class); //This is a1
                             //Toast.makeText(Db_usage.this, "id: " + el.getKey(),
                             //   Toast.LENGTH_LONG).show();
-                            list.add(new Sensor(el.getKey(), value));
+                            list.add(new Sensor(el.getKey(), position, animal));
                         });
                         mapboxMap.setStyle(Style.OUTDOORS, new Style.OnStyleLoaded() {
                             @Override
@@ -87,6 +136,13 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                                             .position(new LatLng(el.getLat(), el.getLon()))
                                             .title(el.getId() + ""));
                                 });
+
+                                DistanceListener dl = new DistanceListener(GameMap.this, list);
+                                LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                    requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+                                }
+                                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, dl);
 
 
                                 mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {

@@ -153,9 +153,9 @@ public class MainActivity extends AppCompatActivity {
         andy.setImageResource(R.drawable.droid_thumb);
         andy.setContentDescription("andy_dance");
         andy.setOnClickListener(view ->{
-            //addObject(Uri.parse("andy_dance.sfb"));
+            addObject(Uri.parse("andy_dance.sfb"));
             //addObject(Uri.parse("https://raw.githubusercontent.com/Nyerca/ar_images/master/bat.sfb"));
-            addObject(Uri.parse(qrcode));
+            //addObject(Uri.parse(qrcode));
         });
         gallery.addView(andy);
     }
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
         node.setOnTapListener((v, event) -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("zzz")
-                    .setTitle("Codelab error!");
+                    .setTitle("Codelab aaaaaaaaaerror!");
             AlertDialog dialog = builder.create();
             dialog.show();
         });

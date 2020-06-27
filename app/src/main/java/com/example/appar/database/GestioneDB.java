@@ -1,3 +1,4 @@
+
 package com.example.appar.database;
 
 import android.content.ContentValues;
@@ -9,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class GestioneDB {
+    /*
 
     static final String KEY_RIGAID = "id";
     static final String KEY_NOME = "nome";
@@ -112,5 +114,5 @@ public class GestioneDB {
         args.put(KEY_INDIRIZZO, email);
         return db.update(DATABASE_TABELLA, args, KEY_RIGAID + "=" + rigaId, null) > 0;
     }
-
+*/
 }

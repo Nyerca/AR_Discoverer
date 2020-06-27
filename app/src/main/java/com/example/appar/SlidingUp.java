@@ -3,20 +3,33 @@ package com.example.appar;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.drawable.GradientDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.util.Xml;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.IOException;
+import java.io.StringReader;
 
 public class SlidingUp extends AppCompatActivity implements LocationListener {
 
@@ -47,16 +60,83 @@ public class SlidingUp extends AppCompatActivity implements LocationListener {
             return this.distance + "";
         }
     }
+    public TextView createTextView(String text) {
+        String attributes =
+                "<attribute xmlns:android=\"http://schemas.android.com/apk/res/android\" " +
+                        "android:layout_width=\"match_parent\" android:layout_height=\"900dp\" android:padding=\"10dp\" " + "android:clickable=\"true\" " +
+                        "android:clickable=\"true\" " +
+                        "android:text=\"" + text +  "\" android:gravity = \"left\" " + "\"/>";
+
+        XmlPullParserFactory factory = null;
+        try {
+            factory = XmlPullParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            XmlPullParser parser = factory.newPullParser();
+            parser.setInput(new StringReader(attributes));
+            parser.next();
+            AttributeSet attrs = Xml.asAttributeSet(parser);
+            return new TextView(this, attrs);
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new TextView(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sliding_panel);
 
+        RelativeLayout root = (RelativeLayout) findViewById(R.id.main_layout);
+
+        LinearLayout top = new LinearLayout(this);
+        top.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+
+
+
+
+        DistanceAnimalView distance_animal_view = new DistanceAnimalView(this, null);
+        distance_animal_view.setDistance(3);
+        distance_animal_view.setImagePath("http://www.pngall.com/wp-content/uploads/2016/06/Bat-Download-PNG.png");
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(300, 100,0,0);
+        distance_animal_view.setLayoutParams(params);
+        //Button button = new Button(this);
+        //button.setText("Button 1");
+        //button.setHeight(700);
+        //button.setWidth(700);
+        //top.addView(button);
+
+        top.addView(DistanceAnimalView.createView(this, 0, 1));
+        top.addView(distance_animal_view);
+        root.addView(DistanceAnimalView.createView(this, 0,1));
+        root.addView(DistanceAnimalView.createView(this, 100,2));
+
 
         listView = findViewById(R.id.listView);
+        /*
         listView.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, new String[] {"T1", "Paste"}));
+
+         */
+        Button button = new Button(this);
+        button.setText("Button 1");
+        button.setHeight(700);
+        button.setWidth(700);
+
+        Button button2 = new Button(this);
+        button.setText("Button 1");
+        button.setHeight(700);
+        button.setWidth(700);
+        listView.setAdapter(new ArrayAdapter<Button>(this,
+                android.R.layout.simple_list_item_1, new Button[] {button, button2}));
 
         SlidingUpPanelLayout layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 
@@ -69,6 +149,9 @@ public class SlidingUp extends AppCompatActivity implements LocationListener {
         btn.setOnClickListener(view ->{
             layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
         });
+
+
+
 
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
