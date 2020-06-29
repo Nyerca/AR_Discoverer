@@ -7,17 +7,22 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.appar.database.Sensor;
 import com.example.appar.qr_ar.ArActivity;
+import com.example.appar.qr_ar.CaptureActivityPortrait;
+import com.example.appar.qr_ar.MainActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -45,6 +50,8 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
     private MapView mapView;
     PermissionsManager permissionsManager;
     private MapboxMap mapboxMap;
+    private Button scan;
+    private AnimalFigure neareastSensor;
 
     /*
     public void setDistance(List<Double> positions) {
@@ -55,11 +62,16 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
     RelativeLayout root;
     LinearLayout slidedview;
     public void setDistance(List<AnimalFigure> animals) {
-        Toast.makeText(this, "DISTANZA: " + animals.get(0).getDistance() + " DISTANZA2: " + animals.get(1).getDistance()+ " DISTANZA3: " + animals.get(2).getDistance(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "DISTANZA: " + animals.get(0).getDistance() + " DISTANZA2: " + animals.get(1).getDistance()+ " DISTANZA3: " + animals.get(2).getDistance(), Toast.LENGTH_LONG).show();
         Log.d("DISTANZE","DISTANZA: " + animals.get(0).getDistance() + " DISTANZA2: " + animals.get(1).getDistance()+ " DISTANZA3: " + animals.get(2).getDistance());
-        
+
         root.removeAllViewsInLayout();
         for(int i=0; i<9 && i< animals.size(); i++) {
+            if(i == 0 && animals.get(i).getDistance() < 20) {
+                neareastSensor = animals.get(i);
+                scan.setEnabled(true);
+                //Toast.makeText(this, "ENABLED", Toast.LENGTH_LONG).show();
+            }
             if (i<3 && DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance() <= 3) {
                 root.addView(DistanceAnimalView.createView(this, i * 100, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
             }
@@ -76,6 +88,26 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
         setContentView(R.layout.game_map2);
         root = (RelativeLayout) findViewById(R.id.main_layout);
         slidedview = (LinearLayout) findViewById(R.id.dragview);
+
+        scan = findViewById(R.id.btnScan);
+        scan.setEnabled(false);
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                IntentIntegrator integrator = new IntentIntegrator(GameMap.this);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+                integrator.setPrompt("Scan");
+                integrator.setCameraId(0);
+                integrator.setBeepEnabled(false);
+                integrator.setBarcodeImageEnabled(false);
+                integrator.setOrientationLocked(true);
+                integrator.setCaptureActivity(CaptureActivityPortrait.class);
+                integrator.initiateScan();
+
+            }
+        });
+
         //root.addView(DistanceAnimalView.createView(this, 0));
         //root.addView(DistanceAnimalView.createView(this, 100));
         SlidingUpPanelLayout layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
@@ -267,5 +299,30 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                 finish();
             }
         }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+                Log.e("Scan*******", "Cancelled scan");
+
+            } else {
+                Log.e("Scan", "Scanned");
+
+                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(this, MainActivity.class);
+
+                intent.putExtra("animal", neareastSensor.getAnimal());
+                intent.putExtra("id", neareastSensor.getId() + "");
+                intent.putExtra("Qr_code", "https://raw.githubusercontent.com/Nyerca/ar_images/master/bat.sfb");
+                startActivity(intent);
+            }
+        } else {
+            // This is important, otherwise the result will not be passed to the fragment
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
 }

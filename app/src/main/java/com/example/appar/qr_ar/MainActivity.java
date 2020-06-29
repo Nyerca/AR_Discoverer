@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.example.appar.AlertQuestionary;
 import com.example.appar.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -19,7 +20,13 @@ import com.google.ar.sceneform.rendering.AnimationData;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -28,6 +35,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -184,11 +192,45 @@ public class MainActivity extends AppCompatActivity {
         node.setRenderable(renderable);
         node.setParent(anchorNode);
         node.setOnTapListener((v, event) -> {
+            /*
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("zzz")
                     .setTitle("Codelab aaaaaaaaaerror!");
             AlertDialog dialog = builder.create();
-            dialog.show();
+            dialog.show();*/
+
+
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference();
+            myRef.child("sensor_sounds").orderByKey().equalTo(getIntent().getStringExtra("id")).addListenerForSingleValueEvent(new ValueEventListener(){
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot){
+                    dataSnapshot.getChildren().forEach(el2 -> {
+                        dataSnapshot.getRef().child("1").limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener(){
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot2){
+
+                                dataSnapshot2.getChildren().forEach(el3 -> {
+                                    String value = el3.child("sound").getValue(String.class); //This is a1
+                                    Toast.makeText(MainActivity.this, "Path: " + value + " animal: " + getIntent().getStringExtra("animal"), Toast.LENGTH_LONG).show();
+                                    AlertQuestionary cdd=new AlertQuestionary(MainActivity.this, value, getIntent().getStringExtra("animal"));
+                                    cdd.show();
+                                });
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {}
+                        });
+                    });
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+
+
+
+
         });
         fragment.getArSceneView().getScene().addChild(anchorNode);
         node.select();
