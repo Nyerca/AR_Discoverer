@@ -1,0 +1,122 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkblue"
+        android:orientation="vertical"
+        android:padding="30dp"
+
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to ArDiscoverer"
+            android:textColor="#fff"
+            android:textSize="40sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Are you already registered? Jump to the login!"
+            android:textColor="#fff"
+            android:textSize="15sp" />
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:id="@+id/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradienteditext"
+                android:text="Login"
+                android:textColor="#fff" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <RelativeLayout
+        android:visibility="visible"
+        android:background="@drawable/sea"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <ImageView
+            android:alpha="0.6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="#000000"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
+
+            <EditText
+
+                android:id="@+id/username"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradienteditext"
+                android:drawableLeft="@drawable/ic_lightbulb_outline_black_24dp"
+                android:drawablePadding="10dp"
+                android:drawableTint="#fff"
+                android:hint="Username"
+                android:textColorHint="#fff" />
+
+            <EditText
+                android:id="@+id/password"
+                android:drawablePadding="10dp"
+                android:layout_marginTop="15dp"
+                android:drawableLeft="@drawable/ic_lightbulb_outline_black_24dp"
+                android:background="@drawable/gradienteditext"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:textColorHint="#fff"
+                android:drawableTint="#fff"
+                />
+
+            <EditText
+                android:id="@+id/rep_password"
+                android:drawablePadding="10dp"
+                android:layout_marginTop="15dp"
+                android:drawableLeft="@drawable/ic_lightbulb_outline_black_24dp"
+                android:background="@drawable/gradienteditext"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:hint="Repeat password"
+                android:textColorHint="#fff"
+                android:drawableTint="#fff"
+                />
+            <Button
+                android:id="@+id/register"
+                android:drawableRight="@drawable/ic_attach_money_black_24dp"
+                android:textColor="#fff"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:background="@drawable/gradienteditext"
+                android:layout_marginTop="40dp"
+                android:text="Register"
+                android:layout_width="148dp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

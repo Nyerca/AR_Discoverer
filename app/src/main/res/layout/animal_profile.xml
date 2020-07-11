@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:text="Bat"
+            android:text=""
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="18sp"
@@ -85,22 +85,9 @@
             android:background="@android:color/transparent"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="@+id/imageView"
-            app:srcCompat="@drawable/ic_comment"
-            android:layout_marginRight="16dp"
+            app:srcCompat="@drawable/ic_stop"
             tools:ignore="VectorDrawableCompat" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="500+\nPosts"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-            app:layout_constraintEnd_toEndOf="@+id/imageButton"
-            app:layout_constraintStart_toStartOf="@+id/imageButton"
-            app:layout_constraintTop_toBottomOf="@+id/imageButton" />
 
         <ImageButton
             android:id="@+id/imageButton2"
@@ -111,23 +98,8 @@
             android:background="@android:color/transparent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="@+id/imageView"
-            app:srcCompat="@drawable/ic_question_answer"
-            android:layout_marginLeft="16dp"
+            app:srcCompat="@drawable/ic_play"
             tools:ignore="VectorDrawableCompat" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="200+\nAnswers"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButton2"
-            app:layout_constraintEnd_toEndOf="@+id/imageButton2"
-            app:layout_constraintStart_toStartOf="@+id/imageButton2"
-            app:layout_constraintTop_toBottomOf="@+id/imageButton2"
-            app:layout_constraintVertical_bias="0.52" />
 
         <TextView
             android:id="@+id/textView5"
@@ -154,17 +126,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="Chinese people loves them"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/facts"
+            android:layout_margin="20dp"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/view2" />
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
