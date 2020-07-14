@@ -19,11 +19,12 @@
                 android:layout_height="150dp"
                 android:src="@drawable/ic_profile"/>
             <TextView
+                android:id="@+id/username"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wiliam Snoe"
+                android:text=""
                 android:textColor="#000"
                 android:textStyle="bold"
                 android:textSize="21sp"/>
@@ -51,9 +52,10 @@
                         android:textSize="20sp"
                         />
                     <TextView
+                        android:id="@+id/count_animals"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="125"
+                        android:text=""
                         android:textStyle="bold"
                         android:textSize="20sp"
                         android:paddingTop="10dp"
@@ -73,9 +75,10 @@
                         android:textSize="20sp"
                         />
                     <TextView
+                        android:id="@+id/count_parks"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1205"
+                        android:text=""
                         android:textStyle="bold"
                         android:textSize="20sp"
                         android:paddingTop="10dp"
@@ -97,7 +100,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="360"
+                        android:text=""
                         android:textStyle="bold"
                         android:textSize="20sp"
                         android:paddingTop="10dp"
