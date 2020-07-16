@@ -4,6 +4,7 @@ package com.example.appar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,15 @@ public class Homepage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage);
+
+        Button logout = (Button) findViewById(R.id.logout);
+        Intent logout_intent = new Intent(this,Register.class);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(logout_intent);
+            }
+        });
 
         CardView worldcard = (CardView) findViewById(R.id.worldcard);
         Intent world_intent = new Intent(this,WorldMap.class);

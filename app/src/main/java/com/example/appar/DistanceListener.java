@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appar.database.Park;
 import com.example.appar.database.Sensor;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -108,7 +109,45 @@ public class DistanceListener implements LocationListener {
         //Distance step = Distance.getStep(returnDistance);
     }
 
-    private double getMeasure(double lat1, double lon1, double lat2, double lon2){  // generally used geo measurement function
+    public void getWorldSensorDistance(Double latitude, Double longitude) {
+        positions = new ArrayList<Double>();
+        animals = new ArrayList<>();
+
+        //Toast.makeText(context, "Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude(), Toast.LENGTH_LONG).show();
+        list.forEach(el -> {
+            Double returnDistance = getMeasure(latitude, longitude, el.getLat(), el.getLon());
+            positions.add(returnDistance);
+            animals.add(new AnimalFigure(el.getAnimal(), returnDistance, el.getId()));
+            Distance step = Distance.getStep(returnDistance);
+        });
+        Collections.sort(positions);
+        positions.stream().limit(9).collect(Collectors.toList());
+
+        Collections.sort(animals, new CustomComparator());
+        animals.stream().limit(9).collect(Collectors.toList());
+
+        context.setDistance(animals);
+    }
+
+    public static Park getNearest(List<Park> parklist, double playerLat, double playerLong) {
+        Park nearest_park = null;
+        Double nearest_distance = 0.0;
+        for (Park park : parklist) {
+            Double returnDistance = getMeasure(park.getLat(), park.getLon(), playerLat, playerLong);
+            if(nearest_park == null) {
+                nearest_park = park;
+                nearest_distance = returnDistance;
+            }
+            else if(returnDistance < nearest_distance) {
+                nearest_park = park;
+                nearest_distance = returnDistance;
+            }
+
+        }
+        return nearest_park;
+    }
+
+    public static double getMeasure(double lat1, double lon1, double lat2, double lon2){  // generally used geo measurement function
         double R = 6378.137; // Radius of earth in KM
         double dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
         double dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;

@@ -3,6 +3,11 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.appar.database.Park;
 import com.example.appar.database.Sensor;
 import com.example.appar.qr_ar.ArActivity;
 import com.example.appar.qr_ar.CaptureActivityPortrait;
@@ -26,8 +32,12 @@ import com.google.zxing.integration.android.IntentResult;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.Icon;
+import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
@@ -39,8 +49,13 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +67,7 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
     private MapboxMap mapboxMap;
     private Button scan;
     private AnimalFigure neareastSensor;
+    private String parkid = "";
 
     /*
     public void setDistance(List<Double> positions) {
@@ -63,7 +79,6 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
     LinearLayout slidedview;
     public void setDistance(List<AnimalFigure> animals) {
         //Toast.makeText(this, "DISTANZA: " + animals.get(0).getDistance() + " DISTANZA2: " + animals.get(1).getDistance()+ " DISTANZA3: " + animals.get(2).getDistance(), Toast.LENGTH_LONG).show();
-        Log.d("DISTANZE","DISTANZA: " + animals.get(0).getDistance() + " DISTANZA2: " + animals.get(1).getDistance()+ " DISTANZA3: " + animals.get(2).getDistance());
 
         root.removeAllViewsInLayout();
         for(int i=0; i<9 && i< animals.size(); i++) {
@@ -88,6 +103,9 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
         setContentView(R.layout.game_map2);
         root = (RelativeLayout) findViewById(R.id.main_layout);
         slidedview = (LinearLayout) findViewById(R.id.dragview);
+
+
+
 
         scan = findViewById(R.id.btnScan);
         scan.setEnabled(false);
@@ -129,7 +147,6 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
             public void onMapReady(@NonNull MapboxMap mapboxMap_el) {
                 mapboxMap = mapboxMap_el;
                 mapboxMap.getUiSettings().setZoomGesturesEnabled(false);
-                mapboxMap.getUiSettings().setZoomGesturesEnabled(false);
                 mapboxMap.getUiSettings().setScrollGesturesEnabled(false);
                 mapboxMap.getUiSettings().setAttributionEnabled(false);
                 mapboxMap.getUiSettings().setLogoEnabled(false);
@@ -148,33 +165,137 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
 
                         List<Sensor> list = new ArrayList<Sensor>();
 
+                        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+                        }
 
-                        dataSnapshot.child("sensors").getChildren().forEach(el -> {
-                            String position = el.child("position").getValue(String.class); //This is a1
-                            String animal = el.child("animal").getValue(String.class); //This is a1
-                            //Toast.makeText(Db_usage.this, "id: " + el.getKey(),
-                            //   Toast.LENGTH_LONG).show();
-                            list.add(new Sensor(el.getKey(), position, animal));
-                        });
+                        List<String> providers = locationManager.getProviders(true);
+                        Location bestLocation = null;
+                        for (String provider : providers) {
+                            Location l = locationManager.getLastKnownLocation(provider);
+                            if (l == null) {
+                                continue;
+                            }
+                            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                                // Found best last known location: %s", l);
+                                bestLocation = l;
+                            }
+                        }
+
+                        final double latitude= bestLocation.getLatitude();
+                        final double longitude= bestLocation.getLongitude();
+
+                        //Toast.makeText(GameMap.this, "Lat: " + latitude + " Long:" + longitude, Toast.LENGTH_LONG).show();
+
+
+
                         mapboxMap.setStyle(Style.OUTDOORS, new Style.OnStyleLoaded() {
                             @Override
                             public void onStyleLoaded(@NonNull Style style) {
 
 // Map is set up and the style has loaded. Now you can add data or make other map adjustments.
-                                enableLocationComponent(style);
 
+                                String tmp = getIntent().getStringExtra("park");
+                                int parkid;
+
+                                if(getIntent().getStringExtra("parkid") == null) {
+
+                                    //Toast.makeText(GameMap.this, getIntent().getStringExtra("parkid"), Toast.LENGTH_LONG).show();
+                                    enableLocationComponent(style);
+
+                                    List<Park> parklist = new ArrayList<Park>();
+
+                                    dataSnapshot.child("park").getChildren().forEach(el -> {
+                                        String position = el.child("position").getValue(String.class); //This is a1
+                                        parklist.add(new Park(el.getKey(), position));
+                                    });
+
+
+                                    Park park = DistanceListener.getNearest(parklist, latitude, longitude);
+                                    parkid = park.getId();
+                                    //Toast.makeText(GameMap.this, park.toString(), Toast.LENGTH_LONG).show();
+
+                                    DistanceListener dl = new DistanceListener(GameMap.this, list);
+                                    if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+                                    }
+                                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, dl);
+
+                                } else {
+                                    parkid =Integer.parseInt(getIntent().getStringExtra("parkid"));
+                                    Double latitude = Double.parseDouble(getIntent().getStringExtra("position").split(";")[0]);
+                                    Double longitude = Double.parseDouble(getIntent().getStringExtra("position").split(";")[1]);
+
+                                    CameraPosition pos = new CameraPosition.Builder()
+                                            .target(new LatLng(latitude, longitude)) // Sets the new camera position
+                                            .zoom(17) // Sets the zoom
+                                            .build(); // Creates a CameraPosition from the builder
+                                    mapboxMap.setCameraPosition(pos);
+
+                                    mapboxMap.addOnMapClickListener(new MapboxMap.OnMapClickListener() {
+                                        @Override
+                                        public boolean onMapClick(@NonNull LatLng point) {
+
+                                            //Toast.makeText(GameMap.this, String.format("User clicked at: %s", point.toString()), Toast.LENGTH_LONG).show();
+
+                                            //mapboxMap.setCameraPosition(new CameraPosition.Builder().target(new LatLng(point.getLatitude(), point.getLongitude())).build());
+
+                                            CameraPosition position = new CameraPosition.Builder()
+                                                    .target(new LatLng(point.getLatitude(), point.getLongitude())) // Sets the new camera position
+                                                    .zoom(17) // Sets the zoom
+                                                    .build(); // Creates a CameraPosition from the builder
+
+                                            mapboxMap.animateCamera(CameraUpdateFactory
+                                                    .newCameraPosition(position), 7000);
+
+                                            DistanceListener dl = new DistanceListener(GameMap.this, list);
+                                            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+                                            }
+                                            dl.getWorldSensorDistance(point.getLatitude(), point.getLongitude());
+                                            return true;
+                                        }
+                                    });
+                                }
+
+                                //Toast.makeText(GameMap.this, "id: " + parkid, Toast.LENGTH_LONG).show();
+
+
+                                dataSnapshot.child("park_sensors/" + parkid).getChildren().forEach(el -> {
+                                    String position = el.child("position").getValue(String.class); //This is a1
+                                    String animal = el.child("animal").getValue(String.class); //This is a1
+                                    //Toast.makeText(GameMap.this, "id: " + el.getKey() + " position: " + position,Toast.LENGTH_LONG).show();
+                                    list.add(new Sensor(el.getKey(), position, animal));
+                                });
+
+                                IconFactory mIconFactory = IconFactory.getInstance(GameMap.this);
+                                //Drawable mIconDrawable = ContextCompat.getDrawable(GameMap.this, R.drawable.ic_bee);
+                                //drawableToIcon(GameMap.this, R.drawable.ic_bee, 0);
+                                //Icon icon = mIconFactory.fromResource(R.drawable.ic_bee);
+
+
+
+                                //Icon icon2 = drawableToIcon(GameMap.this, R.drawable.ic_bee, 0);
+
+
+
+
+
+                                //BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.your_drawable_here);
                                 list.forEach(el -> {
+                                    Bitmap icon3 = BitmapFactory.decodeResource(GameMap.this.getResources(),
+                                            R.drawable.ic_bee);
                                     mapboxMap.addMarker(new MarkerOptions()
                                             .position(new LatLng(el.getLat(), el.getLon()))
                                             .title(el.getId() + ""));
                                 });
 
-                                DistanceListener dl = new DistanceListener(GameMap.this, list);
-                                LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                                    requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
-                                }
-                                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, dl);
+
+
+
+
+
 
 
                                 mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
@@ -231,6 +352,17 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
             permissionsManager = new PermissionsManager(this);
             permissionsManager.requestLocationPermissions(this);
         }
+    }
+
+    public static Icon drawableToIcon(@NonNull Context context, @DrawableRes int id, @ColorInt int colorRes) {
+        Drawable vectorDrawable = ResourcesCompat.getDrawable(context.getResources(), id, context.getTheme());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),
+                vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        DrawableCompat.setTint(vectorDrawable, colorRes);
+        vectorDrawable.draw(canvas);
+        return IconFactory.getInstance(context).fromBitmap(bitmap);
     }
 
     @Override
@@ -291,7 +423,7 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                 mapboxMap.getStyle(new Style.OnStyleLoaded() {
                     @Override
                     public void onStyleLoaded(@NonNull Style style) {
-                        enableLocationComponent(style);
+                        //enableLocationComponent(style);
                     }
                 });
             } else {

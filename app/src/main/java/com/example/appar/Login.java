@@ -46,6 +46,7 @@ public class Login  extends AppCompatActivity {
 
                             if(el.getKey().equals(username)) {
                                 if(el.child("password").getValue(String.class).equals(password)) {
+                                    GlobalVariable.setInstance(username);
                                     startActivity(login_intent);
                                 }
                             }

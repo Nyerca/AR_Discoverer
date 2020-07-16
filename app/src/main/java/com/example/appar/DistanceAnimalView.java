@@ -107,24 +107,24 @@ public class DistanceAnimalView extends View {
          */
         Resources res = getResources();
 
-        Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.droid_thumb);
+        Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.droid_thumb2);
 
         byte [] encodeByte = Base64.decode(imagePath,Base64.DEFAULT);
         Bitmap bitmap2 = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
 
-        Bitmap foot = BitmapFactory.decodeResource(res, R.drawable.paw_one);
+        Bitmap foot = BitmapFactory.decodeResource(res, R.drawable.paw_one2);
 
         canvas.drawBitmap(bitmap, 10, 0, paintShape);
         if(distance == 1) {
-            canvas.drawBitmap(foot, 80, 150, paintShape);
+            canvas.drawBitmap(foot, 50, 80, paintShape);
         } else if(distance == 2) {
-            canvas.drawBitmap(foot, 40, 150, paintShape);
+            canvas.drawBitmap(foot, 20, 80, paintShape);
 
-            canvas.drawBitmap(foot, 120, 150, paintShape);
+            canvas.drawBitmap(foot, 90, 80, paintShape);
         } else if(distance == 3) {
-            canvas.drawBitmap(foot, 20, 150, paintShape);
-            canvas.drawBitmap(foot, 80, 150, paintShape);
-            canvas.drawBitmap(foot, 140, 150, paintShape);
+            canvas.drawBitmap(foot, 10, 80, paintShape);
+            canvas.drawBitmap(foot, 50, 80, paintShape);
+            canvas.drawBitmap(foot, 110, 80, paintShape);
         }
 
 
@@ -137,11 +137,12 @@ public class DistanceAnimalView extends View {
         paintShape = new Paint();
         paintShape.setStyle(Style.FILL);
         //paintShape.setColor(shapeColor);
-        paintShape.setTextSize(30);
+        paintShape.setTextSize(10);
     }
 
     public static LinearLayout createView(Context context, int left, int distance) {
         LinearLayout top = new LinearLayout(context);
+        top.setAlpha(1);
         top.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
         DistanceAnimalView distance_animal_view = new DistanceAnimalView(context, null);

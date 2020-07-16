@@ -58,7 +58,7 @@
 
                     >
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom">
@@ -73,19 +73,20 @@
 
                         <RelativeLayout
                             android:id="@+id/main_layout"
-                            android:background="@color/colorPrimaryDark"
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp">
+                            android:alpha="0.8"
+                            android:background="@drawable/circle"
+                            android:layout_width="200dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_height="50dp">
 
 
                         </RelativeLayout>
-                    </LinearLayout>
+                    </RelativeLayout>
                 </com.mapbox.mapboxsdk.maps.MapView>
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#2200ff00"/>
+                    android:layout_height="match_parent"/>
 
 
             </RelativeLayout>
