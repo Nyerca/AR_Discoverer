@@ -98,6 +98,7 @@
                         android:textSize="20sp"
                         />
                     <TextView
+                        android:id="@+id/credibility"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
@@ -112,67 +113,29 @@
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
-
-    <androidx.cardview.widget.CardView
-        android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
+    <ScrollView
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="10dp">
+        android:layout_height="match_parent"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center">
+            android:layout_height="wrap_content"
+            android:id="@+id/medals"
+            android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_marginLeft="30dp"
-            android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:background="@drawable/cerclebackgroundyello"
-                android:padding="10dp"
-                android:src="@drawable/ic_profile" />
-
-            <View
-                android:layout_height="match_parent"
-                android:layout_width="1dp"
-                android:layout_margin="10dp"
-                android:background="@color/lightgray" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Nature Lover"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="right">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="bottom">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:layout_marginRight="5dp"
-                        android:text="11/07/2020"
-                        android:textColor="@android:color/darker_gray" />
-                </LinearLayout>
-            </LinearLayout>
 
 
         </LinearLayout>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </ScrollView>
+
+
+
+
+
+
 
 
 </LinearLayout>

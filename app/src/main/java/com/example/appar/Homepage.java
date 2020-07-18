@@ -81,8 +81,14 @@ public class Homepage extends AppCompatActivity {
                             }
 
                         }
+                        int correct = dataSnapshot.child("users/admin").child("correct").getValue(Integer.class);
+                        int total = dataSnapshot.child("users/admin").child("total").getValue(Integer.class);
+                        double credibility = 0.0;
+                        Toast.makeText(Homepage.this, "total: " + total, Toast.LENGTH_LONG).show();
+                        if(total > 0) credibility = (double) correct / (double) total;
                         profile_intent.putExtra("count_parks", "" + count_parks);
                         profile_intent.putExtra("count_animals", "" + count_animals);
+                        profile_intent.putExtra("credibility", "" + credibility);
                         startActivity(profile_intent);
                     }
 
