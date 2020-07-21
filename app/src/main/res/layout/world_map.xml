@@ -6,88 +6,60 @@
     xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-
-        android:id="@+id/sliding_layout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom"
-        sothree:umanoPanelHeight="0dp"
-        sothree:umanoShadowHeight="4dp">
+        android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/dynamicSpinner"
+            android:layout_width="match_parent"
+            android:background="@null"
+            android:layout_height="35dp"
+            android:dropDownWidth="match_parent"
+            android:spinnerMode="dropdown" />
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_bee"
+            android:layout_alignEnd="@+id/dynamicSpinner"
+            android:layout_alignRight="@+id/dynamicSpinner"
+            android:layout_alignTop="@id/dynamicSpinner"
+            android:layout_alignBottom="@+id/dynamicSpinner"/>
+    </RelativeLayout>
 
-        <LinearLayout
-            android:background="@color/colorPrimaryDark"
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+
+        <com.mapbox.mapboxsdk.maps.MapView
+            android:id="@+id/mapView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            mapbox:mapbox_cameraTargetLat="44.1327626"
+            mapbox:mapbox_cameraTargetLng="12.2285754"
+            mapbox:mapbox_cameraTilt="60"
+            mapbox:mapbox_cameraZoom="16.5"
 
+            >
 
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
 
+            </LinearLayout>
+        </com.mapbox.mapboxsdk.maps.MapView>
 
-                <com.mapbox.mapboxsdk.maps.MapView
-                    android:id="@+id/mapView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    mapbox:mapbox_cameraTargetLat="44.1327626"
-                    mapbox:mapbox_cameraTargetLng="12.2285754"
-                    mapbox:mapbox_cameraTilt="60"
-                    mapbox:mapbox_cameraZoom="16.5"
-
-                    >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom">
-
-                    </LinearLayout>
-                </com.mapbox.mapboxsdk.maps.MapView>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#2200ff00"/>
-
-
-            </RelativeLayout>
-
-
-
-        </LinearLayout>
-
-
-
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/dragview"
-            android:clickable="true"
-            android:focusable="false"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="68dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="16sp"
-                    android:layout_centerVertical="true"
-                    android:paddingStart="15dp"
-                    android:text="Actions"></TextView>
-            </RelativeLayout>
+            android:layout_height="match_parent"
+            android:background="#2200ff00"/>
 
 
-        </LinearLayout>
-    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+    </RelativeLayout>
 
 
 </LinearLayout>

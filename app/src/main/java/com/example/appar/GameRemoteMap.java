@@ -149,7 +149,7 @@ public class GameRemoteMap extends AppCompatActivity implements PermissionsListe
                         List<Sensor> list = new ArrayList<Sensor>();
 
 
-                        dataSnapshot.child("sensors").getChildren().forEach(el -> {
+                        dataSnapshot.child("park_sensors").getChildren().forEach(el -> {
                             String position = el.child("position").getValue(String.class); //This is a1
                             String animal = el.child("animal").getValue(String.class); //This is a1
                             //Toast.makeText(Db_usage.this, "id: " + el.getKey(),

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import com.example.appar.AlertQuestionary;
+import com.example.appar.GlobalVariable;
 import com.example.appar.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -12,6 +13,8 @@ import com.google.ar.core.Anchor;
 import com.google.ar.core.Frame;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
+import com.google.ar.core.Pose;
+import com.google.ar.core.Session;
 import com.google.ar.core.Trackable;
 import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.AnchorNode;
@@ -33,6 +36,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isHitting;
     private ModelLoader modelLoader;
     private String qrcode;
+    boolean created = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +62,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         fragment = (ArFragment)getSupportFragmentManager().findFragmentById(R.id.sceneform_fragment);
         fragment.getArSceneView().getScene().addOnUpdateListener(frameTime -> {
@@ -75,10 +72,10 @@ public class MainActivity extends AppCompatActivity {
 
         qrcode = getIntent().getStringExtra("Qr_code");
 
-        initializeGallery();
     }
 
     private void onUpdate() {
+        /*
         boolean trackingChanged = updateTracking();
         View contentView = findViewById(android.R.id.content);
         if (trackingChanged) {
@@ -97,6 +94,38 @@ public class MainActivity extends AppCompatActivity {
                 contentView.invalidate();
             }
         }
+
+         */
+
+
+        //addObject(Uri.parse("andy_dance.sfb"));
+
+
+
+
+        boolean trackingChanged = updateTracking();
+
+
+        if (isTracking && !created) {
+
+            Session session = fragment.getArSceneView().getSession();
+            float[] pos = { 0,0,-1 };
+            float[] rotation = {0,0,0,1};
+            Anchor anchor =  session.createAnchor(new Pose(pos, rotation));
+            Frame frame = fragment.getArSceneView().getArFrame();
+
+            modelLoader.loadModel(anchor, Uri.parse("andy_dance.sfb"));
+            Toast.makeText(MainActivity.this, "ONUPDATE " + created, Toast.LENGTH_LONG).show();
+
+            created = true;
+        }
+        if(!isTracking) {
+            created = false;
+        }
+
+
+
+
     }
 
     private boolean updateTracking() {
@@ -154,19 +183,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initializeGallery() {
-        LinearLayout gallery = findViewById(R.id.gallery_layout);
 
-        ImageView andy = new ImageView(this);
-        andy.setImageResource(R.drawable.droid_thumb);
-        andy.setContentDescription("andy_dance");
-        andy.setOnClickListener(view ->{
-            addObject(Uri.parse("andy_dance.sfb"));
-            //addObject(Uri.parse("https://raw.githubusercontent.com/Nyerca/ar_images/master/bat.sfb"));
-            //addObject(Uri.parse(qrcode));
-        });
-        gallery.addView(andy);
-    }
 
     private void addObject(Uri model) {
         Frame frame = fragment.getArSceneView().getArFrame();
@@ -200,8 +217,11 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();*/
 
 
+
+
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference();
+
             myRef.child("sensor_sounds").orderByKey().equalTo(getIntent().getStringExtra("id")).addListenerForSingleValueEvent(new ValueEventListener(){
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot){
@@ -213,8 +233,17 @@ public class MainActivity extends AppCompatActivity {
                                 dataSnapshot2.getChildren().forEach(el3 -> {
                                     String value = el3.child("sound").getValue(String.class); //This is a1
                                     Toast.makeText(MainActivity.this, "Path: " + value + " animal: " + getIntent().getStringExtra("animal"), Toast.LENGTH_LONG).show();
-                                    AlertQuestionary cdd=new AlertQuestionary(MainActivity.this, value, getIntent().getStringExtra("animal"));
-                                    cdd.show();
+                                    //AlertQuestionary cdd=new AlertQuestionary(MainActivity.this, value, getIntent().getStringExtra("animal"), true);
+
+                                    //cdd.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+                                    Toast.makeText(MainActivity.this, "Username: " + GlobalVariable.getInstance().getUsername(), Toast.LENGTH_LONG).show();
+                                    AlertQuestionary.randomQuestionary(MainActivity.this, "admin", "1", "bat", "1");
+
+
+
+
+                                    //cdd.show();
                                 });
                             }
                             @Override

@@ -206,7 +206,7 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
 
                                     List<Park> parklist = new ArrayList<Park>();
 
-                                    dataSnapshot.child("park").getChildren().forEach(el -> {
+                                    dataSnapshot.child("parks").getChildren().forEach(el -> {
                                         String position = el.child("position").getValue(String.class); //This is a1
                                         parklist.add(new Park(el.getKey(), position));
                                     });

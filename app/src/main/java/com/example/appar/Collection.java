@@ -32,7 +32,7 @@ public class Collection extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot){
                 dataSnapshot.child("user_funfacts/admin/" + animal).getChildren().forEach(el -> {
-                    funfacts.add(el.child("funfact").getValue(String.class));
+                    funfacts.add(el.getValue(String.class));
                 });
                 String ff = "";
                 for (String element : funfacts) {

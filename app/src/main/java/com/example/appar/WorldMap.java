@@ -7,9 +7,12 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.appar.database.Sensor;
@@ -45,7 +48,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WorldMap extends AppCompatActivity {
 
@@ -57,12 +62,66 @@ public class WorldMap extends AppCompatActivity {
     LinearLayout slidedview;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(this, "pk.eyJ1IjoibnllcmNhIiwiYSI6ImNrYW1jY2R2azA1ZHUyc3Bmb2JqYmRjN2EifQ.E4YLUOB7CH5VGbqs5Tj4vg");
         setContentView(R.layout.world_map);
         slidedview = (LinearLayout) findViewById(R.id.dragview);
+
+        Spinner dynamicSpinner = findViewById(R.id.dynamicSpinner);
+        //create a list of items for the spinner.
+        String[] items = new String[]{"1", "2", "3"};
+
+
+        Map<String, String> city_map= new HashMap<String, String>();
+        List<String> list_str = new ArrayList<String>();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        myRef.child("parks/").addListenerForSingleValueEvent(new ValueEventListener(){
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot){
+
+
+
+                dataSnapshot.getChildren().forEach(el -> {
+
+                    String city = el.child("city").getValue(String.class);
+                    //Toast.makeText(WorldMap.this, "city: " + city, Toast.LENGTH_LONG).show();
+                    if(!city_map.keySet().contains("city")) {
+                        myRef.child("city/" + city).addListenerForSingleValueEvent(new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot2) {
+
+                                String lat_long = dataSnapshot2.getValue(String.class);
+                                city_map.put(city, lat_long);
+                                list_str.add(city);
+                                //Toast.makeText(WorldMap.this, "city: " + city + " ll: " + lat_long, Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+
+                        });
+                    }
+                 });
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
 
 
         SlidingUpPanelLayout layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
@@ -77,8 +136,7 @@ public class WorldMap extends AppCompatActivity {
                 mapboxMap.getUiSettings().setLogoEnabled(false);
 
 
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference();
+
                 myRef.addListenerForSingleValueEvent(new ValueEventListener(){
 
                     @Override
@@ -86,7 +144,7 @@ public class WorldMap extends AppCompatActivity {
 
                         List<Sensor> list = new ArrayList<Sensor>();
 
-                        dataSnapshot.child("park").getChildren().forEach(el -> {
+                        dataSnapshot.child("parks").getChildren().forEach(el -> {
                             String position = el.child("position").getValue(String.class); //This is a1
                             String name = el.child("name").getValue(String.class); //This is a1
                             //Toast.makeText(Db_usage.this, "id: " + el.getKey(),
@@ -101,6 +159,35 @@ public class WorldMap extends AppCompatActivity {
                                     mapboxMap.addMarker(new MarkerOptions()
                                             .position(new LatLng(el.getLat(), el.getLon()))
                                             .title(el.getId() + ""));
+                                });
+
+
+                                //Toast.makeText(WorldMap.this, "city: " + list_str.get(0), Toast.LENGTH_LONG).show();
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(WorldMap.this, android.R.layout.simple_spinner_dropdown_item, list_str);
+                                dynamicSpinner.setAdapter(adapter);
+                                dynamicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                                        Toast.makeText(parent.getContext(), city_map.get(list_str.get(position)), Toast.LENGTH_SHORT).show();
+
+                                        Double lat = Double.parseDouble(city_map.get(list_str.get(position)).split(";")[0]);
+                                        Double lon = Double.parseDouble(city_map.get(list_str.get(position)).split(";")[1]);
+
+                                        CameraPosition pos = new CameraPosition.Builder()
+                                                .target(new LatLng(lat, lon)) // Sets the new camera position
+                                                .zoom(14) // Sets the zoom
+                                                .build(); // Creates a CameraPosition from the builder
+
+                                        mapboxMap.animateCamera(CameraUpdateFactory
+                                                .newCameraPosition(pos), 7000);
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> parent) {
+
+                                        // sometimes you need nothing here
+                                    }
                                 });
 
 

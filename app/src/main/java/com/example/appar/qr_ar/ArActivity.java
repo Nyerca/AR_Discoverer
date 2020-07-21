@@ -12,7 +12,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appar.AlertQuestionary;
 import com.example.appar.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -44,7 +47,30 @@ public class ArActivity extends AppCompatActivity {
         // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
                 AlertDialog dialog = builder.create();
 
-                dialog.show();
+                //dialog.show();
+
+
+
+        //AlertQuestionary cdd=new AlertQuestionary(ArActivity.this, "https://raw.githubusercontent.com/Nyerca/ar_images/master/cat_annoyed.wav", "cat", true);
+        //AlertQuestionary cdd=new AlertQuestionary(ArActivity.this, "Can bat fly?", "Bat", false);
+
+        //cdd.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+
+
+
+
+        //AlertQuestionary.randomQuestionary(ArActivity.this, "admin", "1", "bat", "1");
+
+        //QuestionAnswer.changeUserCredibility(this, "admin");
+
+
+        //QuestionAnswer.addUserQuestionAnswer("admin", "bat", 2, 1);
+
+        QuestionAnswer.addUserSoundAnswer("admin", 1, 2, 1, 1);
+
+
+        //cdd.show();
 
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
