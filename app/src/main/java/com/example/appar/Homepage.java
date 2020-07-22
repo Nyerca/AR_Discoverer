@@ -75,8 +75,8 @@ public class Homepage extends AppCompatActivity {
                         int count_animals = 0;
                         for (com.google.firebase.database.DataSnapshot el: dataSnapshot.child("user_sensors/" + GlobalVariable.getInstance().getUsername()).getChildren()) {
                             count_parks += 1;
-                            for (com.google.firebase.database.DataSnapshot elem: el.getChildren()) {
-                                count_animals += elem.child("count").getValue(Integer.class);
+                            for (com.google.firebase.database.DataSnapshot el2: el.getChildren()) {
+                                count_animals += el2.getValue(Integer.class);
                             }
 
                         }

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.appar.database.AchievementChecker;
 import com.example.appar.qr_ar.MainActivity;
 import com.example.appar.qr_ar.QuestionAnswer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -223,6 +224,7 @@ public class AlertQuestionary extends Dialog implements
         } else {
             QuestionAnswer.addUserSoundAnswer(GlobalVariable.getInstance().getUsername(), parkid, sensorid, elementid, answer);
         }
+        AchievementChecker.check(animal, parkid);
 
     }
 

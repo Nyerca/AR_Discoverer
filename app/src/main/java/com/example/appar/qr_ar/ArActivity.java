@@ -15,10 +15,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appar.AlertQuestionary;
 import com.example.appar.R;
 import com.example.appar.database.AESCrypt;
+import com.example.appar.database.AchievementChecker;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class ArActivity extends AppCompatActivity {
 
@@ -70,7 +75,7 @@ public class ArActivity extends AppCompatActivity {
 
         //QuestionAnswer.addUserSoundAnswer("admin", 1, 2, 1, 1);
 
-
+/*
         try {
             String cripted = AESCrypt.encrypt("prova");
             String decripted = AESCrypt.decrypt(cripted);
@@ -78,6 +83,8 @@ public class ArActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+*/
+        AchievementChecker.check("bee", 2);
 
 
         //cdd.show();

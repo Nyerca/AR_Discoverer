@@ -9,14 +9,23 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+
+import com.example.appar.database.AESCrypt;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class UserProfile  extends AppCompatActivity {
 
@@ -47,11 +56,33 @@ public class UserProfile  extends AppCompatActivity {
         credibility.setText(getIntent().getStringExtra("credibility"));
 
         LinearLayout medals = (LinearLayout) findViewById(R.id.medals);
-        medals.addView(createCard());
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        myRef.child("achievements/"+ GlobalVariable.getInstance().getUsername()).addListenerForSingleValueEvent(new ValueEventListener(){
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot){
+
+                dataSnapshot.getChildren().forEach(el -> {
+                    String title = el.getKey();
+                    String date = el.child("date").getValue(String.class);
+                    String path = el.child("path").getValue(String.class);
+                    medals.addView(createCard(title, date, path));
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+
+        });
+        //medals.addView(createCard("Nature Loverrr", "11/07/2020", "bronze"));
+
+        //medals.addView(createCard("Nature Loverrr", "11/07/2020", "bronze"));
 
     }
 
-    private CardView createCard() {
+    private CardView createCard(String title, String date, String resource_image) {
         CardView cardview = new CardView(UserProfile.this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DistanceAnimalView.pxFromDp(UserProfile.this, 100));
         int margin = DistanceAnimalView.pxFromDp(UserProfile.this, 10);
@@ -77,7 +108,12 @@ public class UserProfile  extends AppCompatActivity {
         int length = DistanceAnimalView.pxFromDp(UserProfile.this, 64);
         LinearLayout.LayoutParams image_params = new LinearLayout.LayoutParams(length,length);
         Resources res = getResources();
-        Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.droid_thumb2);
+        //Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.bronze);
+
+        int id = this.getResources().getIdentifier(resource_image, "drawable", this.getPackageName());
+
+        Bitmap bitmap = BitmapFactory.decodeResource(res, id);
+
         image.setImageBitmap(bitmap);
         image.setBackground(ContextCompat.getDrawable(UserProfile.this, R.drawable.cerclebackgroundyello));
         image.setPadding(margin,margin,margin,margin);
@@ -93,7 +129,7 @@ public class UserProfile  extends AppCompatActivity {
         TextView textview = new TextView(UserProfile.this);
         LinearLayout.LayoutParams textview_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
         textview_params.setMargins(0, margin,0,0);
-        textview.setText("Nature Loverrr");
+        textview.setText(title);
         textview.setTypeface(Typeface.DEFAULT_BOLD);
         textview.setLayoutParams(textview_params);
 
@@ -112,7 +148,7 @@ public class UserProfile  extends AppCompatActivity {
         int time_margin = DistanceAnimalView.pxFromDp(UserProfile.this, 5);
         LinearLayout.LayoutParams time_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
         time_params.setMargins(0, 0,time_margin,0);
-        time.setText("11/07/2020");
+        time.setText(date);
         time.setLayoutParams(time_params);
         time.setPadding(0,time_margin,0,0);
 

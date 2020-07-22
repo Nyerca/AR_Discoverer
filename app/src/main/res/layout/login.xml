@@ -68,7 +68,7 @@
             />
         <Button
             android:id="@+id/login"
-            android:drawableRight="@drawable/ic_attach_money_black_24dp"
+            android:drawableRight="@drawable/ic_login"
             android:textColor="#fff"
             android:foreground="?android:attr/selectableItemBackground"
             android:background="@drawable/gradienteditext"

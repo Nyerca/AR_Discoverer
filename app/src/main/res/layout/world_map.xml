@@ -21,7 +21,7 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_bee"
+            android:src="@drawable/ic_bottom_arrow"
             android:layout_alignEnd="@+id/dynamicSpinner"
             android:layout_alignRight="@+id/dynamicSpinner"
             android:layout_alignTop="@id/dynamicSpinner"
