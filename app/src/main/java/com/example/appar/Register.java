@@ -9,13 +9,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.example.appar.database.AESCrypt;
 import com.example.appar.database.Sensor;
+import com.example.appar.database.User;
 import com.example.appar.qr_ar.ArActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,6 +50,8 @@ public class Register extends AppCompatActivity {
             }
         });
 
+        TextView error = findViewById(R.id.error);
+
         Button register = (Button) findViewById(R.id.register);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,51 +59,71 @@ public class Register extends AppCompatActivity {
                 String username = ((EditText) findViewById(R.id.username)).getText().toString();
                 String password = ((EditText) findViewById(R.id.password)).getText().toString();
                 String rep_password = ((EditText) findViewById(R.id.rep_password)).getText().toString();
-                if(username.length() > 4 && password.length() > 4 && password.equals(rep_password)) {
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference();
-                    myRef.addListenerForSingleValueEvent(new ValueEventListener(){
+                if(username.length() > 4 && password.length() > 4) {
+                    if(password.equals(rep_password)) {
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference myRef = database.getReference();
+                        myRef.addListenerForSingleValueEvent(new ValueEventListener(){
 
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot){
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot){
 
-                            List<Sensor> list = new ArrayList<Sensor>();
+                                List<Sensor> list = new ArrayList<Sensor>();
 
-
-                            dataSnapshot.child("users").getChildren().forEach(el -> {
-
-                                if(!el.getKey().equals(username)) {
-                                    Toast.makeText(Register.this, "id: " + el.getKey(),   Toast.LENGTH_LONG).show();
+                                if(!dataSnapshot.child("users/" + username).exists()) {
                                     DatabaseReference usersRef = myRef.child("users/"+username);
-                                    User user = new User(password);
-                                    usersRef.setValue(user);
-                                    startActivity(login_intent);
+
+                                    try {
+                                        String crypted = AESCrypt.encrypt(password);
+                                        User user = new User(crypted, 0, 0);
+                                        usersRef.setValue(user);
+                                        startActivity(login_intent);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    error.setText("The username is already taken.");
                                 }
-                            });
+
+                                /*
+                                dataSnapshot.child("users").getChildren().forEach(el -> {
+
+                                    if(!el.getKey().equals(username)) {
+                                        Toast.makeText(Register.this, "id: " + el.getKey(),   Toast.LENGTH_LONG).show();
+                                        DatabaseReference usersRef = myRef.child("users/"+username);
+
+                                        try {
+                                            String crypted = AESCrypt.encrypt(password);
+                                            User user = new User(crypted, 0, 0);
+                                            usersRef.setValue(user);
+                                            startActivity(login_intent);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    } else {
+                                        error.setText("The username is already taken.");
+                                    }
+                                });
+*/
 
 
 
+                            }
 
-                        }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {}
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {}
-
-                    });
-
+                        });
+                    } else {
+                        error.setText("Password and repeated password dont match.");
+                    }
+                }
+                else {
+                    error.setText("Both username and password has to be atleast 5 characters long.");
                 }
             }
         });
-
-    }
-
-    public class User {
-
-        public String password;
-
-        public User(String password) {
-            this.password = password;
-        }
 
     }
 

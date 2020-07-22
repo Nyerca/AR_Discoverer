@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appar.database.AESCrypt;
 import com.example.appar.database.Sensor;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +29,8 @@ public class Login  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        TextView error = findViewById(R.id.error);
+
         Button login = (Button) findViewById(R.id.login);
         Intent login_intent = new Intent(this,Homepage.class);
         login.setOnClickListener(new View.OnClickListener() {
@@ -42,15 +46,43 @@ public class Login  extends AppCompatActivity {
                         String username = ((EditText) findViewById(R.id.username)).getText().toString();
                         String password = ((EditText) findViewById(R.id.password)).getText().toString();
 
+                        if(dataSnapshot.child("users/" + username).exists()) {
+
+                            try {
+                                String decrypted = AESCrypt.decrypt(dataSnapshot.child("users/" + username).child("password").getValue(String.class));
+                                if(decrypted.equals(password)) {
+                                    GlobalVariable.setInstance(username);
+                                    startActivity(login_intent);
+                                } else {
+                                    error.setText("The password is wrong.");
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
+                        } else {
+                            error.setText("The username doesn't exist.");
+                        }
+
+                        /*
                         dataSnapshot.child("users").getChildren().forEach(el -> {
 
                             if(el.getKey().equals(username)) {
-                                if(el.child("password").getValue(String.class).equals(password)) {
-                                    GlobalVariable.setInstance(username);
-                                    startActivity(login_intent);
+                                try {
+                                    String decrypted = AESCrypt.decrypt(el.child("password").getValue(String.class));
+                                    if(decrypted.equals(password)) {
+                                        GlobalVariable.setInstance(username);
+                                        startActivity(login_intent);
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
+
                             }
                         });
+
+                         */
 
 
                     }

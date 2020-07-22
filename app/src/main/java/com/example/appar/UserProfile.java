@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,8 +25,17 @@ public class UserProfile  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_profile);
 
+        ImageButton backButton = (ImageButton) findViewById(R.id.backButton);
+        Intent back = new Intent(this,Homepage.class);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(back);
+            }
+        });
+
         TextView username = (TextView) findViewById(R.id.username);
-        username.setText(getIntent().getStringExtra("username"));
+        username.setText(GlobalVariable.getInstance().getUsername());
 
         TextView count_parks = (TextView) findViewById(R.id.count_parks);
         count_parks.setText(getIntent().getStringExtra("count_parks"));

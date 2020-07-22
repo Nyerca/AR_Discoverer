@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -103,6 +104,15 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
         setContentView(R.layout.game_map2);
         root = (RelativeLayout) findViewById(R.id.main_layout);
         slidedview = (LinearLayout) findViewById(R.id.dragview);
+
+        ImageButton backButton = (ImageButton) findViewById(R.id.backButton);
+        Intent back = new Intent(this,Homepage.class);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(back);
+            }
+        });
 
 
 

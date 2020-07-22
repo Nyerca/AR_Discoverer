@@ -65,7 +65,6 @@ public class Homepage extends AppCompatActivity {
         profilecard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                profile_intent.putExtra("username", "admin");
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
 
@@ -74,15 +73,15 @@ public class Homepage extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot){
                         int count_parks = 0;
                         int count_animals = 0;
-                        for (com.google.firebase.database.DataSnapshot el: dataSnapshot.child("user_sensors/admin").getChildren()) {
+                        for (com.google.firebase.database.DataSnapshot el: dataSnapshot.child("user_sensors/" + GlobalVariable.getInstance().getUsername()).getChildren()) {
                             count_parks += 1;
                             for (com.google.firebase.database.DataSnapshot elem: el.getChildren()) {
                                 count_animals += elem.child("count").getValue(Integer.class);
                             }
 
                         }
-                        int correct = dataSnapshot.child("users/admin").child("correct").getValue(Integer.class);
-                        int total = dataSnapshot.child("users/admin").child("total").getValue(Integer.class);
+                        int correct = dataSnapshot.child("users/" + GlobalVariable.getInstance().getUsername()).child("correct").getValue(Integer.class);
+                        int total = dataSnapshot.child("users/"  + GlobalVariable.getInstance().getUsername()).child("total").getValue(Integer.class);
                         double credibility = 1.0;
                         Toast.makeText(Homepage.this, "total: " + total, Toast.LENGTH_LONG).show();
                         if(total > 0) credibility = (double) correct / (double) total;

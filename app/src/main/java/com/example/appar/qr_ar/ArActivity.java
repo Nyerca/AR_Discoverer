@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appar.AlertQuestionary;
 import com.example.appar.R;
+import com.example.appar.database.AESCrypt;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -67,7 +68,16 @@ public class ArActivity extends AppCompatActivity {
 
         //QuestionAnswer.addUserQuestionAnswer("admin", "bat", 2, 1);
 
-        QuestionAnswer.addUserSoundAnswer("admin", 1, 2, 1, 1);
+        //QuestionAnswer.addUserSoundAnswer("admin", 1, 2, 1, 1);
+
+
+        try {
+            String cripted = AESCrypt.encrypt("prova");
+            String decripted = AESCrypt.decrypt(cripted);
+            Toast.makeText(this, "cripted: " + cripted + " decripted: " + decripted, Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         //cdd.show();

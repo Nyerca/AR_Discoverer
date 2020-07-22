@@ -31,7 +31,7 @@ public class Collection extends AppCompatActivity {
         myRef.addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot){
-                dataSnapshot.child("user_funfacts/admin/" + animal).getChildren().forEach(el -> {
+                dataSnapshot.child("user_funfacts/"+ GlobalVariable.getInstance().getUsername() + "/" + animal).getChildren().forEach(el -> {
                     funfacts.add(el.getValue(String.class));
                 });
                 String ff = "";

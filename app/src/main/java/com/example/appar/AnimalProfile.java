@@ -1,6 +1,7 @@
 package com.example.appar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -25,6 +26,15 @@ public class AnimalProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.animal_profile);
+
+        ImageButton backButton = (ImageButton) findViewById(R.id.backButton);
+        Intent back = new Intent(this,Collection.class);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(back);
+            }
+        });
 
         TextView title = (TextView) findViewById(R.id.textView);
 

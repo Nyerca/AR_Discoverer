@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -69,6 +70,15 @@ public class WorldMap extends AppCompatActivity {
         Mapbox.getInstance(this, "pk.eyJ1IjoibnllcmNhIiwiYSI6ImNrYW1jY2R2azA1ZHUyc3Bmb2JqYmRjN2EifQ.E4YLUOB7CH5VGbqs5Tj4vg");
         setContentView(R.layout.world_map);
         slidedview = (LinearLayout) findViewById(R.id.dragview);
+
+        ImageButton backButton = (ImageButton) findViewById(R.id.backButton);
+        Intent back = new Intent(this,Homepage.class);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(back);
+            }
+        });
 
         Spinner dynamicSpinner = findViewById(R.id.dynamicSpinner);
         //create a list of items for the spinner.

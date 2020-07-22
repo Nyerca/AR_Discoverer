@@ -31,11 +31,22 @@
             android:src="@drawable/ic_fish"
             />
 
+        <TextView
+            android:id="@+id/error"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#fff"
+            android:textSize="15sp" />
+
         <EditText
             android:id="@+id/username"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="75dp"
             android:background="@drawable/gradienteditext"
             android:drawableLeft="@drawable/ic_lightbulb_outline_black_24dp"
             android:drawablePadding="10dp"
