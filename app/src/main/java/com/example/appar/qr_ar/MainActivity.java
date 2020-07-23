@@ -222,11 +222,11 @@ public class MainActivity extends AppCompatActivity {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference();
 
-            myRef.child("sensor_sounds").orderByKey().equalTo(getIntent().getStringExtra("id")).addListenerForSingleValueEvent(new ValueEventListener(){
+            myRef.child("sensor_sounds").orderByKey().equalTo(getIntent().getStringExtra("parkid")).addListenerForSingleValueEvent(new ValueEventListener(){
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot){
                     dataSnapshot.getChildren().forEach(el2 -> {
-                        dataSnapshot.getRef().child("1").limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener(){
+                        dataSnapshot.getRef().child(getIntent().getStringExtra("sensorid")).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener(){
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot2){
 
@@ -237,8 +237,8 @@ public class MainActivity extends AppCompatActivity {
 
                                     //cdd.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-                                    Toast.makeText(MainActivity.this, "Username: " + GlobalVariable.getInstance().getUsername(), Toast.LENGTH_LONG).show();
-                                    AlertQuestionary.randomQuestionary(MainActivity.this, "admin", "1", "bat", "1");
+                                    //Toast.makeText(MainActivity.this, "Username: " + GlobalVariable.getInstance().getUsername() + " parkid: " + getIntent().getStringExtra("parkid") + " sensorid: " + getIntent().getStringExtra("sensorid"), Toast.LENGTH_LONG).show();
+                                    AlertQuestionary.randomQuestionary(MainActivity.this, GlobalVariable.getInstance().getUsername(), getIntent().getStringExtra("parkid"), getIntent().getStringExtra("animal"), getIntent().getStringExtra("sensorid"));
 
 
 

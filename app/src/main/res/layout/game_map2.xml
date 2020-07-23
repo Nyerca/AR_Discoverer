@@ -86,16 +86,25 @@
                             android:textAllCaps="false"
                             android:textSize="16sp"></Button>
 
-                        <RelativeLayout
-                            android:id="@+id/main_layout"
+                        <TableLayout
                             android:alpha="0.8"
                             android:background="@drawable/circle"
                             android:layout_width="200dp"
                             android:layout_alignParentRight="true"
-                            android:layout_height="50dp">
+                            android:layout_height="50dp"
+                            android:stretchColumns="0,1,2">
+
+                            <TableRow
+                                android:id="@+id/top3row"
+                                android:gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" >
+
+                            </TableRow>
 
 
-                        </RelativeLayout>
+                        </TableLayout>
+
                     </RelativeLayout>
                 </com.mapbox.mapboxsdk.maps.MapView>
 
@@ -115,7 +124,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/dragview"
+
             android:clickable="true"
             android:focusable="false"
             android:orientation="vertical">
@@ -133,22 +142,35 @@
                     android:text="Actions"></TextView>
             </RelativeLayout>
 
-            <!--
-            <LinearLayout
+            <TableLayout
+                android:id="@+id/tl"
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
-                <com.example.appar.DistanceAnimalView
-                    app:shapeColor="#7f0000"
-                    app:displayShapeName="true"
-                    app:distance="2"
-                    app:imagePath="http://www.pngall.com/wp-content/uploads/2016/06/Bat-Download-PNG.png"
-                    android:layout_margin="0dp"
-                    android:id="@+id/el1"
+                android:layout_height="match_parent"
+                android:stretchColumns="0,1,2">
+
+                <TableRow
+                    android:id="@+id/tableRow1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
-            </LinearLayout>
-            -->
+                    android:layout_height="200dp" >
+
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow2"
+                    android:layout_marginTop="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp" >
+
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow3"
+                    android:layout_marginTop="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp" >
+
+                </TableRow>
+
+            </TableLayout>
+
         </LinearLayout>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 

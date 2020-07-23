@@ -84,6 +84,8 @@
                 android:layout_centerVertical="true"
                 android:paddingStart="15dp"
                 android:text="Actions"></TextView>
+
+
         </RelativeLayout>
 
         <ListView
@@ -99,13 +101,26 @@
             <com.example.appar.DistanceAnimalView
                 app:shapeColor="#7f0000"
                 app:displayShapeName="true"
-                app:distance="2"
+                app:distance="1"
                 app:imagePath="http://www.pngall.com/wp-content/uploads/2016/06/Bat-Download-PNG.png"
                 android:layout_margin="0dp"
-                android:id="@+id/el1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/el12"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 />
+
+            <com.example.appar.DistanceAnimalView
+                app:shapeColor="#7f0000"
+                app:displayShapeName="true"
+                app:distance="2"
+                app:imagePath="http://www.pngall.com/wp-content/uploads/2016/06/Bat-Download-PNG.png"
+                android:id="@+id/el133"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                />
+
+
+
         </LinearLayout>
     </LinearLayout>
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

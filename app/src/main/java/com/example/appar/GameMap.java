@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TableRow;
 import android.widget.Toast;
 
 import com.example.appar.database.Park;
@@ -68,19 +69,31 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
     private MapboxMap mapboxMap;
     private Button scan;
     private AnimalFigure neareastSensor;
-    private String parkid = "";
-
+    int parkid;
     /*
     public void setDistance(List<Double> positions) {
         //Toast.makeText(this, "DISTANZA: " + positions.get(0) + " DISTANZA2: " + positions.get(1), Toast.LENGTH_LONG).show();
         Log.d("DISTANZE","DISTANZA: " + positions.get(0) + " DISTANZA2: " + positions.get(1));
     }*/
 
-    RelativeLayout root;
+    TableRow root;
     LinearLayout slidedview;
+    TableRow row1, row2, row3;
+
+    public TableRow getRow(int index) {
+        if(index / 3 == 0) return row1;
+        else if(index / 3 == 1) return row2;
+        return row3;
+    }
+
+
     public void setDistance(List<AnimalFigure> animals) {
         //Toast.makeText(this, "DISTANZA: " + animals.get(0).getDistance() + " DISTANZA2: " + animals.get(1).getDistance()+ " DISTANZA3: " + animals.get(2).getDistance(), Toast.LENGTH_LONG).show();
 
+        row1.removeAllViews();
+        row2.removeAllViews();
+        row3.removeAllViews();
+        //slidedview.removeAllViews();
         root.removeAllViewsInLayout();
         for(int i=0; i<9 && i< animals.size(); i++) {
             if(i == 0 && animals.get(i).getDistance() < 20) {
@@ -89,11 +102,10 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                 //Toast.makeText(this, "ENABLED", Toast.LENGTH_LONG).show();
             }
             if (i<3 && DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance() <= 3) {
-                root.addView(DistanceAnimalView.createView(this, i * 100, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
+                root.addView(DistanceAnimalView.createView(this, 0, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
             }
-            if(DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance() <= 3) {
-                slidedview.addView(DistanceAnimalView.createView(this, i * 100, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
-            }
+            //slidedview.addView(DistanceAnimalView.createView(this, i * 100, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
+            getRow(i).addView(DistanceAnimalView.createView(this, 20, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
         }
     }
 
@@ -102,8 +114,12 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(this, "pk.eyJ1IjoibnllcmNhIiwiYSI6ImNrYW1jY2R2azA1ZHUyc3Bmb2JqYmRjN2EifQ.E4YLUOB7CH5VGbqs5Tj4vg");
         setContentView(R.layout.game_map2);
-        root = (RelativeLayout) findViewById(R.id.main_layout);
-        slidedview = (LinearLayout) findViewById(R.id.dragview);
+        root = findViewById(R.id.top3row);
+        //slidedview = (LinearLayout) findViewById(R.id.dragview);
+
+        row1 = findViewById(R.id.tableRow1);
+        row2 = findViewById(R.id.tableRow2);
+        row3 = findViewById(R.id.tableRow3);
 
         ImageButton backButton = (ImageButton) findViewById(R.id.backButton);
         Intent back = new Intent(this,Homepage.class);
@@ -207,7 +223,7 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
 // Map is set up and the style has loaded. Now you can add data or make other map adjustments.
 
                                 String tmp = getIntent().getStringExtra("park");
-                                int parkid;
+
 
                                 if(getIntent().getStringExtra("parkid") == null) {
 
@@ -457,7 +473,8 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                 Intent intent = new Intent(this, MainActivity.class);
 
                 intent.putExtra("animal", neareastSensor.getAnimal());
-                intent.putExtra("id", neareastSensor.getId() + "");
+                intent.putExtra("sensorid", neareastSensor.getId() + "");
+                intent.putExtra("parkid", parkid + "");
                 intent.putExtra("Qr_code", "https://raw.githubusercontent.com/Nyerca/ar_images/master/bat.sfb");
                 startActivity(intent);
             }

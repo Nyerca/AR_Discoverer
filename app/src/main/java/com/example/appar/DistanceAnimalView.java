@@ -17,6 +17,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TableRow;
 
 public class DistanceAnimalView extends View {
 
@@ -116,15 +117,15 @@ public class DistanceAnimalView extends View {
 
         canvas.drawBitmap(bitmap, 10, 0, paintShape);
         if(distance == 1) {
-            canvas.drawBitmap(foot, 50, 80, paintShape);
+            canvas.drawBitmap(foot, 40, 80, paintShape);
         } else if(distance == 2) {
             canvas.drawBitmap(foot, 20, 80, paintShape);
 
-            canvas.drawBitmap(foot, 90, 80, paintShape);
+            canvas.drawBitmap(foot, 60, 80, paintShape);
         } else if(distance == 3) {
-            canvas.drawBitmap(foot, 10, 80, paintShape);
-            canvas.drawBitmap(foot, 50, 80, paintShape);
-            canvas.drawBitmap(foot, 110, 80, paintShape);
+            canvas.drawBitmap(foot, 0, 80, paintShape);
+            canvas.drawBitmap(foot, 40, 80, paintShape);
+            canvas.drawBitmap(foot, 80, 80, paintShape);
         }
 
 
@@ -140,23 +141,21 @@ public class DistanceAnimalView extends View {
         paintShape.setTextSize(10);
     }
 
-    public static LinearLayout createView(Context context, int left, int distance) {
-        LinearLayout top = new LinearLayout(context);
-        top.setAlpha(1);
-        top.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+    public static DistanceAnimalView createView(Context context, int left, int distance) {
+        //LinearLayout top = new LinearLayout(context);
+        //top.setAlpha(1);
+        //top.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
         DistanceAnimalView distance_animal_view = new DistanceAnimalView(context, null);
         distance_animal_view.setDistance(distance);
         distance_animal_view.setImagePath("http://www.pngall.com/wp-content/uploads/2016/06/Bat-Download-PNG.png");
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
+        TableRow.LayoutParams params = new TableRow.LayoutParams(pxFromDp(context, 50), pxFromDp(context, 50));
         Log.d("Latitude","" + pxFromDp(context, left));
         params.setMargins(pxFromDp(context, left), 0,0,0);
+        //params.setMargins(0, 0,0,0);
         distance_animal_view.setLayoutParams(params);
-        top.addView(distance_animal_view);
-        return top;
+        //top.addView(distance_animal_view);
+        return distance_animal_view;
     }
 
     public static int dpFromPx(final Context context, final int px) {
