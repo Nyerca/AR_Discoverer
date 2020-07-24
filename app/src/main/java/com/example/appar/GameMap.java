@@ -3,6 +3,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -102,10 +103,10 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                 //Toast.makeText(this, "ENABLED", Toast.LENGTH_LONG).show();
             }
             if (i<3 && DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance() <= 3) {
-                root.addView(DistanceAnimalView.createView(this, 0, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
+                root.addView(DistanceAnimalView.createView(this, 0, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance(), animals.get(i).getSeen()));
             }
             //slidedview.addView(DistanceAnimalView.createView(this, i * 100, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
-            getRow(i).addView(DistanceAnimalView.createView(this, 20, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
+            getRow(i).addView(DistanceAnimalView.createView(this, 20, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance(), animals.get(i).getSeen()));
         }
     }
 
@@ -292,10 +293,11 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                                     String position = el.child("position").getValue(String.class); //This is a1
                                     String animal = el.child("animal").getValue(String.class); //This is a1
                                     //Toast.makeText(GameMap.this, "id: " + el.getKey() + " position: " + position,Toast.LENGTH_LONG).show();
-                                    list.add(new Sensor(el.getKey(), position, animal));
+
+                                    list.add(new Sensor(el.getKey(), position, animal, el.child("users/" + GlobalVariable.getInstance().getUsername()).exists()));
                                 });
 
-                                IconFactory mIconFactory = IconFactory.getInstance(GameMap.this);
+                                //IconFactory mIconFactory = IconFactory.getInstance(GameMap.this);
                                 //Drawable mIconDrawable = ContextCompat.getDrawable(GameMap.this, R.drawable.ic_bee);
                                 //drawableToIcon(GameMap.this, R.drawable.ic_bee, 0);
                                 //Icon icon = mIconFactory.fromResource(R.drawable.ic_bee);
@@ -310,10 +312,15 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
 
                                 //BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.your_drawable_here);
                                 list.forEach(el -> {
-                                    Bitmap icon3 = BitmapFactory.decodeResource(GameMap.this.getResources(),
-                                            R.drawable.ic_bee);
+                                    //Bitmap icon3 = BitmapFactory.decodeResource(GameMap.this.getResources(),R.drawable.ic_bee);
+                                    //Resources res = getResources();
+                                   // Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.droid_thumb2);
+
+
+                                    IconFactory mIconFactory = IconFactory.getInstance(GameMap.this);
+                                    Icon icon = mIconFactory.fromResource(R.drawable.droid_thumb2);
                                     mapboxMap.addMarker(new MarkerOptions()
-                                            .position(new LatLng(el.getLat(), el.getLon()))
+                                            .position(new LatLng(el.getLat(), el.getLon())).icon(icon)
                                             .title(el.getId() + ""));
                                 });
 
@@ -381,9 +388,10 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
     }
 
     public static Icon drawableToIcon(@NonNull Context context, @DrawableRes int id, @ColorInt int colorRes) {
-        Drawable vectorDrawable = ResourcesCompat.getDrawable(context.getResources(), id, context.getTheme());
-        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),
-                vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Drawable vectorDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.droid_thumb2, context.getTheme());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Resources res = context.getResources();
+        //Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.droid_thumb2);
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         DrawableCompat.setTint(vectorDrawable, colorRes);

@@ -237,6 +237,9 @@ public class MainActivity extends AppCompatActivity {
 
                                     //cdd.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+
+                                    //Toast.makeText(MainActivity.this, "OPEN ONE ALERT", Toast.LENGTH_LONG).show();
+
                                     //Toast.makeText(MainActivity.this, "Username: " + GlobalVariable.getInstance().getUsername() + " parkid: " + getIntent().getStringExtra("parkid") + " sensorid: " + getIntent().getStringExtra("sensorid"), Toast.LENGTH_LONG).show();
                                     AlertQuestionary.randomQuestionary(MainActivity.this, GlobalVariable.getInstance().getUsername(), getIntent().getStringExtra("parkid"), getIntent().getStringExtra("animal"), getIntent().getStringExtra("sensorid"));
 

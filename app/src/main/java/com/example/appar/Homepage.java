@@ -99,6 +99,15 @@ public class Homepage extends AppCompatActivity {
             }
         });
 
+        CardView tutorialcardcard = (CardView) findViewById(R.id.tutorialcard);
+        Intent tutorialcard_intent = new Intent(this,WalkthroughActivity.class);
+        tutorialcardcard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(tutorialcard_intent);
+            }
+        });
+
 
     }
 

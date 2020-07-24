@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appar.AlertQuestionary;
+import com.example.appar.GlobalVariable;
 import com.example.appar.R;
 import com.example.appar.database.AESCrypt;
 import com.example.appar.database.AchievementChecker;
@@ -84,7 +85,8 @@ public class ArActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 */
-        AchievementChecker.check("bee", 2);
+        GlobalVariable.setInstance("prova3");
+        AchievementChecker.check("bat", 1, this);
 
 
         //cdd.show();

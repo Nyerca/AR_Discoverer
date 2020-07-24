@@ -73,10 +73,10 @@ public class GameRemoteMap extends AppCompatActivity implements PermissionsListe
                 //Toast.makeText(this, "ENABLED", Toast.LENGTH_LONG).show();
             }
             if (i<3 && DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance() <= 3) {
-                root.addView(DistanceAnimalView.createView(this, i * 100, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
+                //root.addView(DistanceAnimalView.createView(this, i * 100, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
             }
             if(DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance() <= 3) {
-                slidedview.addView(DistanceAnimalView.createView(this, i * 100, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
+                //slidedview.addView(DistanceAnimalView.createView(this, i * 100, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
             }
         }
     }
@@ -154,7 +154,7 @@ public class GameRemoteMap extends AppCompatActivity implements PermissionsListe
                             String animal = el.child("animal").getValue(String.class); //This is a1
                             //Toast.makeText(Db_usage.this, "id: " + el.getKey(),
                             //   Toast.LENGTH_LONG).show();
-                            list.add(new Sensor(el.getKey(), position, animal));
+                            //list.add(new Sensor(el.getKey(), position, animal));
                         });
                         mapboxMap.setStyle(Style.OUTDOORS, new Style.OnStyleLoaded() {
                             @Override

@@ -61,7 +61,7 @@ public class AchievementChecker {
         }
     }
 
-    public static void check(String animal, int parkid) {
+    public static void check(String animal, int parkid, Context context) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
         myRef.addListenerForSingleValueEvent(new ValueEventListener(){
@@ -70,24 +70,29 @@ public class AchievementChecker {
             public void onDataChange(DataSnapshot dataSnapshot){
                 int total = 1;
 
-                for (com.google.firebase.database.DataSnapshot element : dataSnapshot.child("user_sensors/"+ "prova3").getChildren()) {
-                    int amount = element.child(animal).getValue(Integer.class); //This is a1
-                    total += amount;
+                for (com.google.firebase.database.DataSnapshot element : dataSnapshot.child("user_sensors/"+ GlobalVariable.getInstance().getUsername()).getChildren()) {
+                    if(element.child(animal).exists()) {
+                        int amount = element.child(animal).getValue(Integer.class); //This is a1
+                        total += amount;
+                    }
+
                     //Toast.makeText(context, "Total: " + total, Toast.LENGTH_LONG).show();
                 }
 
-                //Toast.makeText(context, "Total: " + total, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Total: " + total, Toast.LENGTH_LONG).show();
 
                 int value = 0;
 
-                if(dataSnapshot.child("user_sensors/" + "prova3" + "/" + parkid + "/" + animal).exists())  {
-                    value = dataSnapshot.child("user_sensors/" + "prova3" + "/" + parkid + "/" + animal).getValue(Integer.class);
+                if(dataSnapshot.child("user_sensors/" + GlobalVariable.getInstance().getUsername() + "/" + parkid + "/" + animal).exists())  {
+                    value = dataSnapshot.child("user_sensors/" + GlobalVariable.getInstance().getUsername() + "/" + parkid + "/" + animal).getValue(Integer.class);
 
                 } else {
 
                 }
 
-                DatabaseReference usersRef = myRef.child("user_sensors/" + "prova3" + "/" + parkid + "/" + animal);
+                Toast.makeText(context, "Specific one: " + value, Toast.LENGTH_LONG).show();
+
+                DatabaseReference usersRef = myRef.child("user_sensors/" + GlobalVariable.getInstance().getUsername() + "/" + parkid + "/" + animal);
                 usersRef.setValue(value + 1);
 
                 Optional<Achievement> achievement = Achievement.getAchievement(total);
@@ -98,7 +103,7 @@ public class AchievementChecker {
                     String str = "java";
                     String final_title = animal.substring(0, 1).toUpperCase() + animal.substring(1);
 
-                    DatabaseReference achievement_ref = myRef.child("achievements/" + "prova3" + "/" + final_title + " " + achievement.get().getTitle());
+                    DatabaseReference achievement_ref = myRef.child("achievements/" + GlobalVariable.getInstance().getUsername() + "/" + final_title + " " + achievement.get().getTitle());
                     achievement_ref.setValue(user_achievement);
                 }
 

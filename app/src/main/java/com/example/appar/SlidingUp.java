@@ -98,7 +98,7 @@ public class SlidingUp extends AppCompatActivity implements LocationListener {
 
 
 
-        DistanceAnimalView distance_animal_view = new DistanceAnimalView(this, null);
+        DistanceAnimalView distance_animal_view = new DistanceAnimalView(this, null, true);
         distance_animal_view.setDistance(3);
         distance_animal_view.setImagePath("http://www.pngall.com/wp-content/uploads/2016/06/Bat-Download-PNG.png");
 
@@ -114,10 +114,10 @@ public class SlidingUp extends AppCompatActivity implements LocationListener {
         //button.setWidth(700);
         //top.addView(button);
 
-        top.addView(DistanceAnimalView.createView(this, 0, 1));
+        //top.addView(DistanceAnimalView.createView(this, 0, 1));
         top.addView(distance_animal_view);
-        root.addView(DistanceAnimalView.createView(this, 0,1));
-        root.addView(DistanceAnimalView.createView(this, 100,2));
+        //root.addView(DistanceAnimalView.createView(this, 0,1));
+        //root.addView(DistanceAnimalView.createView(this, 100,2));
 
 
         listView = findViewById(R.id.listView);

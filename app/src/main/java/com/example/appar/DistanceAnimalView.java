@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.net.Uri;
@@ -89,10 +91,10 @@ public class DistanceAnimalView extends View {
         requestLayout();
     }
 */
-    public DistanceAnimalView(Context context, AttributeSet attrs) {
+    public DistanceAnimalView(Context context, AttributeSet attrs, Boolean seen) {
         super(context, attrs);
         setupAttributes(attrs);
-        setupPaint();
+        setupPaint(seen);
 
     }
 
@@ -134,19 +136,28 @@ public class DistanceAnimalView extends View {
 
     }
 
-    private void setupPaint() {
+    private void setupPaint(Boolean seen) {
         paintShape = new Paint();
+
+        if(!seen) {
+            ColorMatrix ma = new ColorMatrix();
+            ma.setSaturation(0);
+
+            paintShape.setColorFilter(new ColorMatrixColorFilter(ma));
+        }
+
+
         paintShape.setStyle(Style.FILL);
         //paintShape.setColor(shapeColor);
         paintShape.setTextSize(10);
     }
 
-    public static DistanceAnimalView createView(Context context, int left, int distance) {
+    public static DistanceAnimalView createView(Context context, int left, int distance, Boolean seen) {
         //LinearLayout top = new LinearLayout(context);
         //top.setAlpha(1);
         //top.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
-        DistanceAnimalView distance_animal_view = new DistanceAnimalView(context, null);
+        DistanceAnimalView distance_animal_view = new DistanceAnimalView(context, null, seen);
         distance_animal_view.setDistance(distance);
         distance_animal_view.setImagePath("http://www.pngall.com/wp-content/uploads/2016/06/Bat-Download-PNG.png");
         TableRow.LayoutParams params = new TableRow.LayoutParams(pxFromDp(context, 50), pxFromDp(context, 50));

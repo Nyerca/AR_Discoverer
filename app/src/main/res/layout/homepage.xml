@@ -226,6 +226,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:layout_width="340dp"
+                android:id="@+id/tutorialcard"
                 android:layout_height="150dp"
                 android:layout_margin="10dp">
                 <LinearLayout
