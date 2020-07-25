@@ -355,7 +355,7 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                                             intent.putExtra("parkid", parkid + "");
                                             String position = getIntent().getStringExtra("position");
                                             intent.putExtra("position", position);
-                                            intent.putExtra("Qr_code", "https://raw.githubusercontent.com/Nyerca/ar_images/master/bat.sfb");
+                                            intent.putExtra("Qr_code", "andy_dance.sfb");
                                             startActivity(intent);
                                             return true;
                                         }
@@ -506,7 +506,7 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                     String position = getIntent().getStringExtra("position");
                     intent.putExtra("position", position);
                 }
-                intent.putExtra("Qr_code", "https://raw.githubusercontent.com/Nyerca/ar_images/master/bat.sfb");
+                intent.putExtra("Qr_code", "andy_dance.sfb");
                 startActivity(intent);
             }
         } else {

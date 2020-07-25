@@ -135,7 +135,8 @@ public class MainActivity extends AppCompatActivity {
             Anchor anchor =  session.createAnchor(new Pose(pos, rotation));
             Frame frame = fragment.getArSceneView().getArFrame();
 
-            modelLoader.loadModel(anchor, Uri.parse("andy_dance.sfb"));
+            modelLoader.loadModel(anchor, Uri.parse(qrcode));
+            //modelLoader.loadModel(anchor, Uri.parse("andy_dance.sfb"));
             Toast.makeText(MainActivity.this, "ONUPDATE " + created, Toast.LENGTH_LONG).show();
 
             created = true;
@@ -270,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
                                     //cdd.show();
                                 });
 
-     
+
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {}
