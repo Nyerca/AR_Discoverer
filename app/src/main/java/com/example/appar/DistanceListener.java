@@ -94,7 +94,7 @@ public class DistanceListener implements LocationListener {
         list.forEach(el -> {
             Double returnDistance = getMeasure(location.getLatitude(), location.getLongitude(), el.getLat(), el.getLon());
             positions.add(returnDistance);
-            animals.add(new AnimalFigure(el.getAnimal(), returnDistance, el.getId(), el.getSeen()));
+            animals.add(new AnimalFigure(el.getAnimal(), returnDistance, el.getId(), el.getSeen(), el.getImagepath()));
             Distance step = Distance.getStep(returnDistance);
         });
         Collections.sort(positions);
@@ -117,7 +117,7 @@ public class DistanceListener implements LocationListener {
         list.forEach(el -> {
             Double returnDistance = getMeasure(latitude, longitude, el.getLat(), el.getLon());
             positions.add(returnDistance);
-            animals.add(new AnimalFigure(el.getAnimal(), returnDistance, el.getId(), el.getSeen()));
+            animals.add(new AnimalFigure(el.getAnimal(), returnDistance, el.getId(), el.getSeen(), el.getImagepath()));
             Distance step = Distance.getStep(returnDistance);
         });
         Collections.sort(positions);

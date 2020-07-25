@@ -5,12 +5,14 @@ public class AnimalFigure {
     private Double distance;
     private Integer id;
     private Boolean seen;
+    private String imagepath;
 
-    public AnimalFigure(String animal, Double distance, Integer id, Boolean seen) {
+    public AnimalFigure(String animal, Double distance, Integer id, Boolean seen, String imagepath) {
         this.animal = animal;
         this.distance = distance;
         this.id = id;
         this.seen = seen;
+        this.imagepath = imagepath;
     }
 
     public String getAnimal() {
@@ -24,4 +26,6 @@ public class AnimalFigure {
     public Integer getId() { return this.id; }
 
     public Boolean getSeen() { return this.seen; }
+
+    public String getImagepath() {return this.imagepath;}
 }

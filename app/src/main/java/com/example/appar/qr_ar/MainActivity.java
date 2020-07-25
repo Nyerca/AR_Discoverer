@@ -1,11 +1,14 @@
 package com.example.appar.qr_ar;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import com.example.appar.AlertQuestionary;
+import com.example.appar.GameMap;
 import com.example.appar.GlobalVariable;
+import com.example.appar.Homepage;
 import com.example.appar.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -37,12 +40,14 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Optional;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,8 +64,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+
+        ImageButton backButton = (ImageButton) findViewById(R.id.backButton);
+        Intent back = new Intent(this, GameMap.class);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(getIntent().getStringExtra("position") != null) {
+                    String position = getIntent().getStringExtra("position");
+                    String parkid = getIntent().getStringExtra("parkid");
+                    back.putExtra("position", position);
+                    back.putExtra("parkid", parkid);
+                }
+                startActivity(back);
+            }
+        });
 
 
         fragment = (ArFragment)getSupportFragmentManager().findFragmentById(R.id.sceneform_fragment);
@@ -203,36 +224,36 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void addNodeToScene(Anchor anchor, ModelRenderable renderable) {
-        AnchorNode anchorNode = new AnchorNode(anchor);
-        TransformableNode node = new TransformableNode(fragment.getTransformationSystem());
-        node.setRenderable(renderable);
-        node.setParent(anchorNode);
-        node.setOnTapListener((v, event) -> {
-            /*
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("zzz")
-                    .setTitle("Codelab aaaaaaaaaerror!");
-            AlertDialog dialog = builder.create();
-            dialog.show();*/
+    /*
+    private void nodeClick() {
+        AlertQuestionary.randomQuestionary(MainActivity.this, GlobalVariable.getInstance().getUsername(), getIntent().getStringExtra("parkid"), getIntent().getStringExtra("animal"), getIntent().getStringExtra("sensorid"));
 
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        Toast.makeText(MainActivity.this, "START", Toast.LENGTH_LONG).show();
+        myRef.child("sensor_sounds/"+getIntent().getStringExtra("parkid")).addListenerForSingleValueEvent(new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot){
+                dataSnapshot.getChildren().forEach(el2 -> {
+                    dataSnapshot.getRef().child(getIntent().getStringExtra("sensorid")).addListenerForSingleValueEvent(new ValueEventListener(){
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot2){
+
+                            Toast.makeText(MainActivity.this, "OPEN ONE ALERT SENSID " + getIntent().getStringExtra("sensorid") +  " park " + getIntent().getStringExtra("parkid"), Toast.LENGTH_LONG).show();
+
+                            for(com.google.firebase.database.DataSnapshot el3 : dataSnapshot2.getChildren()) {
+
+                                String value = el3.child("sound").getValue(String.class); //This is a1
+                                AlertQuestionary.randomQuestionary(MainActivity.this, GlobalVariable.getInstance().getUsername(), getIntent().getStringExtra("parkid"), getIntent().getStringExtra("animal"), getIntent().getStringExtra("sensorid"));
 
 
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference();
+                            }
 
-            myRef.child("sensor_sounds").orderByKey().equalTo(getIntent().getStringExtra("parkid")).addListenerForSingleValueEvent(new ValueEventListener(){
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot){
-                    dataSnapshot.getChildren().forEach(el2 -> {
-                        dataSnapshot.getRef().child(getIntent().getStringExtra("sensorid")).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener(){
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot2){
-
+                                /*
                                 dataSnapshot2.getChildren().forEach(el3 -> {
                                     String value = el3.child("sound").getValue(String.class); //This is a1
-                                    Toast.makeText(MainActivity.this, "Path: " + value + " animal: " + getIntent().getStringExtra("animal"), Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(MainActivity.this, "Path: " + value + " animal: " + getIntent().getStringExtra("animal"), Toast.LENGTH_LONG).show();
                                     //AlertQuestionary cdd=new AlertQuestionary(MainActivity.this, value, getIntent().getStringExtra("animal"), true);
 
                                     //cdd.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -248,17 +269,40 @@ public class MainActivity extends AppCompatActivity {
 
                                     //cdd.show();
                                 });
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {}
-                        });
-                    });
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
+     
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                    });
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+*/
+    public void addNodeToScene(Anchor anchor, ModelRenderable renderable) {
+        AnchorNode anchorNode = new AnchorNode(anchor);
+        TransformableNode node = new TransformableNode(fragment.getTransformationSystem());
+        node.setRenderable(renderable);
+        node.setParent(anchorNode);
+        node.setOnTapListener((v, event) -> {
+            AlertQuestionary.randomQuestionary(MainActivity.this, GlobalVariable.getInstance().getUsername(), getIntent().getStringExtra("parkid"), getIntent().getStringExtra("animal"), getIntent().getStringExtra("sensorid"));
+
+            /*
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("zzz")
+                    .setTitle("Codelab aaaaaaaaaerror!");
+            AlertDialog dialog = builder.create();
+            dialog.show();*/
+            //node.setOnTapListener((v2, event2) -> {});
+
+
+
+
 
 
 

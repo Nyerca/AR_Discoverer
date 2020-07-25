@@ -108,6 +108,10 @@ public class AlertQuestionary extends Dialog implements
                     DatabaseReference usersRef = myRef.child("funfacts/"+animal+ "/" + funfactid.get().first + "/users/" + GlobalVariable.getInstance().getUsername());
                     usersRef.setValue(1);
                 }
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference();
+                DatabaseReference usersRef = myRef.child("park_sensors/"+parkid+ "/" + sensorid + "/users/" + GlobalVariable.getInstance().getUsername());
+                usersRef.setValue(1);
 
                 dismiss();
 
@@ -314,13 +318,15 @@ public class AlertQuestionary extends Dialog implements
         Boolean foundone = false;
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
+        Toast.makeText(activity, "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALLLLLLLLLLL", Toast.LENGTH_LONG).show();
         if(r.nextBoolean() == false) {
             Toast.makeText(activity, "question", Toast.LENGTH_LONG).show();
 
             myRef.child("questions/" + animal).addListenerForSingleValueEvent(new ValueEventListener(){
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot){
-                    dataSnapshot.getChildren().forEach(el -> {
+                    for(com.google.firebase.database.DataSnapshot el : dataSnapshot.getChildren()) {
+
                         Boolean exist = el.child("users/"+username).exists(); //This is a1
                         if(!exist) {
                             String question = el.child("question").getValue(String.class);
@@ -329,9 +335,10 @@ public class AlertQuestionary extends Dialog implements
 
                             AlertQuestionary cdd=new AlertQuestionary(activity, question, animal, false, Optional.of(QuestionAnswer.intToBoolean(answer)), Optional.empty(), Integer.parseInt(park), Integer.parseInt(sensorid), Integer.parseInt(el.getKey()));
                             cdd.show();
+                            return;
                         }
-                        //Toast.makeText(context, "" + exist, Toast.LENGTH_LONG).show();
-                    });
+                    }
+
                 }
 
                 @Override
@@ -342,7 +349,7 @@ public class AlertQuestionary extends Dialog implements
 
 
         } else {
-            //Toast.makeText(activity, "sound, park: " + park +  " sensid: " + sensorid, Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "sound, park: " + park +  " sensid: " + sensorid, Toast.LENGTH_LONG).show();
             myRef.child("sensor_sounds/" +  park + "/" + sensorid).addListenerForSingleValueEvent(new ValueEventListener(){
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot){

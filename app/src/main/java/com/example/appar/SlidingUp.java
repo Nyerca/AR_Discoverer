@@ -98,7 +98,7 @@ public class SlidingUp extends AppCompatActivity implements LocationListener {
 
 
 
-        DistanceAnimalView distance_animal_view = new DistanceAnimalView(this, null, true);
+        DistanceAnimalView distance_animal_view = new DistanceAnimalView(this, null, true, "bat");
         distance_animal_view.setDistance(3);
         distance_animal_view.setImagePath("http://www.pngall.com/wp-content/uploads/2016/06/Bat-Download-PNG.png");
 

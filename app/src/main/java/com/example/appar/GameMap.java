@@ -103,10 +103,10 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                 //Toast.makeText(this, "ENABLED", Toast.LENGTH_LONG).show();
             }
             if (i<3 && DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance() <= 3) {
-                root.addView(DistanceAnimalView.createView(this, 0, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance(), animals.get(i).getSeen()));
+                root.addView(DistanceAnimalView.createView(this, 0, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance(), animals.get(i).getSeen(), animals.get(i).getImagepath()));
             }
             //slidedview.addView(DistanceAnimalView.createView(this, i * 100, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
-            getRow(i).addView(DistanceAnimalView.createView(this, 20, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance(), animals.get(i).getSeen()));
+            getRow(i).addView(DistanceAnimalView.createView(this, 20, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance(), animals.get(i).getSeen(), animals.get(i).getImagepath()));
         }
     }
 
@@ -250,6 +250,7 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, dl);
 
                                 } else {
+                                    scan.setVisibility(View.GONE);
                                     parkid =Integer.parseInt(getIntent().getStringExtra("parkid"));
                                     Double latitude = Double.parseDouble(getIntent().getStringExtra("position").split(";")[0]);
                                     Double longitude = Double.parseDouble(getIntent().getStringExtra("position").split(";")[1]);
@@ -292,9 +293,10 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                                 dataSnapshot.child("park_sensors/" + parkid).getChildren().forEach(el -> {
                                     String position = el.child("position").getValue(String.class); //This is a1
                                     String animal = el.child("animal").getValue(String.class); //This is a1
+                                    String imagepath = el.child("image").getValue(String.class); //This is a1
                                     //Toast.makeText(GameMap.this, "id: " + el.getKey() + " position: " + position,Toast.LENGTH_LONG).show();
 
-                                    list.add(new Sensor(el.getKey(), position, animal, el.child("users/" + GlobalVariable.getInstance().getUsername()).exists()));
+                                    list.add(new Sensor(el.getKey(), position, animal, el.child("users/" + GlobalVariable.getInstance().getUsername()).exists(), imagepath));
                                 });
 
                                 //IconFactory mIconFactory = IconFactory.getInstance(GameMap.this);
@@ -318,10 +320,13 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
 
 
                                     IconFactory mIconFactory = IconFactory.getInstance(GameMap.this);
-                                    Icon icon = mIconFactory.fromResource(R.drawable.droid_thumb2);
+                                    Resources res = getResources();
+                                    String packagename = getPackageName();
+                                    int id = res.getIdentifier(el.getImagepath(), "drawable", packagename);
+                                    Icon icon = mIconFactory.fromResource(id);
                                     mapboxMap.addMarker(new MarkerOptions()
                                             .position(new LatLng(el.getLat(), el.getLon())).icon(icon)
-                                            .title(el.getId() + ""));
+                                            .title(el.getId() + ";" + el.getAnimal()));
                                 });
 
 
@@ -329,19 +334,33 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
 
 
 
+                                if(getIntent().getStringExtra("parkid") != null) {
+                                    mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
+                                        @Override
+                                        public boolean onMarkerClick(@NonNull Marker marker) {
+                                            // Show a toast with the title of the selected marker
+                                            Toast.makeText(GameMap.this, marker.getTitle(), Toast.LENGTH_LONG).show();
 
+                                            //Intent foo = new Intent(GameMap.this, ArActivity.class);
+                                            //foo.putExtra("myFirstKey", "myFirstValue");
+                                            //startActivity(foo);
 
-                                mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
-                                    @Override
-                                    public boolean onMarkerClick(@NonNull Marker marker) {
-                                        // Show a toast with the title of the selected marker
-                                        Toast.makeText(GameMap.this, marker.getTitle(), Toast.LENGTH_LONG).show();
-                                        Intent foo = new Intent(GameMap.this, ArActivity.class);
-                                        foo.putExtra("myFirstKey", "myFirstValue");
-                                        startActivity(foo);
-                                        return true;
-                                    }
-                                });
+                                            String sensorid = marker.getTitle().split(";")[0];
+                                            String animal = marker.getTitle().split(";")[1];
+
+                                            Intent intent = new Intent(GameMap.this, MainActivity.class);
+
+                                            intent.putExtra("animal",animal);
+                                            intent.putExtra("sensorid", sensorid);
+                                            intent.putExtra("parkid", parkid + "");
+                                            String position = getIntent().getStringExtra("position");
+                                            intent.putExtra("position", position);
+                                            intent.putExtra("Qr_code", "https://raw.githubusercontent.com/Nyerca/ar_images/master/bat.sfb");
+                                            startActivity(intent);
+                                            return true;
+                                        }
+                                    });
+                                }
 
                             }
                         });
@@ -483,6 +502,10 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                 intent.putExtra("animal", neareastSensor.getAnimal());
                 intent.putExtra("sensorid", neareastSensor.getId() + "");
                 intent.putExtra("parkid", parkid + "");
+                if(getIntent().getStringExtra("position") != null) {
+                    String position = getIntent().getStringExtra("position");
+                    intent.putExtra("position", position);
+                }
                 intent.putExtra("Qr_code", "https://raw.githubusercontent.com/Nyerca/ar_images/master/bat.sfb");
                 startActivity(intent);
             }

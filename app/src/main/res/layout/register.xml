@@ -100,6 +100,7 @@
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:hint="Password"
+                android:inputType="textPassword"
                 android:textColorHint="#fff"
                 android:drawableTint="#fff"
                 />
@@ -113,6 +114,7 @@
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:hint="Repeat password"
+                android:inputType="textPassword"
                 android:textColorHint="#fff"
                 android:drawableTint="#fff"
                 />

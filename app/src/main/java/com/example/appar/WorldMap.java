@@ -159,7 +159,7 @@ public class WorldMap extends AppCompatActivity {
                             String name = el.child("name").getValue(String.class); //This is a1
                             //Toast.makeText(Db_usage.this, "id: " + el.getKey(),
                             //   Toast.LENGTH_LONG).show();
-                            list.add(new Sensor(el.getKey(), position, name, true));
+                            list.add(new Sensor(el.getKey(), position, name, true, ""));
                         });
                         mapboxMap.setStyle(Style.OUTDOORS, new Style.OnStyleLoaded() {
                             @Override

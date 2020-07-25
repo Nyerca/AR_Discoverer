@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appar.AlertQuestionary;
@@ -17,8 +18,11 @@ import com.example.appar.GlobalVariable;
 import com.example.appar.R;
 import com.example.appar.database.AESCrypt;
 import com.example.appar.database.AchievementChecker;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -86,9 +90,39 @@ public class ArActivity extends AppCompatActivity {
         }
 */
         GlobalVariable.setInstance("prova3");
-        AchievementChecker.check("bat", 1, this);
+        //AchievementChecker.check("bat", 1, this);
 
 
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        Toast.makeText(ArActivity.this, "START", Toast.LENGTH_LONG).show();
+        myRef.child("sensor_sounds/1").addListenerForSingleValueEvent(new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot){
+                dataSnapshot.getChildren().forEach(el2 -> {
+                    dataSnapshot.getRef().child("2").limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener(){
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot2){
+
+                            Toast.makeText(ArActivity.this, "OPEN ONE ALERT SENSID " + getIntent().getStringExtra("sensorid") +  " park " + getIntent().getStringExtra("parkid"), Toast.LENGTH_LONG).show();
+
+                            dataSnapshot2.getChildren().forEach(el3 -> {
+                                String value = el3.child("sound").getValue(String.class); //This is a1
+                                Toast.makeText(ArActivity.this, "Path: " + value + " animal: " + getIntent().getStringExtra("animal"), Toast.LENGTH_LONG).show();
+                                        //cdd.show();
+                            });
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                    });
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
         //cdd.show();
 
         btnScan.setOnClickListener(new View.OnClickListener() {

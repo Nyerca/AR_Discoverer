@@ -21,6 +21,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 
+import com.mapbox.mapboxsdk.annotations.Icon;
+import com.mapbox.mapboxsdk.annotations.IconFactory;
+
 public class DistanceAnimalView extends View {
 
     //private int shapeColor;
@@ -33,6 +36,8 @@ public class DistanceAnimalView extends View {
     private int textXOffset = 0;
     private int textYOffset = 30;
     private Paint paintShape;
+    private String image;
+    private String packagename;
 
     private void setupAttributes(AttributeSet attrs) {
         // Obtain a typed array of attributes
@@ -91,10 +96,12 @@ public class DistanceAnimalView extends View {
         requestLayout();
     }
 */
-    public DistanceAnimalView(Context context, AttributeSet attrs, Boolean seen) {
+    public DistanceAnimalView(Context context, AttributeSet attrs, Boolean seen, String image) {
         super(context, attrs);
+        this.image = image;
         setupAttributes(attrs);
         setupPaint(seen);
+        this.packagename =context.getPackageName();
 
     }
 
@@ -110,7 +117,11 @@ public class DistanceAnimalView extends View {
          */
         Resources res = getResources();
 
-        Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.droid_thumb2);
+        int id = this.getResources().getIdentifier(image, "drawable",packagename);
+
+        Bitmap bitmap = BitmapFactory.decodeResource(res, id);
+
+        //Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.droid_thumb2);
 
         byte [] encodeByte = Base64.decode(imagePath,Base64.DEFAULT);
         Bitmap bitmap2 = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
@@ -152,12 +163,12 @@ public class DistanceAnimalView extends View {
         paintShape.setTextSize(10);
     }
 
-    public static DistanceAnimalView createView(Context context, int left, int distance, Boolean seen) {
+    public static DistanceAnimalView createView(Context context, int left, int distance, Boolean seen, String image) {
         //LinearLayout top = new LinearLayout(context);
         //top.setAlpha(1);
         //top.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
-        DistanceAnimalView distance_animal_view = new DistanceAnimalView(context, null, seen);
+        DistanceAnimalView distance_animal_view = new DistanceAnimalView(context, null, seen, image);
         distance_animal_view.setDistance(distance);
         distance_animal_view.setImagePath("http://www.pngall.com/wp-content/uploads/2016/06/Bat-Download-PNG.png");
         TableRow.LayoutParams params = new TableRow.LayoutParams(pxFromDp(context, 50), pxFromDp(context, 50));

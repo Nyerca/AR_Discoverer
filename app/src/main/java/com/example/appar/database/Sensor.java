@@ -7,13 +7,15 @@ public class Sensor {
     private double lon;
     private String animal;
     private Boolean seen;
+    private String imagepath;
 
-    public Sensor(String id, String lat_long, String animal, Boolean seen) {
+    public Sensor(String id, String lat_long, String animal, Boolean seen, String imagepath) {
         this.id = Integer.parseInt(id);
         this.lat = Double.parseDouble(lat_long.split(";")[0]);
         this.lon = Double.parseDouble(lat_long.split(";")[1]);
         this.animal = animal;
         this.seen = seen;
+        this.imagepath = imagepath;
     }
 
     public int getId() {
@@ -37,4 +39,8 @@ public class Sensor {
     }
 
     public Boolean getSeen() { return this.seen; }
+
+    public String getImagepath() {
+        return this.imagepath;
+    }
 }
