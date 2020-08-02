@@ -28,7 +28,9 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 public class ArActivity extends AppCompatActivity {
 
@@ -90,9 +92,19 @@ public class ArActivity extends AppCompatActivity {
         }
 */
         GlobalVariable.setInstance("prova3");
+
+
+        Set<String> hash_Set= new HashSet<String>();
+        hash_Set.add("ciao");
+        hash_Set.add("miao");
+        hash_Set.add("ciao");
+
+        hash_Set.forEach(el -> {
+            System.out.println(el);
+        });
         //AchievementChecker.check("bat", 1, this);
 
-
+/*
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
@@ -124,6 +136,8 @@ public class ArActivity extends AppCompatActivity {
             }
         });
         //cdd.show();
+        */
+
 
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -41,9 +41,8 @@
                 android:id="@+id/login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/gradienteditext"
                 android:text="Login"
-                android:textColor="#fff" />
+                style="@style/ButtonStyle"/>
         </LinearLayout>
 
 
@@ -80,54 +79,43 @@
                 android:textSize="15sp" />
 
             <EditText
-
                 android:id="@+id/username"
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/gradienteditext"
                 android:drawableLeft="@drawable/ic_lightbulb_outline_black_24dp"
-                android:drawablePadding="10dp"
-                android:drawableTint="#fff"
                 android:hint="Username"
-                android:textColorHint="#fff" />
+                style="@style/EditTextStyle"/>
 
             <EditText
                 android:id="@+id/password"
-                android:drawablePadding="10dp"
                 android:layout_marginTop="15dp"
                 android:drawableLeft="@drawable/ic_lightbulb_outline_black_24dp"
-                android:background="@drawable/gradienteditext"
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:textColorHint="#fff"
-                android:drawableTint="#fff"
+                style="@style/EditTextStyle"
                 />
 
             <EditText
                 android:id="@+id/rep_password"
-                android:drawablePadding="10dp"
                 android:layout_marginTop="15dp"
                 android:drawableLeft="@drawable/ic_lightbulb_outline_black_24dp"
-                android:background="@drawable/gradienteditext"
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:hint="Repeat password"
                 android:inputType="textPassword"
-                android:textColorHint="#fff"
-                android:drawableTint="#fff"
+                style="@style/EditTextStyle"
                 />
+
             <Button
                 android:id="@+id/register"
                 android:drawableRight="@drawable/ic_register"
-                android:textColor="#fff"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:background="@drawable/gradienteditext"
                 android:layout_marginTop="40dp"
                 android:text="Register"
                 android:layout_width="148dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                style="@style/ButtonStyle"/>
 
         </LinearLayout>
     </RelativeLayout>

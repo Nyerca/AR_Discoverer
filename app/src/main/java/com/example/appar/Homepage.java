@@ -16,13 +16,25 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mapbox.android.core.permissions.PermissionsListener;
+import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.mapboxsdk.maps.Style;
 
-public class Homepage extends AppCompatActivity {
+import java.util.List;
+
+public class Homepage extends AppCompatActivity implements PermissionsListener {
+
+    PermissionsManager permissionsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage);
+
+        if (!PermissionsManager.areLocationPermissionsGranted(this)) {
+            permissionsManager = new PermissionsManager(this);
+            permissionsManager.requestLocationPermissions(this);
+        }
 
         Button logout = (Button) findViewById(R.id.logout);
         Intent logout_intent = new Intent(this,Register.class);
@@ -111,4 +123,21 @@ public class Homepage extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onExplanationNeeded(List<String> permissionsToExplain) {
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onPermissionResult(boolean granted) {
+        if (!granted) {
+            Toast.makeText(this, "user_location_permission_not_granted", Toast.LENGTH_LONG).show();
+            finish();
+        }
+    }
 }

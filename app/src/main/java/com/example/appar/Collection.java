@@ -20,12 +20,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Collection extends AppCompatActivity {
 
     public void prepareIntent(String animal, Intent intent) {
         List<String> funfacts = new ArrayList<String>();
+        Set<String> gallery_images= new HashSet<String>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
         myRef.addListenerForSingleValueEvent(new ValueEventListener(){
@@ -35,7 +38,20 @@ public class Collection extends AppCompatActivity {
                     if(el.child("users/" + GlobalVariable.getInstance().getUsername()).exists())
                     funfacts.add(el.child("title").getValue(String.class));
                 });
+
+                dataSnapshot.child("park_sensors/").getChildren().forEach(el -> {
+                    el.getChildren().forEach(el2 -> {
+                        if(el2.child("animal").getValue(String.class).equals(animal) && el2.child("users/" + GlobalVariable.getInstance().getUsername()).exists()) {
+                            System.out.println("prova_animal: " + el2.child("animal").getValue(String.class));
+                            System.out.println("prova_animal2: " + animal);
+                            gallery_images.add(el2.child("image").getValue(String.class));
+                        }
+
+                    });
+                });
                 /*
+
+
                 dataSnapshot.child("user_funfacts/"+ GlobalVariable.getInstance().getUsername() + "/" + animal).getChildren().forEach(el -> {
                     funfacts.add(el.getValue(String.class));
                 });
@@ -44,7 +60,15 @@ public class Collection extends AppCompatActivity {
                 for (String element : funfacts) {
                     ff += element + "---";
                 }
+
+                String images = "";
+                for (String element : gallery_images) {
+                    System.out.println("GALLERY_IMG: " + element);
+                    images += element + "---";
+                }
+
                 intent.putExtra("funfacts", ff);
+                intent.putExtra("images", images);
                 startActivity(intent);
             }
 
@@ -58,6 +82,8 @@ public class Collection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.collection);
+
+        GlobalVariable.setInstance("prova3");
 
 
         CardView batcard = (CardView) findViewById(R.id.batcard);

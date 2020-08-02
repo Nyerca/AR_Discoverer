@@ -192,26 +192,7 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
 
                         List<Sensor> list = new ArrayList<Sensor>();
 
-                        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
-                        }
 
-                        List<String> providers = locationManager.getProviders(true);
-                        Location bestLocation = null;
-                        for (String provider : providers) {
-                            Location l = locationManager.getLastKnownLocation(provider);
-                            if (l == null) {
-                                continue;
-                            }
-                            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
-                                // Found best last known location: %s", l);
-                                bestLocation = l;
-                            }
-                        }
-
-                        final double latitude= bestLocation.getLatitude();
-                        final double longitude= bestLocation.getLongitude();
 
                         //Toast.makeText(GameMap.this, "Lat: " + latitude + " Long:" + longitude, Toast.LENGTH_LONG).show();
 
@@ -227,6 +208,28 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
 
 
                                 if(getIntent().getStringExtra("parkid") == null) {
+
+                                    LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                                    if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+                                    }
+
+                                    List<String> providers = locationManager.getProviders(true);
+                                    Location bestLocation = null;
+                                    for (String provider : providers) {
+                                        Location l = locationManager.getLastKnownLocation(provider);
+                                        if (l == null) {
+                                            continue;
+                                        }
+                                        if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                                            // Found best last known location: %s", l);
+                                            bestLocation = l;
+                                        }
+                                    }
+
+
+                                    final double latitude= bestLocation.getLatitude();
+                                    final double longitude= bestLocation.getLongitude();
 
                                     //Toast.makeText(GameMap.this, getIntent().getStringExtra("parkid"), Toast.LENGTH_LONG).show();
                                     enableLocationComponent(style);
@@ -322,7 +325,8 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                                     IconFactory mIconFactory = IconFactory.getInstance(GameMap.this);
                                     Resources res = getResources();
                                     String packagename = getPackageName();
-                                    int id = res.getIdentifier(el.getImagepath(), "drawable", packagename);
+                                    //int id = res.getIdentifier(el.getImagepath(), "drawable", packagename);
+                                    int id = res.getIdentifier("sensor", "drawable", packagename);
                                     Icon icon = mIconFactory.fromResource(id);
                                     mapboxMap.addMarker(new MarkerOptions()
                                             .position(new LatLng(el.getLat(), el.getLon())).icon(icon)
