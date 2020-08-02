@@ -68,7 +68,7 @@ public class Collection extends AppCompatActivity {
                 }
 
                 intent.putExtra("funfacts", ff);
-                intent.putExtra("images", images);
+                if(images.length()>0) intent.putExtra("images", images);
                 startActivity(intent);
             }
 

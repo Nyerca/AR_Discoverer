@@ -78,7 +78,7 @@
                     <ImageView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:background="@drawable/cerclebackgroundpurple"
+                        android:background="@drawable/circle_bg"
                         android:src="@drawable/ic_bat"
                         android:padding="10dp"/>
                     <TextView
@@ -106,7 +106,7 @@
                     <ImageView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:background="@drawable/cerclebackgroundpink"
+                        android:background="@drawable/circle_bg"
                         android:src="@drawable/ic_bee"
                         android:padding="10dp"/>
                     <TextView
@@ -143,7 +143,7 @@
                     <ImageView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:background="@drawable/cerclebackgroundgreen"
+                        android:background="@drawable/circle_bg"
                         android:src="@drawable/ic_butterfly"
                         android:padding="10dp"/>
                     <TextView
@@ -171,7 +171,7 @@
                     <ImageView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:background="@drawable/cerclebackgroundyello"
+                        android:background="@drawable/circle_bg"
                         android:padding="10dp"
                         android:src="@drawable/ic_mosquito" />
 

@@ -115,7 +115,7 @@ public class UserProfile  extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeResource(res, id);
 
         image.setImageBitmap(bitmap);
-        image.setBackground(ContextCompat.getDrawable(UserProfile.this, R.drawable.cerclebackgroundyello));
+        image.setBackground(ContextCompat.getDrawable(UserProfile.this, R.drawable.circle_bg));
         image.setPadding(margin,margin,margin,margin);
         image.setLayoutParams(image_params);
 

@@ -121,7 +121,7 @@ public class DistanceAnimalView extends View {
 
         Bitmap bitmap = BitmapFactory.decodeResource(res, id);
 
-        //Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.droid_thumb2);
+        //Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.bat);
 
         byte [] encodeByte = Base64.decode(imagePath,Base64.DEFAULT);
         Bitmap bitmap2 = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);

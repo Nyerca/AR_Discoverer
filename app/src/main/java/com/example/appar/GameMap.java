@@ -319,7 +319,7 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                                 list.forEach(el -> {
                                     //Bitmap icon3 = BitmapFactory.decodeResource(GameMap.this.getResources(),R.drawable.ic_bee);
                                     //Resources res = getResources();
-                                   // Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.droid_thumb2);
+                                   // Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.bat);
 
 
                                     IconFactory mIconFactory = IconFactory.getInstance(GameMap.this);
@@ -411,10 +411,10 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
     }
 
     public static Icon drawableToIcon(@NonNull Context context, @DrawableRes int id, @ColorInt int colorRes) {
-        Drawable vectorDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.droid_thumb2, context.getTheme());
+        Drawable vectorDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.bat, context.getTheme());
         Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         Resources res = context.getResources();
-        //Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.droid_thumb2);
+        //Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.bat);
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         DrawableCompat.setTint(vectorDrawable, colorRes);

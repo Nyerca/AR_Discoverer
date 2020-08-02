@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,25 +49,36 @@ public class AnimalProfile extends AppCompatActivity {
         row2 = findViewById(R.id.tableRow2);
         row3 = findViewById(R.id.tableRow3);
 
-        String[] images = getIntent().getStringExtra("images").split("---");
-        for (int i = 0; i < images.length; i++) {
-            System.out.println("IMMGG: " + images[i]);
+        if( getIntent().getStringExtra("images") != null) {
+            System.out.println("NOT NULLLLLLLLLLLLL");
+            String[] images = getIntent().getStringExtra("images").split("---");
+            for (int i = 0; i < images.length; i++) {
+                System.out.println("IMMAGINI_CIAO: " + images[i]);
+            }
 
-            ImageView image;
+            for (int i = 0; i < images.length; i++) {
+                System.out.println("IMMGG: " + images[i]);
 
-            IconFactory mIconFactory = IconFactory.getInstance(AnimalProfile.this);
-            Resources res = getResources();
-            String packagename = getPackageName();
-            int id = res.getIdentifier(images[i], "drawable", packagename);
+                ImageView image;
 
-            image = new ImageView(this);
+                IconFactory mIconFactory = IconFactory.getInstance(AnimalProfile.this);
+                Resources res = getResources();
+                String packagename = getPackageName();
+                int id = res.getIdentifier(images[i], "drawable", packagename);
 
-            image.setImageDrawable(res.getDrawable(id));
-            image.setLayoutParams(new TableRow.LayoutParams(150, 150));
+                image = new ImageView(this);
 
-            row1.addView(image);
+                image.setImageDrawable(res.getDrawable(id));
+                image.setLayoutParams(new TableRow.LayoutParams(150, 150));
 
+                row1.addView(image);
+
+            }
+        } else {
+            TableLayout tl = findViewById(R.id.tl);
+            tl.setVisibility(View.GONE);
         }
+
 
 
         /*

@@ -60,7 +60,7 @@
                     <ImageView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:background="@drawable/cerclebackgroundpurple"
+                        android:background="@drawable/circle_bg"
                         android:src="@drawable/ic_world"
                         android:padding="10dp"/>
                     <TextView
@@ -99,7 +99,7 @@
                     <ImageView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:background="@drawable/cerclebackgroundpink"
+                        android:background="@drawable/circle_bg"
                         android:src="@drawable/ic_map"
                         android:padding="10dp"/>
                     <TextView
@@ -146,7 +146,7 @@
                     <ImageView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:background="@drawable/cerclebackgroundgreen"
+                        android:background="@drawable/circle_bg"
                         android:src="@drawable/ic_collection"
                         android:padding="10dp"/>
                     <TextView
@@ -187,7 +187,7 @@
                     <ImageView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:background="@drawable/cerclebackgroundyello"
+                        android:background="@drawable/circle_bg"
                         android:padding="10dp"
                         android:src="@drawable/ic_profile" />
 
@@ -238,7 +238,7 @@
                     <ImageView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:background="@drawable/cerclebackgroundpurple"
+                        android:background="@drawable/circle_bg"
                         android:src="@drawable/ic_wifi_black_24dp"
                         android:padding="10dp"/>
                     <TextView

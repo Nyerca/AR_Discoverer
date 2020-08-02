@@ -60,7 +60,7 @@ public class WorldMap extends AppCompatActivity {
     private MapboxMap mapboxMap;
     private AnimalFigure neareastSensor;
 
-    LinearLayout slidedview;
+
 
 
 
@@ -69,7 +69,6 @@ public class WorldMap extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(this, "pk.eyJ1IjoibnllcmNhIiwiYSI6ImNrYW1jY2R2azA1ZHUyc3Bmb2JqYmRjN2EifQ.E4YLUOB7CH5VGbqs5Tj4vg");
         setContentView(R.layout.world_map);
-        slidedview = (LinearLayout) findViewById(R.id.dragview);
 
         ImageButton backButton = (ImageButton) findViewById(R.id.backButton);
         Intent back = new Intent(this,Homepage.class);
