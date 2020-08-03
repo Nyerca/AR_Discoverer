@@ -1,20 +1,16 @@
 package com.example.appar;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -23,19 +19,15 @@ public class WalkthroughActivity extends AppCompatActivity {
 
     private static final int MAX_VIEWS = 5;
 
-    ViewPager mViewPager;
-    TextView bottom_text;
+    private ViewPager mViewPager;
+    private TextView bottom_text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.walkthrough_activity);
-        mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        mViewPager = findViewById(R.id.view_pager);
         mViewPager.setAdapter(new WalkthroughPagerAdapter());
-
-
-
     }
 
 
@@ -57,17 +49,11 @@ public class WalkthroughActivity extends AppCompatActivity {
             Log.e("walkthrough", "instantiateItem(" + position + ");");
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View imageViewContainer = inflater.inflate(R.layout.walkthrough_single_view, null);
-            ImageView imageView = (ImageView) imageViewContainer.findViewById(R.id.image_view);
+            ImageView imageView = imageViewContainer.findViewById(R.id.image_view);
             bottom_text = imageViewContainer.findViewById(R.id.screen_navigation_text);
             Button close  = imageViewContainer.findViewById(R.id.close);
             close.setVisibility(View.GONE);
-            close.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent home_intent = new Intent(WalkthroughActivity.this,Homepage.class);
-                    startActivity(home_intent);
-                }
-            });
+            close.setOnClickListener(v -> startActivity(new Intent(WalkthroughActivity.this,Homepage.class)));
 
             switch(position) {
                 case 0:
@@ -108,36 +94,9 @@ public class WalkthroughActivity extends AppCompatActivity {
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            ((ViewPager)container).removeView((View)object);
+            container.removeView((View)object);
         }
     }
 
 
-    class WalkthroughPageChangeListener implements ViewPager.OnPageChangeListener {
-
-        @Override
-        public void onPageScrollStateChanged(int arg0) {
-
-        }
-
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            // Here is where you should show change the view of page indicator
-            switch(position) {
-
-                case MAX_VIEWS - 1:
-                    break;
-
-                default:
-
-            }
-
-        }
-
-    }
 }

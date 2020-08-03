@@ -2,10 +2,8 @@ package com.example.appar.qr_ar;
 
 import android.net.Uri;
 import android.util.Log;
-
 import com.google.ar.core.Anchor;
 import com.google.ar.sceneform.rendering.ModelRenderable;
-
 import java.lang.ref.WeakReference;
 
 public class ModelLoader {

@@ -9,18 +9,14 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-
-import com.example.appar.database.AESCrypt;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,36 +30,25 @@ public class UserProfile  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_profile);
 
-        ImageButton backButton = (ImageButton) findViewById(R.id.backButton);
-        Intent back = new Intent(this,Homepage.class);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(back);
-            }
-        });
+        findViewById(R.id.backButton).setOnClickListener(v -> startActivity(new Intent(this,Homepage.class)));
 
-        TextView username = (TextView) findViewById(R.id.username);
+        TextView username = findViewById(R.id.username);
         username.setText(GlobalVariable.getInstance().getUsername());
 
-        TextView count_parks = (TextView) findViewById(R.id.count_parks);
+        TextView count_parks = findViewById(R.id.count_parks);
         count_parks.setText(getIntent().getStringExtra("count_parks"));
 
-        TextView count_animals = (TextView) findViewById(R.id.count_animals);
+        TextView count_animals = findViewById(R.id.count_animals);
         count_animals.setText(getIntent().getStringExtra("count_animals"));
 
-        TextView credibility = (TextView) findViewById(R.id.credibility);
+        TextView credibility = findViewById(R.id.credibility);
         credibility.setText(getIntent().getStringExtra("credibility"));
 
-        LinearLayout medals = (LinearLayout) findViewById(R.id.medals);
+        LinearLayout medals = findViewById(R.id.medals);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
-        myRef.child("achievements/"+ GlobalVariable.getInstance().getUsername()).addListenerForSingleValueEvent(new ValueEventListener(){
-
+        GlobalVariable.getDatabase_reference().child("achievements/"+ GlobalVariable.getInstance().getUsername()).addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot){
-
                 dataSnapshot.getChildren().forEach(el -> {
                     String title = el.getKey();
                     String date = el.child("date").getValue(String.class);
@@ -76,11 +61,8 @@ public class UserProfile  extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {}
 
         });
-        //medals.addView(createCard("Nature Loverrr", "11/07/2020", "bronze"));
-
-        //medals.addView(createCard("Nature Loverrr", "11/07/2020", "bronze"));
-
     }
+
 
     private CardView createCard(String title, String date, String resource_image) {
         CardView cardview = new CardView(UserProfile.this);

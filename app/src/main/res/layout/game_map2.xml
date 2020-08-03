@@ -82,9 +82,13 @@
                             android:id="@+id/btnScan"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
+                            android:background="@drawable/gradienteditext"
+                            android:padding="0dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginBottom="5dp"
                             android:text="Scan"
                             android:textAllCaps="false"
-                            android:textSize="16sp"></Button>
+                            android:textSize="16sp"/>
 
                         <TableLayout
                             android:alpha="0.8"
@@ -92,6 +96,8 @@
                             android:layout_width="200dp"
                             android:layout_alignParentRight="true"
                             android:layout_height="50dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginBottom="5dp"
                             android:stretchColumns="0,1,2">
 
                             <TableRow

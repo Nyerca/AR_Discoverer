@@ -9,33 +9,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.appar.AlertQuestionary;
 import com.example.appar.GlobalVariable;
 import com.example.appar.R;
-import com.example.appar.database.AESCrypt;
-import com.example.appar.database.AchievementChecker;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
 public class ArActivity extends AppCompatActivity {
 
-    Button btnScan;
-    TextView tv_qr_readTxt;
+    private Button btnScan;
+    private TextView tv_qr_readTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +30,6 @@ public class ArActivity extends AppCompatActivity {
         btnScan = findViewById(R.id.btnScan);
         tv_qr_readTxt = findViewById(R.id.tv_qr_readTxt);
 
-        // 1. Instantiate an <code><a href="/reference/android/app/AlertDialog.Builder.html">AlertDialog.Builder</a></code> with its constructor
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         // 2. Chain together various setter methods to set the dialog characteristics

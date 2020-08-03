@@ -2,23 +2,18 @@ package com.example.appar;
 
 
 import android.Manifest;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.widget.TextView;
-
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Position extends AppCompatActivity implements LocationListener {
     protected LocationManager locationManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +22,6 @@ public class Position extends AppCompatActivity implements LocationListener {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    Activity#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for Activity#requestPermissions for more details.
             requestPermissions(
                     new String[]{Manifest.permission
                             .ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
@@ -46,10 +34,6 @@ public class Position extends AppCompatActivity implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        /*
-        Toast.makeText(Position.this, "Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude(),
-                Toast.LENGTH_LONG).show();
-         */
         Toast.makeText(Position.this, "" + getMeasure(location.getLatitude(), location.getLongitude(), 44.13086749, 12.22772357),
                 Toast.LENGTH_LONG).show();
     }

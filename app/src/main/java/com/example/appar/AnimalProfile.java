@@ -15,21 +15,13 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
-import com.mapbox.mapboxsdk.annotations.Icon;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
-
-import org.w3c.dom.Text;
-
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 public class AnimalProfile extends AppCompatActivity {
-    TableRow row1, row2, row3;
+    private TableRow row1, row2, row3;
 
 
     public TableRow getRow(int index) {
@@ -71,7 +63,7 @@ public class AnimalProfile extends AppCompatActivity {
                 image.setImageDrawable(res.getDrawable(id));
                 image.setLayoutParams(new TableRow.LayoutParams(150, 150));
 
-                row1.addView(image);
+                getRow(i).addView(image);
 
             }
         } else {
@@ -80,44 +72,18 @@ public class AnimalProfile extends AppCompatActivity {
         }
 
 
+        findViewById(R.id.backButton).setOnClickListener(v -> startActivity(new Intent(AnimalProfile.this,Collection.class)));
 
-        /*
-        for(int i=0; i<9 && i< animals.size(); i++) {
-            if(i == 0 && animals.get(i).getDistance() < 20) {
-                neareastSensor = animals.get(i);
-                scan.setEnabled(true);
-                //Toast.makeText(this, "ENABLED", Toast.LENGTH_LONG).show();
-            }
-            if (i<3 && DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance() <= 3) {
-                root.addView(DistanceAnimalView.createView(this, 0, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance(), animals.get(i).getSeen(), animals.get(i).getImagepath()));
-            }
-            //slidedview.addView(DistanceAnimalView.createView(this, i * 100, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance()));
-            getRow(i).addView(DistanceAnimalView.createView(this, 20, DistanceListener.Distance.getStep(animals.get(i).getDistance()).getDistance(), animals.get(i).getSeen(), animals.get(i).getImagepath()));
-        }
-
-         */
-
-        ImageButton backButton = (ImageButton) findViewById(R.id.backButton);
-        Intent back = new Intent(this,Collection.class);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(back);
-            }
-        });
-
-        TextView title = (TextView) findViewById(R.id.textView);
-
+        TextView title = findViewById(R.id.textView);
         Toast.makeText(this, "Scanned: " + getIntent().getStringExtra("animal"), Toast.LENGTH_LONG).show();
         title.setText(getIntent().getStringExtra("animal"));
 
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-
+        ImageView imageView = findViewById(R.id.imageView);
         Context context = imageView.getContext();
         int id = context.getResources().getIdentifier(getIntent().getStringExtra("image"), "drawable", context.getPackageName());
         imageView.setImageDrawable(ContextCompat.getDrawable(this, id));
 
-        LinearLayout linear_layout = (LinearLayout) findViewById(R.id.facts);
+        LinearLayout linear_layout = findViewById(R.id.facts);
         String[] parts = getIntent().getStringExtra("funfacts").split("---");
         for (int i = 0; i < parts.length; i++) {
             linear_layout.addView(createText(parts[i]));
@@ -127,8 +93,7 @@ public class AnimalProfile extends AppCompatActivity {
         Uri uri = Uri.parse(getIntent().getStringExtra("sound"));
         mediaPlayer = MediaPlayer.create(this, uri);
 
-        ImageButton playbtn = (ImageButton) findViewById(R.id.imageButton2);
-        playbtn.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.imageButton2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mediaPlayer.reset();
@@ -143,14 +108,12 @@ public class AnimalProfile extends AppCompatActivity {
             }
         });
 
-        ImageButton stopbtn = (ImageButton) findViewById(R.id.imageButton);
-        stopbtn.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.imageButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(mediaPlayer.isPlaying()) {
                     mediaPlayer.stop();
                 }
-
             }
         });
 
@@ -167,10 +130,8 @@ public class AnimalProfile extends AppCompatActivity {
         );
         params.setMargins(8, 24,0,0);
         tv.setLayoutParams(params);
-
         //tv.setTextColor(ContextCompat.getColor(AnimalProfile.this, R.color.black_overlay));
         tv.setTextColor(Color.BLACK);
-
         return tv;
 
     }

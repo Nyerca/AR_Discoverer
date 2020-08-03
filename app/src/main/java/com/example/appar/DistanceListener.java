@@ -1,37 +1,11 @@
 package com.example.appar;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.graphics.drawable.GradientDrawable;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.util.Xml;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.appar.database.Park;
 import com.example.appar.database.Sensor;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -40,8 +14,6 @@ import java.util.stream.Collectors;
 
 public class DistanceListener implements LocationListener {
 
-    protected LocationManager locationManager;
-
     public enum Distance {
         ONE(1),
         TWO(2),
@@ -49,7 +21,7 @@ public class DistanceListener implements LocationListener {
         FAR(4);
 
         private int distance;
-        private Distance(int dist) {
+        Distance(int dist) {
             this.distance = dist;
         }
 
@@ -68,9 +40,9 @@ public class DistanceListener implements LocationListener {
     }
 
     private GameMap context;
-    List<Sensor> list;
-    List<Double> positions;
-    List<AnimalFigure> animals;
+    private List<Sensor> list;
+    private List<Double> positions;
+    private List<AnimalFigure> animals;
 
     public DistanceListener(GameMap context, List<Sensor> list) {
         this.context = context;
@@ -87,7 +59,7 @@ public class DistanceListener implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        positions = new ArrayList<Double>();
+        positions = new ArrayList<>();
         animals = new ArrayList<>();
 
         //Toast.makeText(context, "Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude(), Toast.LENGTH_LONG).show();
@@ -104,16 +76,12 @@ public class DistanceListener implements LocationListener {
         animals.stream().limit(9).collect(Collectors.toList());
 
         context.setDistance(animals);
-
-        //Double returnDistance = getMeasure(location.getLatitude(), location.getLongitude(), 44.13086749, 12.22772357);
-        //Distance step = Distance.getStep(returnDistance);
     }
 
     public void getWorldSensorDistance(Double latitude, Double longitude) {
-        positions = new ArrayList<Double>();
+        positions = new ArrayList<>();
         animals = new ArrayList<>();
 
-        //Toast.makeText(context, "Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude(), Toast.LENGTH_LONG).show();
         list.forEach(el -> {
             Double returnDistance = getMeasure(latitude, longitude, el.getLat(), el.getLon());
             positions.add(returnDistance);

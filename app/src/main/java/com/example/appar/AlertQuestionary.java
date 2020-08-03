@@ -2,7 +2,6 @@ package com.example.appar;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,11 +14,8 @@ import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
 import com.example.appar.database.AchievementChecker;
-import com.example.appar.qr_ar.MainActivity;
 import com.example.appar.qr_ar.QuestionAnswer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -27,30 +23,28 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.Optional;
 import java.util.Random;
 
-public class AlertQuestionary extends Dialog implements
-        android.view.View.OnClickListener {
+public class AlertQuestionary extends Dialog implements android.view.View.OnClickListener {
 
-    public Activity c;
-    public Dialog d;
-    public FloatingActionButton yes, no, ok;
-    SeekBar seekbar;
-    MediaPlayer mediaPlayer;
-    Runnable runnable;
-    Handler handler;
-    TextView textdia;
-    Boolean isSound;
-    TextView question;
-    Optional<Boolean> answer;
-    Optional<Double> credibility;
-    Button btn;
+    private Activity c;
+    private Dialog d;
+    private FloatingActionButton yes, no, ok;
+    private SeekBar seekbar;
+    private MediaPlayer mediaPlayer;
+    private Runnable runnable;
+    private Handler handler;
+    private TextView textdia;
+    private Boolean isSound;
+    private TextView question;
+    private Optional<Boolean> answer;
+    private Optional<Double> credibility;
+    private Button btn;
 
-    int parkid;
-    int sensorid;
-    int elementid;
+    private int parkid;
+    private int sensorid;
+    private int elementid;
 
     Optional<Pair<Integer, String>> funfactid = Optional.empty();
 
@@ -59,7 +53,6 @@ public class AlertQuestionary extends Dialog implements
 
     public AlertQuestionary(Activity a, String body, String animal, Boolean isSound, Optional<Boolean> answer, Optional<Double> credibility, int parkid, int sensorid, int elementid) {
         super(a);
-        // TODO Auto-generated constructor stub
         this.c = a;
         this.body = body;
         this.animal = animal;
@@ -88,7 +81,6 @@ public class AlertQuestionary extends Dialog implements
         textdia = findViewById(R.id.funfact);
         this.getFunFact(animal, GlobalVariable.getInstance().getUsername());
 
-        //Toast.makeText(AlertQuestionary.this.getContext(), "FUN FACT?", Toast.LENGTH_LONG).show();
         if(funfactid.isPresent()) {
             textdia.setText(funfactid.get().second);
         } else {
@@ -98,85 +90,67 @@ public class AlertQuestionary extends Dialog implements
 
         FrameLayout frame_ok = findViewById(R.id.frame_ok);
         frame_ok.setVisibility(View.GONE);
-        ok = (FloatingActionButton) findViewById(R.id.btn_ok);
-        ok.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                if(funfactid.isPresent()) {
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference();
-                    DatabaseReference usersRef = myRef.child("funfacts/"+animal+ "/" + funfactid.get().first + "/users/" + GlobalVariable.getInstance().getUsername());
-                    usersRef.setValue(1);
-                }
+        ok = findViewById(R.id.btn_ok);
+        ok.setOnClickListener(v1 -> {
+            if(funfactid.isPresent()) {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
-                DatabaseReference usersRef = myRef.child("park_sensors/"+parkid+ "/" + sensorid + "/users/" + GlobalVariable.getInstance().getUsername());
+                DatabaseReference usersRef = myRef.child("funfacts/"+animal+ "/" + funfactid.get().first + "/users/" + GlobalVariable.getInstance().getUsername());
                 usersRef.setValue(1);
-
-                dismiss();
-
             }
+
+            DatabaseReference usersRef = GlobalVariable.getDatabase_reference().child("park_sensors/"+parkid+ "/" + sensorid + "/users/" + GlobalVariable.getInstance().getUsername());
+            usersRef.setValue(1);
+
+            dismiss();
+
         });
 
-        yes = (FloatingActionButton) findViewById(R.id.btn_yes);
-        yes.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if(answer.isPresent()) {
-                    Pair<String, String> answers = QuestionAnswer.valueAnswer(true, answer.get(), credibility, "admin");
-                    textdia.setText(answers.first);
-                    question.setText(answers.second);
-                    //dismiss();
-                } else {
-                    textdia.setText("CONGRATULAZIONI");
-                    question.setText("Sei il primo utente ad aver contribuito alla classificazione di questo verso!");
-                }
-                FrameLayout frame_yes = findViewById(R.id.frame_yes);
-                frame_yes.setVisibility(View.GONE);
-                FrameLayout frame_no = findViewById(R.id.frame_no);
-                frame_no.setVisibility(View.GONE);
-                seekbar.setVisibility(View.GONE);
-                btn.setVisibility(View.GONE);
-
-                answer(isSound, animal, 1, parkid, sensorid, elementid);
-
-
-
-                frame_ok.setVisibility(View.VISIBLE);
-
+        yes = findViewById(R.id.btn_yes);
+        yes.setOnClickListener(v12 -> {
+            if(answer.isPresent()) {
+                Pair<String, String> answers = QuestionAnswer.valueAnswer(true, answer.get(), credibility, "admin");
+                textdia.setText(answers.first);
+                question.setText(answers.second);
+                //dismiss();
+            } else {
+                textdia.setText("CONGRATULAZIONI");
+                question.setText("Sei il primo utente ad aver contribuito alla classificazione di questo verso!");
             }
+            FrameLayout frame_yes = findViewById(R.id.frame_yes);
+            frame_yes.setVisibility(View.GONE);
+            FrameLayout frame_no = findViewById(R.id.frame_no);
+            frame_no.setVisibility(View.GONE);
+            seekbar.setVisibility(View.GONE);
+            btn.setVisibility(View.GONE);
+
+            answer(isSound, animal, 1, parkid, sensorid, elementid);
+
+            frame_ok.setVisibility(View.VISIBLE);
+
         });
-        no = (FloatingActionButton) findViewById(R.id.btn_no);
-        no.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                if(answer.isPresent()) {
-                    Pair<String, String> answers = QuestionAnswer.valueAnswer(false, answer.get(), credibility, "admin");
-                    textdia.setText(answers.first);
-                    question.setText(answers.second);
-                } else {
-                    textdia.setText("CONGRATULAZIONI");
-                    question.setText("Sei il primo utente ad aver contribuito alla classificazione di questo verso!");
-                }
-
-                FrameLayout frame_yes = findViewById(R.id.frame_yes);
-                frame_yes.setVisibility(View.GONE);
-                FrameLayout frame_no = findViewById(R.id.frame_no);
-                frame_no.setVisibility(View.GONE);
-                seekbar.setVisibility(View.GONE);
-                btn.setVisibility(View.GONE);
-
-                answer(isSound, animal, -1, parkid, sensorid, elementid);
-
-                frame_ok.setVisibility(View.VISIBLE);
+        no = findViewById(R.id.btn_no);
+        no.setOnClickListener(v13 -> {
+            if(answer.isPresent()) {
+                Pair<String, String> answers = QuestionAnswer.valueAnswer(false, answer.get(), credibility, "admin");
+                textdia.setText(answers.first);
+                question.setText(answers.second);
+            } else {
+                textdia.setText("CONGRATULAZIONI");
+                question.setText("Sei il primo utente ad aver contribuito alla classificazione di questo verso!");
             }
-        });
 
-        /*
-        yes = (Button) findViewById(R.id.btn_yes);
-        no = (Button) findViewById(R.id.btn_no);
-        yes.setOnClickListener(this);
-        no.setOnClickListener(this);
-*/
+            FrameLayout frame_yes = findViewById(R.id.frame_yes);
+            frame_yes.setVisibility(View.GONE);
+            FrameLayout frame_no = findViewById(R.id.frame_no);
+            frame_no.setVisibility(View.GONE);
+            seekbar.setVisibility(View.GONE);
+            btn.setVisibility(View.GONE);
+
+            answer(isSound, animal, -1, parkid, sensorid, elementid);
+
+            frame_ok.setVisibility(View.VISIBLE);
+        });
 
         seekbar = findViewById(R.id.seekbar);
         question = findViewById(R.id.question);
@@ -254,12 +228,7 @@ public class AlertQuestionary extends Dialog implements
     private void changeSeekbar() {
         seekbar.setProgress(mediaPlayer.getCurrentPosition());
         if(mediaPlayer.isPlaying()) {
-            runnable= new Runnable() {
-                @Override
-                public void run() {
-                    changeSeekbar();
-                }
-            };
+            runnable= () -> changeSeekbar();
             handler.postDelayed(runnable,1000);
         }
     }
@@ -282,25 +251,17 @@ public class AlertQuestionary extends Dialog implements
 
 
     public void getFunFact(String animal, String username) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
-
-        myRef.child("funfacts/" + animal).addListenerForSingleValueEvent(new ValueEventListener(){
+        GlobalVariable.getDatabase_reference().child("funfacts/" + animal).addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot){
 
                 for(com.google.firebase.database.DataSnapshot el : dataSnapshot.getChildren()) {
-                    Boolean exist = el.child("users/"+username).exists();
-                    if(!exist) {
+                    if(!el.child("users/"+username).exists()) {
                         String title = el.child("title").getValue(String.class);
                         funfactid = Optional.of(new Pair(Integer.parseInt(el.getKey()), title));
                         textdia.setText(funfactid.get().second);
-                        //Toast.makeText(AlertQuestionary.this.getContext(), "FUN FACT GETTING PUSHED " + title, Toast.LENGTH_LONG).show();
                     }
                 }
-
-
-
             }
 
             @Override
@@ -315,20 +276,14 @@ public class AlertQuestionary extends Dialog implements
 
     public static void randomQuestionary(Activity activity, String username, String park, String animal, String sensorid) {
         Random r = new Random();
-        Boolean foundone = false;
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
-        Toast.makeText(activity, "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALLLLLLLLLLL", Toast.LENGTH_LONG).show();
-        if(r.nextBoolean() == false) {
+        if(!r.nextBoolean()) {
             Toast.makeText(activity, "question", Toast.LENGTH_LONG).show();
 
-            myRef.child("questions/" + animal).addListenerForSingleValueEvent(new ValueEventListener(){
+            GlobalVariable.getDatabase_reference().child("questions/" + animal).addListenerForSingleValueEvent(new ValueEventListener(){
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot){
                     for(com.google.firebase.database.DataSnapshot el : dataSnapshot.getChildren()) {
-
-                        Boolean exist = el.child("users/"+username).exists(); //This is a1
-                        if(!exist) {
+                        if(!el.child("users/"+username).exists()) {
                             String question = el.child("question").getValue(String.class);
                             int answer = el.child("answer").getValue(Integer.class);
 
@@ -350,20 +305,17 @@ public class AlertQuestionary extends Dialog implements
 
         } else {
             Toast.makeText(activity, "sound, park: " + park +  " sensid: " + sensorid, Toast.LENGTH_LONG).show();
-            myRef.child("sensor_sounds/" +  park + "/" + sensorid).addListenerForSingleValueEvent(new ValueEventListener(){
+            GlobalVariable.getDatabase_reference().child("sensor_sounds/" +  park + "/" + sensorid).addListenerForSingleValueEvent(new ValueEventListener(){
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot){
                     for(com.google.firebase.database.DataSnapshot el : dataSnapshot.getChildren()) {
-                        Boolean exist = el.child("users/"+username).exists(); //This is a1
-                        //Toast.makeText(activity, "" + exist, Toast.LENGTH_LONG).show();
-                        if(!exist) {
+                        if(!el.child("users/"+username).exists()) {
                             String sound = el.child("sound").getValue(String.class);
                             Boolean expert_labelled = el.child("expert").exists();
                             if(expert_labelled) {
                                 int answer = el.child("expert").getValue(Integer.class);
                                 AlertQuestionary cdd=new AlertQuestionary(activity, sound, animal, true, Optional.of(QuestionAnswer.intToBoolean(answer)), Optional.empty(), Integer.parseInt(park), Integer.parseInt(sensorid), Integer.parseInt(el.getKey()));
                                 cdd.show();
-                                //Toast.makeText(activity, "PRIMO CASO", Toast.LENGTH_LONG).show();
                             } else {
                                 double total = 0.0;
                                 double weights_sum = 0.0;
@@ -379,13 +331,10 @@ public class AlertQuestionary extends Dialog implements
                                     int answer = final_answer > 0 ? 1 : -1;
                                     AlertQuestionary cdd = new AlertQuestionary(activity, sound, animal, true, Optional.of(QuestionAnswer.intToBoolean(answer)), Optional.of(final_answer), Integer.parseInt(park), Integer.parseInt(sensorid), Integer.parseInt(el.getKey()));
                                     cdd.show();
-                                    //Toast.makeText(activity, "SECONDO CASO", Toast.LENGTH_LONG).show();
 
                                 } else {
                                     AlertQuestionary cdd = new AlertQuestionary(activity, sound, animal, true, Optional.empty(), Optional.empty(), Integer.parseInt(park), Integer.parseInt(sensorid), Integer.parseInt(el.getKey()));
                                     cdd.show();
-                                    //Toast.makeText(activity, "ULTIMO CASO", Toast.LENGTH_LONG).show();
-
                                 }
 
                             }

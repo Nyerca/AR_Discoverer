@@ -70,26 +70,12 @@
                 android:layout_width="160dp"
                 android:layout_height="190dp"
                 android:layout_margin="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="@drawable/circle_bg"
-                        android:src="@drawable/ic_bat"
-                        android:padding="10dp"/>
-                    <TextView
-                        android:id="@+id/batcard_Bat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:layout_marginTop="10dp"
-                        android:text="Bat"/>
 
-                </LinearLayout>
+                <com.example.appar.Card
+                    android:layout_width="match_parent"
+                    app:title="Bat"
+                    app:image="ic_bat"
+                    android:layout_height="match_parent"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:foreground="?android:attr/selectableItemBackground"
@@ -98,26 +84,11 @@
                 android:layout_width="160dp"
                 android:layout_height="190dp"
                 android:layout_margin="10dp">
-                <LinearLayout
+                <com.example.appar.Card
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="@drawable/circle_bg"
-                        android:src="@drawable/ic_bee"
-                        android:padding="10dp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:layout_marginTop="10dp"
-                        android:text="Bee"/>
-
-
-                </LinearLayout>
+                    app:title="Bee"
+                    app:image="ic_bee"
+                    android:layout_height="match_parent"/>
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
@@ -135,24 +106,11 @@
                 android:layout_width="160dp"
                 android:layout_height="190dp"
                 android:layout_margin="10dp">
-                <LinearLayout
+                <com.example.appar.Card
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="@drawable/circle_bg"
-                        android:src="@drawable/ic_butterfly"
-                        android:padding="10dp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:layout_marginTop="10dp"
-                        android:text="Butterfly"/>
-                </LinearLayout>
+                    app:title="Butterfly"
+                    app:image="ic_butterfly"
+                    android:layout_height="match_parent"/>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:foreground="?android:attr/selectableItemBackground"
@@ -162,27 +120,11 @@
                 android:layout_height="190dp"
                 android:layout_margin="10dp">
 
-                <LinearLayout
+                <com.example.appar.Card
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:background="@drawable/circle_bg"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_mosquito" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="Mosquito"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
+                    app:title="Mosquito"
+                    app:image="ic_mosquito"
+                    android:layout_height="match_parent"/>
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>

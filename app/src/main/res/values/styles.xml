@@ -47,6 +47,12 @@
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
 
+    <style name="CardStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="android:textColor">#fff</item>
+        <item name="android:background">@drawable/gradienteditext</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+    </style>
+
 
 
 

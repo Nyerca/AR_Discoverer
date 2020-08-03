@@ -6,4 +6,10 @@
         <attr name="imagePath" format="string" />
         <attr name="displayShapeName" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="Card">
+        <attr name="title" format="string" />
+        <attr name="description" format="string" />
+        <attr name="image" format="string" />
+    </declare-styleable>
 </resources>

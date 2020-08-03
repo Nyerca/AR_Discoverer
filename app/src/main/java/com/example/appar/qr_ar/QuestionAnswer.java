@@ -1,14 +1,8 @@
 package com.example.appar.qr_ar;
 
-import android.app.Activity;
 import android.util.Pair;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
-import com.example.appar.AlertQuestionary;
 import com.example.appar.GlobalVariable;
-import com.example.appar.Homepage;
 import com.example.appar.database.User;
 import com.example.appar.database.UserCredibility;
 import com.google.firebase.database.DataSnapshot;
@@ -21,8 +15,7 @@ import java.util.Optional;
 
 public class QuestionAnswer {
     public static boolean intToBoolean(int number) {
-        if(number == 1) return true;
-        return false;
+        return number == 1;
     }
 
     public static Pair<String, String> valueAnswer(boolean given, boolean real, Optional<Double> credibility, String username) {
@@ -45,19 +38,15 @@ public class QuestionAnswer {
     }
 
     public static void changeUserCredibility(String username, int answer_correct) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
-        myRef.child("users/" + username).addListenerForSingleValueEvent(new ValueEventListener(){
+        GlobalVariable.getDatabase_reference().child("users/" + username).addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot){
                 int correct = dataSnapshot.child("correct").getValue(Integer.class);
                 int total = dataSnapshot.child("total").getValue(Integer.class);
                 String password = dataSnapshot.child("password").getValue(String.class);
                 User user = new User(password, total + 1, correct + answer_correct);
-                DatabaseReference usersRef = myRef.child("users/"+username);
+                DatabaseReference usersRef = GlobalVariable.getDatabase_reference().child("users/"+username);
                 usersRef.setValue(user);
-
-                //Toast.makeText(act, "cor: " + correct + " tot: " + total, Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -67,19 +56,13 @@ public class QuestionAnswer {
     }
 
     public static void addUserQuestionAnswer(String username, String animal, int questionid, int answer) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
-        DatabaseReference usersRef = myRef.child("questions/" + animal + "/" + questionid + "/users/" + username);
+        DatabaseReference usersRef = GlobalVariable.getDatabase_reference().child("questions/" + animal + "/" + questionid + "/users/" + username);
         usersRef.setValue(answer);
     }
 
     public static void addUserSoundAnswer(String username, int parkid, int sensorid, int soundid, int answer) {
         //TODO get credibility
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
-
-
-        myRef.addListenerForSingleValueEvent(new ValueEventListener(){
+        GlobalVariable.getDatabase_reference().addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot){
                 int correct = dataSnapshot.child("users/admin").child("correct").getValue(Integer.class);
@@ -88,7 +71,7 @@ public class QuestionAnswer {
                 double credibility = 1.0;
                 if(total > 0) credibility = (double) correct / (double) total;
 
-                DatabaseReference usersRef = myRef.child("sensor_sounds/" + parkid + "/" + sensorid + "/" + soundid + "/users/" + username);
+                DatabaseReference usersRef = GlobalVariable.getDatabase_reference().child("sensor_sounds/" + parkid + "/" + sensorid + "/" + soundid + "/users/" + username);
                 usersRef.setValue(new UserCredibility(answer, credibility));
 
             }
