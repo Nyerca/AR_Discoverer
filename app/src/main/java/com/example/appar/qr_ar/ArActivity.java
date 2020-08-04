@@ -3,18 +3,42 @@ package com.example.appar.qr_ar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appar.GlobalVariable;
 import com.example.appar.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+
+import com.google.mlkit.common.model.LocalModel;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.label.ImageLabel;
+import com.google.mlkit.vision.label.ImageLabeler;
+import com.google.mlkit.vision.label.ImageLabeling;
+import com.google.mlkit.vision.label.custom.CustomImageLabelerOptions;
+import com.google.mlkit.vision.label.defaults.ImageLabelerOptions;
+
+
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ArActivity extends AppCompatActivity {
@@ -42,7 +66,7 @@ public class ArActivity extends AppCompatActivity {
                         });
 
         // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
-                AlertDialog dialog = builder.create();
+                //AlertDialog dialog = builder.create();
 
                 //dialog.show();
 
@@ -77,6 +101,7 @@ public class ArActivity extends AppCompatActivity {
 */
         GlobalVariable.setInstance("prova3");
 
+        /*
 
         Set<String> hash_Set= new HashSet<String>();
         hash_Set.add("ciao");
@@ -86,6 +111,8 @@ public class ArActivity extends AppCompatActivity {
         hash_Set.forEach(el -> {
             System.out.println(el);
         });
+
+         */
         //AchievementChecker.check("bat", 1, this);
 
 /*
@@ -122,6 +149,80 @@ public class ArActivity extends AppCompatActivity {
         //cdd.show();
         */
 
+        Resources res = getResources();
+        Bitmap foot = BitmapFactory.decodeResource(res, R.drawable.girasole);
+        InputImage image = InputImage.fromBitmap(foot, 0);
+
+        /*
+        ImageLabeler labeler = ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS);
+        labeler.process(image)
+                .addOnSuccessListener(new OnSuccessListener<List<ImageLabel>>() {
+                    @Override
+                    public void onSuccess(List<ImageLabel> labels) {
+                        for (ImageLabel label : labels) {
+                            String text = label.getText();
+                            float confidence = label.getConfidence();
+                            int index = label.getIndex();
+
+                            System.out.println("RISULTATO: " + text + " conf: " + confidence + " index: " + index);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Task failed with an exception
+                        // ...
+                    }
+                });
+
+         */
+
+        final int REQUEST_IMAGE_CAPTURE = 1;
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+
+        LocalModel localModel =
+                new LocalModel.Builder()
+                        .setAssetFilePath("lite-model_aiy_vision_classifier_plants_V1_3.tflite")
+                        // or .setAbsoluteFilePath(absolute file path to tflite model)
+                        .build();
+        CustomImageLabelerOptions customImageLabelerOptions =
+                new CustomImageLabelerOptions.Builder(localModel)
+                        .setConfidenceThreshold(0.5f)
+                        .setMaxResultCount(5)
+                        .build();
+
+        ImageLabeler imageLabeler =
+                ImageLabeling.getClient(customImageLabelerOptions);
+
+        imageLabeler.process(image)
+                .addOnSuccessListener(new OnSuccessListener<List<ImageLabel>>() {
+                    @Override
+                    public void onSuccess(List<ImageLabel> labels) {
+                        System.out.println("ENTER_ON_SC " + labels.size());
+                        for (ImageLabel label : labels) {
+                            String text = label.getText();
+                            float confidence = label.getConfidence();
+                            int index = label.getIndex();
+
+                            System.out.println("RESULT_result: " + text + " conf: " + confidence + " index: " + index);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        System.out.println("FAIL_ON_SC " + e);
+                        // Task failed with an exception
+                        // ...
+                    }
+                });
+
+
+
 
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +249,7 @@ public class ArActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
         if(result != null) {
             if(result.getContents() == null) {
                 Log.e("Scan*******", "Cancelled scan");

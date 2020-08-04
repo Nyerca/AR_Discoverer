@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,11 +29,19 @@ import com.example.appar.database.Park;
 import com.example.appar.database.Sensor;
 import com.example.appar.qr_ar.CaptureActivityPortrait;
 import com.example.appar.qr_ar.MainActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.mlkit.common.model.LocalModel;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.label.ImageLabel;
+import com.google.mlkit.vision.label.ImageLabeler;
+import com.google.mlkit.vision.label.ImageLabeling;
+import com.google.mlkit.vision.label.custom.CustomImageLabelerOptions;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.mapbox.android.core.permissions.PermissionsListener;
@@ -67,6 +76,8 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
     private int parkid;
     private TableRow root;
     private TableRow row1, row2, row3;
+
+    private static int PLANT_PHOTO_CODE = 1333;
 
     public TableRow getRow(int index) {
         if(index / 3 == 0) return row1;
@@ -103,7 +114,7 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
         row2 = findViewById(R.id.tableRow2);
         row3 = findViewById(R.id.tableRow3);
 
-        ImageButton backButton = (ImageButton) findViewById(R.id.backButton);
+        ImageButton backButton =findViewById(R.id.backButton);
         Intent back = new Intent(this,Homepage.class);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +123,16 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
             }
         });
 
+        ImageButton plantButton = findViewById(R.id.plantButton);
+        plantButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, PLANT_PHOTO_CODE);
+                }
+            }
+        });
 
         scan = findViewById(R.id.btnScan);
         scan.setEnabled(false);
@@ -391,7 +412,49 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(result != null) {
+        if (requestCode == PLANT_PHOTO_CODE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            InputImage image = InputImage.fromBitmap(imageBitmap, 0);
+
+            LocalModel localModel =
+                    new LocalModel.Builder()
+                            .setAssetFilePath("lite-model_aiy_vision_classifier_plants_V1_3.tflite")
+                            // or .setAbsoluteFilePath(absolute file path to tflite model)
+                            .build();
+            CustomImageLabelerOptions customImageLabelerOptions =
+                    new CustomImageLabelerOptions.Builder(localModel)
+                            .setConfidenceThreshold(0.5f)
+                            .setMaxResultCount(5)
+                            .build();
+
+            ImageLabeler imageLabeler =
+                    ImageLabeling.getClient(customImageLabelerOptions);
+
+            imageLabeler.process(image)
+                    .addOnSuccessListener(new OnSuccessListener<List<ImageLabel>>() {
+                        @Override
+                        public void onSuccess(List<ImageLabel> labels) {
+                            System.out.println("ENTER_ON_SC " + labels.size());
+                            for (ImageLabel label : labels) {
+                                String text = label.getText();
+                                float confidence = label.getConfidence();
+                                int index = label.getIndex();
+
+                                System.out.println("RESULT_result: " + text + " conf: " + confidence + " index: " + index);
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            System.out.println("FAIL_ON_SC " + e);
+                            // Task failed with an exception
+                            // ...
+                        }
+                    });
+
+        } else  if(result != null) {
             if(result.getContents() == null) {
                 Log.e("Scan*******", "Cancelled scan");
 
