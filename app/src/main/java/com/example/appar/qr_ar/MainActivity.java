@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appar.AlertQuestionary;
 import com.example.appar.GameMap;
@@ -28,6 +31,10 @@ import com.google.ar.sceneform.rendering.AnimationData;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 import java.lang.ref.WeakReference;
 import java.util.List;
 
@@ -55,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
             }
             startActivity(back);
         });
+
+        //Button capture =  findViewById(R.id.capture);
 
 
         fragment = (ArFragment)getSupportFragmentManager().findFragmentById(R.id.sceneform_fragment);

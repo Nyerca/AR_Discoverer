@@ -27,10 +27,12 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import com.example.appar.database.Park;
 import com.example.appar.database.Sensor;
+import com.example.appar.qr_ar.ArActivity;
 import com.example.appar.qr_ar.CaptureActivityPortrait;
 import com.example.appar.qr_ar.MainActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -442,6 +444,10 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                                 int index = label.getIndex();
 
                                 System.out.println("RESULT_result: " + text + " conf: " + confidence + " index: " + index);
+                                MaterialAlertDialogBuilder build = new MaterialAlertDialogBuilder(GameMap.this)
+                                        .setTitle("The scanned plant is an")
+                                        .setMessage(text);
+                                build.show();
                             }
                         }
                     })

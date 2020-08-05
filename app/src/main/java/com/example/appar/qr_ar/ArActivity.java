@@ -33,7 +33,7 @@ import com.google.mlkit.vision.label.defaults.ImageLabelerOptions;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -178,6 +178,7 @@ public class ArActivity extends AppCompatActivity {
 
          */
 
+        /*
         final int REQUEST_IMAGE_CAPTURE = 1;
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -223,6 +224,13 @@ public class ArActivity extends AppCompatActivity {
 
 
 
+         */
+
+
+        MaterialAlertDialogBuilder build = new MaterialAlertDialogBuilder(ArActivity.this)
+                .setTitle("Title")
+                .setMessage("Message");
+        build.show();
 
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
