@@ -65,8 +65,8 @@ public class QuestionAnswer {
         GlobalVariable.getDatabase_reference().addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot){
-                int correct = dataSnapshot.child("users/admin").child("correct").getValue(Integer.class);
-                int total = dataSnapshot.child("users/admin").child("total").getValue(Integer.class);
+                int correct = dataSnapshot.child("users/" + GlobalVariable.getInstance().getUsername()).child("correct").getValue(Integer.class);
+                int total = dataSnapshot.child("users/" + GlobalVariable.getInstance().getUsername()).child("total").getValue(Integer.class);
 
                 double credibility = 1.0;
                 if(total > 0) credibility = (double) correct / (double) total;

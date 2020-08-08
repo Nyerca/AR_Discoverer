@@ -34,8 +34,7 @@ public class Position extends AppCompatActivity implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        Toast.makeText(Position.this, "" + getMeasure(location.getLatitude(), location.getLongitude(), 44.13086749, 12.22772357),
-                Toast.LENGTH_LONG).show();
+        //Toast.makeText(Position.this, "" + getMeasure(location.getLatitude(), location.getLongitude(), 44.13086749, 12.22772357), Toast.LENGTH_LONG).show();
     }
 
     private double getDistance(double lat1, double long1, double lat2, double long2) {

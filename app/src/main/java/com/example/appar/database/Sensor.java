@@ -1,5 +1,7 @@
 package com.example.appar.database;
 
+import java.util.Optional;
+
 public class Sensor {
 
     private int id;
@@ -8,6 +10,8 @@ public class Sensor {
     private String animal;
     private Boolean seen;
     private String imagepath;
+    private Optional<String> arImage;
+    private Optional<Integer> rotation;
 
     public Sensor(String id, String lat_long, String animal, Boolean seen, String imagepath) {
         this.id = Integer.parseInt(id);
@@ -16,7 +20,21 @@ public class Sensor {
         this.animal = animal;
         this.seen = seen;
         this.imagepath = imagepath;
+        arImage = Optional.empty();
+        rotation = Optional.empty();
     }
+
+    public void setRotation(int rotation) {
+        this.rotation = Optional.of(rotation);
+    }
+
+    public Optional<Integer> getRotation() {return this.rotation;}
+
+    public void setArImage(Optional<String> arImage) {
+        this.arImage = arImage;
+    }
+
+    public Optional<String> getArImage() {return this.arImage;}
 
     public int getId() {
         return this.id;

@@ -109,7 +109,7 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
         yes = findViewById(R.id.btn_yes);
         yes.setOnClickListener(v12 -> {
             if(answer.isPresent()) {
-                Pair<String, String> answers = QuestionAnswer.valueAnswer(true, answer.get(), credibility, "admin");
+                Pair<String, String> answers = QuestionAnswer.valueAnswer(true, answer.get(), credibility, GlobalVariable.getInstance().getUsername());
                 textdia.setText(answers.first);
                 question.setText(answers.second);
                 //dismiss();
@@ -132,7 +132,7 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
         no = findViewById(R.id.btn_no);
         no.setOnClickListener(v13 -> {
             if(answer.isPresent()) {
-                Pair<String, String> answers = QuestionAnswer.valueAnswer(false, answer.get(), credibility, "admin");
+                Pair<String, String> answers = QuestionAnswer.valueAnswer(false, answer.get(), credibility, GlobalVariable.getInstance().getUsername());
                 textdia.setText(answers.first);
                 question.setText(answers.second);
             } else {
@@ -277,7 +277,7 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
     public static void randomQuestionary(Activity activity, String username, String park, String animal, String sensorid) {
         Random r = new Random();
         if(!r.nextBoolean()) {
-            Toast.makeText(activity, "question", Toast.LENGTH_LONG).show();
+            //Toast.makeText(activity, "question", Toast.LENGTH_LONG).show();
 
             GlobalVariable.getDatabase_reference().child("questions/" + animal).addListenerForSingleValueEvent(new ValueEventListener(){
                 @Override
@@ -304,7 +304,7 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
 
 
         } else {
-            Toast.makeText(activity, "sound, park: " + park +  " sensid: " + sensorid, Toast.LENGTH_LONG).show();
+            //Toast.makeText(activity, "sound, park: " + park +  " sensid: " + sensorid, Toast.LENGTH_LONG).show();
             GlobalVariable.getDatabase_reference().child("sensor_sounds/" +  park + "/" + sensorid).addListenerForSingleValueEvent(new ValueEventListener(){
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot){

@@ -68,7 +68,7 @@ public class AchievementChecker {
                     }
                 }
 
-                Toast.makeText(context, "Total: " + total, Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "Total: " + total, Toast.LENGTH_LONG).show();
 
                 int value = 0;
 
@@ -79,7 +79,7 @@ public class AchievementChecker {
 
                 }
 
-                Toast.makeText(context, "Specific one: " + value, Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "Specific one: " + value, Toast.LENGTH_LONG).show();
 
                 DatabaseReference usersRef = GlobalVariable.getDatabase_reference().child("user_sensors/" + GlobalVariable.getInstance().getUsername() + "/" + parkid + "/" + animal);
                 usersRef.setValue(value + 1);

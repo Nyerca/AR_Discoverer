@@ -1,0 +1,86 @@
+{
+  animations: [
+    {
+      clips: [
+        {
+          name: 'Loop Flapping Wings',
+        },
+        {
+          name: 'Sliding',
+        },
+        {
+          name: 'Slide Right',
+        },
+        {
+          name: 'Slide Left',
+        },
+        {
+          name: 'Full Anim',
+          runtime_name: 'Full Anim',
+        },
+      ],
+      path: 'sampledata/models/bat.fbx',
+    },
+  ],
+  materials: [
+    {
+      name: 'lambert1',
+      parameters: [
+        {
+          baseColor: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          baseColorMap: 'Ghost_Albedo',
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'TexCoord',
+      'Orientation',
+      'BoneIndices',
+      'BoneWeights',
+    ],
+    collision: {},
+    file: 'sampledata/models/bat.fbx',
+    name: 'bat',
+    scale: 2.5,
+  },
+  samplers: [
+    {
+      file: 'sampledata/models\\bat.fbm\\Ghost_Albedo.jpg',
+      name: 'Ghost_Albedo',
+      pipeline_name: 'bat.fbm\\Ghost_Albedo.jpg',
+    },
+  ],
+  version: '0.54:2',
+}

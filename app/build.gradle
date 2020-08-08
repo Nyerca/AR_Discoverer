@@ -90,3 +90,26 @@ sceneform.asset('sampledata/models/scene.gltf',
         'default',
         'sampledata/models/scene.sfa',
         'src/main/assets/scene')
+
+
+sceneform.asset('sampledata/models/ab2.fbx',
+        'default',
+        'sampledata/models/ab2.sfa',
+        'src/main/assets/ab2',
+        ['sampledata/models/ab2.fbx'])
+
+
+sceneform.asset('sampledata/models/butterfly2.gltf',
+        'default',
+        'sampledata/models/butterfly2.sfa',
+        'src/main/assets/butterfly2')
+
+sceneform.asset('sampledata/models/bat.fbx',
+        'default',
+        'sampledata/models/bat.sfa',
+        'src/main/assets/bat')
+
+sceneform.asset('sampledata/models/bee.glb',
+        'default',
+        'sampledata/models/bee.sfa',
+        'src/main/assets/bee')

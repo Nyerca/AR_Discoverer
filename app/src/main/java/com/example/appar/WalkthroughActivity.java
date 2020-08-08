@@ -45,7 +45,7 @@ public class WalkthroughActivity extends AppCompatActivity {
 
         @Override
         public Object instantiateItem(View container, int position) {
-            Toast.makeText(WalkthroughActivity.this, "instantiateItem: " + position, Toast.LENGTH_LONG).show();
+            //Toast.makeText(WalkthroughActivity.this, "instantiateItem: " + position, Toast.LENGTH_LONG).show();
             Log.e("walkthrough", "instantiateItem(" + position + ");");
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View imageViewContainer = inflater.inflate(R.layout.walkthrough_single_view, null);
@@ -59,31 +59,31 @@ public class WalkthroughActivity extends AppCompatActivity {
                 case 0:
                     bottom_text.setText("Explore a park in the world by navigating through the app");
                     imageView.setImageResource(R.drawable.world_click);
-                    Toast.makeText(WalkthroughActivity.this, "position: " + position, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(WalkthroughActivity.this, "position: " + position, Toast.LENGTH_LONG).show();
                     break;
 
                 case 1:
                     bottom_text.setText("After choosing a park you can get to the sensor by clicking on the map to reach them and then by clicking on the sensors pin");
                     imageView.setImageResource(R.drawable.world_click2);
-                    Toast.makeText(WalkthroughActivity.this, "position: " + position, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(WalkthroughActivity.this, "position: " + position, Toast.LENGTH_LONG).show();
                     break;
 
                 case 2:
                     bottom_text.setText("Explore a nearby park and search for a QR_CODE to find the animal hiding");
                     imageView.setImageResource(R.drawable.map_click);
-                    Toast.makeText(WalkthroughActivity.this, "position: " + position, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(WalkthroughActivity.this, "position: " + position, Toast.LENGTH_LONG).show();
                     break;
 
                 case 3:
                     bottom_text.setText("Explore the informations you gathered about an animal");
                     imageView.setImageResource(R.drawable.collection_click);
-                    Toast.makeText(WalkthroughActivity.this, "position: " + position, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(WalkthroughActivity.this, "position: " + position, Toast.LENGTH_LONG).show();
                     break;
 
                 case 4:
                     bottom_text.setText("View your own profile");
                     imageView.setImageResource(R.drawable.profile_click);
-                    Toast.makeText(WalkthroughActivity.this, "position: " + position, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(WalkthroughActivity.this, "position: " + position, Toast.LENGTH_LONG).show();
                     close.setVisibility(View.VISIBLE);
                     break;
             }

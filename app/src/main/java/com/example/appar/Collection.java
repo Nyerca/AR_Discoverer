@@ -25,14 +25,22 @@ public class Collection extends AppCompatActivity {
                     if(el.child("users/" + GlobalVariable.getInstance().getUsername()).exists())
                     funfacts.add(el.child("title").getValue(String.class));
                 });
-
+/*
                 dataSnapshot.child("park_sensors/").getChildren().forEach(el -> el.getChildren().forEach(el2 -> {
                     if(el2.child("animal").getValue(String.class).equals(animal) && el2.child("users/" + GlobalVariable.getInstance().getUsername()).exists()) {
                         System.out.println("prova_animal: " + el2.child("animal").getValue(String.class));
                         System.out.println("prova_animal2: " + animal);
                         gallery_images.add(el2.child("image").getValue(String.class));
                     }
-                }));
+                }));*/
+
+                dataSnapshot.child("user_captured_animals/"+GlobalVariable.getInstance().getUsername()).getChildren().forEach(el ->  {
+                    if(el.getValue(String.class).equals(animal)) {
+                        //System.out.println("prova_animal: " + el2.child("animal").getValue(String.class));
+                        //System.out.println("prova_animal2: " + animal);
+                        gallery_images.add(el.getKey());
+                    }
+                });
 
                 String ff = "";
                 for (String element : funfacts) {

@@ -75,7 +75,7 @@ public class AnimalProfile extends AppCompatActivity {
         findViewById(R.id.backButton).setOnClickListener(v -> startActivity(new Intent(AnimalProfile.this,Collection.class)));
 
         TextView title = findViewById(R.id.textView);
-        Toast.makeText(this, "Scanned: " + getIntent().getStringExtra("animal"), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Scanned: " + getIntent().getStringExtra("animal"), Toast.LENGTH_LONG).show();
         title.setText(getIntent().getStringExtra("animal"));
 
         ImageView imageView = findViewById(R.id.imageView);

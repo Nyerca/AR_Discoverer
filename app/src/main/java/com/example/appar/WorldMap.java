@@ -102,7 +102,7 @@ public class WorldMap extends AppCompatActivity {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                                Toast.makeText(parent.getContext(), city_map.get(list_str.get(position)), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(parent.getContext(), city_map.get(list_str.get(position)), Toast.LENGTH_SHORT).show();
 
                                 Double lat = Double.parseDouble(city_map.get(list_str.get(position)).split(";")[0]);
                                 Double lon = Double.parseDouble(city_map.get(list_str.get(position)).split(";")[1]);
@@ -124,7 +124,7 @@ public class WorldMap extends AppCompatActivity {
                             @Override
                             public boolean onMarkerClick(@NonNull Marker marker) {
                                 // Show a toast with the title of the selected marker
-                                Toast.makeText(WorldMap.this, marker.getTitle(), Toast.LENGTH_LONG).show();
+                                //Toast.makeText(WorldMap.this, marker.getTitle(), Toast.LENGTH_LONG).show();
                                 Intent foo = new Intent(WorldMap.this, GameMap.class);
                                 foo.putExtra("parkid", marker.getTitle());
                                 foo.putExtra("position", marker.getPosition().getLatitude()+ ";" + marker.getPosition().getLongitude());

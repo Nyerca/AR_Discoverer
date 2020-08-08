@@ -9,15 +9,6 @@
       ],
       path: 'sampledata/models/andy_dance.fbx',
     },
-    {
-      clips: [
-        {
-          name: 'Take 001',
-          runtime_name: 'andy_dance',
-        },
-      ],
-      path: 'sampledata/models/andy_dance.fbx',
-    },
   ],
   materials: [
     {

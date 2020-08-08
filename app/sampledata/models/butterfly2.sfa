@@ -1,0 +1,103 @@
+{
+  materials: [
+    {
+      name: 'BlueMonarch',
+      parameters: [
+        {
+          baseColorFactor: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          baseColor: 'BlueMonarch_baseColor',
+        },
+        {
+          diffuseColorFactor: null,
+        },
+        {
+          diffuseColor: null,
+        },
+        {
+          normal: 'BlueMonarch_normal',
+        },
+        {
+          metallicFactor: 1,
+        },
+        {
+          roughnessFactor: 1,
+        },
+        {
+          specularFactor: null,
+        },
+        {
+          glossinessFactor: null,
+        },
+        {
+          specularGlossiness: null,
+        },
+        {
+          specularGlossinessCalculation: null,
+        },
+        {
+          metallicRoughness: 'BlueMonarch_metallicRoughness',
+        },
+        {
+          occlusion: null,
+        },
+        {
+          emissiveFactor: [
+            0,
+            0,
+            0,
+            1,
+          ],
+        },
+        {
+          emissive: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/gltf_material.sfm',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'TexCoord',
+      'Orientation',
+    ],
+    collision: {},
+    file: 'sampledata/models/butterfly2.gltf',
+    name: 'butterfly2',
+    scale: 0.2,
+  },
+  samplers: [
+    {
+      file: 'sampledata/models\\textures\\BlueMonarch_baseColor.png',
+      name: 'BlueMonarch_baseColor',
+      pipeline_name: 'textures/BlueMonarch_baseColor.png',
+    },
+    {
+      file: 'sampledata/models\\textures\\BlueMonarch_normal.png',
+      name: 'BlueMonarch_normal',
+      params: {
+        usage_type: 'Normal',
+      },
+      pipeline_name: 'textures/BlueMonarch_normal.png',
+    },
+    {
+      file: 'sampledata/models\\textures\\BlueMonarch_metallicRoughness.png',
+      name: 'BlueMonarch_metallicRoughness',
+      params: {
+        usage_type: 'Data',
+      },
+      pipeline_name: 'textures/BlueMonarch_metallicRoughness.png',
+    },
+  ],
+  version: '0.54:2',
+}

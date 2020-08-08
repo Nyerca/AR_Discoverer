@@ -67,6 +67,7 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class GameMap extends AppCompatActivity implements PermissionsListener{
 
@@ -255,7 +256,12 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                                 String position = el.child("position").getValue(String.class); //This is a1
                                 String animal = el.child("animal").getValue(String.class); //This is a1
                                 String imagepath = el.child("image").getValue(String.class); //This is a1
-                                list.add(new Sensor(el.getKey(), position, animal, el.child("users/" + GlobalVariable.getInstance().getUsername()).exists(), imagepath));
+                                Sensor sensor = new Sensor(el.getKey(), position, animal, el.child("users/" + GlobalVariable.getInstance().getUsername()).exists(), imagepath);
+                                if(el.child("ar_image").exists()) {
+                                    sensor.setArImage(Optional.of(el.child("ar_image").getValue(String.class)));
+                                    sensor.setRotation(el.child("rotation").getValue(Integer.class));
+                                }
+                                list.add(sensor);
                             });
 
                             list.forEach(el -> {
@@ -267,17 +273,20 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                                 Icon icon = mIconFactory.fromResource(id);
                                 mapboxMap.addMarker(new MarkerOptions()
                                         .position(new LatLng(el.getLat(), el.getLon())).icon(icon)
-                                        .title(el.getId() + ";" + el.getAnimal()));
+                                        .title(el.getId() + ";" + el.getAnimal() + ";" + el.getImagepath() + (el.getArImage().isPresent()? ";" + el.getArImage().get() + ";" + el.getRotation().get() : ";")    ));
+                                //.title(el.getId() + ";" + el.getAnimal() + ";" + (el.getArImage().isPresent()? "true;" + el.getArImage().get() + ";" + el.getRotation().get() : "false;" + el.getImagepath()) ));
                             });
 
 
                             if(getIntent().getStringExtra("parkid") != null) {
                                 mapboxMap.setOnMarkerClickListener(marker -> {
                                     // Show a toast with the title of the selected marker
-                                    Toast.makeText(GameMap.this, marker.getTitle(), Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(GameMap.this, marker.getTitle(), Toast.LENGTH_LONG).show();
 
                                     String sensorid = marker.getTitle().split(";")[0];
                                     String animal = marker.getTitle().split(";")[1];
+                                    String ar = marker.getTitle().split(";")[3];
+                                    String imgpath = marker.getTitle().split(";")[2];
 
                                     Intent intent = new Intent(GameMap.this, MainActivity.class);
 
@@ -286,9 +295,29 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                                     intent.putExtra("parkid", parkid + "");
                                     String position = getIntent().getStringExtra("position");
                                     intent.putExtra("position", position);
-                                    intent.putExtra("Qr_code", "andy_dance.sfb");
-                                    startActivity(intent);
+
+                                    if(ar.length()>0) {
+                                        intent.putExtra("Qr_code", ar);
+                                        intent.putExtra("rotation", marker.getTitle().split(";")[4]);
+                                    }
+                                    intent.putExtra("2d_image", imgpath);
+
+                                    GlobalVariable.getDatabase_reference().addListenerForSingleValueEvent(new ValueEventListener(){
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot){
+                                            if(dataSnapshot.child("user_captured_animals/"+ GlobalVariable.getInstance().getUsername()+"/"+imgpath).exists()) {
+                                                intent.putExtra("image_owned", "1");
+                                                System.out.println("THE IMAGE IS OWNED");
+                                            }
+                                            startActivity(intent);
+
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                                    });
                                     return true;
+                                    //intent.putExtra("Qr_code", "andy_dance.sfb");
+
                                 });
                             }
 
@@ -467,7 +496,7 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
             } else {
                 Log.e("Scan", "Scanned");
 
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(this, MainActivity.class);
 
@@ -478,8 +507,24 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                     String position = getIntent().getStringExtra("position");
                     intent.putExtra("position", position);
                 }
-                intent.putExtra("Qr_code", "andy_dance.sfb");
-                startActivity(intent);
+                //intent.putExtra("Qr_code", "andy_dance.sfb");
+                if(neareastSensor.getArImage().isPresent()) {
+                    intent.putExtra("Qr_code", neareastSensor.getArImage().get());
+                    intent.putExtra("rotation", ""+neareastSensor.getRotation().get());
+                }
+                intent.putExtra("2d_image", neareastSensor.getImagepath());
+                GlobalVariable.getDatabase_reference().addListenerForSingleValueEvent(new ValueEventListener(){
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot){
+                        if(dataSnapshot.child("user_captured_animals/"+ GlobalVariable.getInstance().getUsername()+"/"+neareastSensor.getImagepath()).exists()) {
+                            intent.putExtra("image_owned", "1");
+                        }
+                        startActivity(intent);
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {}
+                });
+
             }
         } else {
             // This is important, otherwise the result will not be passed to the fragment

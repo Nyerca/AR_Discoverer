@@ -1,0 +1,108 @@
+{
+  materials: [
+    {
+      name: 'unnamed material',
+      parameters: [
+        {
+          baseColorFactor: null,
+        },
+        {
+          baseColor: null,
+        },
+        {
+          diffuseColorFactor: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          diffuseColor: 'c2a424a6d525b562a544339076b529dad487d79f',
+        },
+        {
+          normal: 'c91b35730d2f4bb50b1251317442714b2c505e53',
+        },
+        {
+          metallicFactor: null,
+        },
+        {
+          roughnessFactor: null,
+        },
+        {
+          specularFactor: [
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          glossinessFactor: 1,
+        },
+        {
+          specularGlossiness: 'e8170282fccd3ba5005e619cf3d60d06a9f8c02f',
+        },
+        {
+          specularGlossinessCalculation: null,
+        },
+        {
+          metallicRoughness: null,
+        },
+        {
+          occlusion: '690a9a509830c6e3adb10b562dfdf8b142ebe8e9',
+        },
+        {
+          emissiveFactor: [
+            0,
+            0,
+            0,
+            1,
+          ],
+        },
+        {
+          emissive: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/gltf_material.sfm',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'TexCoord',
+      'Orientation',
+    ],
+    collision: {},
+    file: 'sampledata/models/bee.glb',
+    name: 'bee',
+    scale: 0.03,
+  },
+  samplers: [
+    {
+      name: 'c2a424a6d525b562a544339076b529dad487d79f',
+      pipeline_name: '*2',
+    },
+    {
+      name: 'e8170282fccd3ba5005e619cf3d60d06a9f8c02f',
+      pipeline_name: '*3',
+    },
+    {
+      name: '690a9a509830c6e3adb10b562dfdf8b142ebe8e9',
+      params: {
+        usage_type: 'Data',
+      },
+      pipeline_name: '*1',
+    },
+    {
+      name: 'c91b35730d2f4bb50b1251317442714b2c505e53',
+      params: {
+        usage_type: 'Normal',
+      },
+      pipeline_name: '*0',
+    },
+  ],
+  version: '0.54:2',
+}
