@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="40dp"
+    android:padding="10dp"
     android:background="#fcfcfc"
     android:id="@+id/ll">
 
@@ -69,7 +69,9 @@
                 android:id="@+id/batcard"
                 android:layout_width="160dp"
                 android:layout_height="190dp"
-                android:layout_margin="10dp">
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="2dp">
 
                 <com.example.appar.Card
                     android:layout_width="match_parent"
@@ -83,7 +85,9 @@
                 android:id="@+id/beecard"
                 android:layout_width="160dp"
                 android:layout_height="190dp"
-                android:layout_margin="10dp">
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="2dp">
                 <com.example.appar.Card
                     android:layout_width="match_parent"
                     app:title="Bee"
@@ -105,7 +109,9 @@
                 android:id="@+id/butterflycard"
                 android:layout_width="160dp"
                 android:layout_height="190dp"
-                android:layout_margin="10dp">
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp">
                 <com.example.appar.Card
                     android:layout_width="match_parent"
                     app:title="Butterfly"
@@ -118,7 +124,9 @@
                 android:id="@+id/mosquitocard"
                 android:layout_width="160dp"
                 android:layout_height="190dp"
-                android:layout_margin="10dp">
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp">
 
                 <com.example.appar.Card
                     android:layout_width="match_parent"

@@ -214,13 +214,17 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                                 parkid = park.getId();
 
                                 DistanceListener dl = new DistanceListener(GameMap.this, list);
+                                /*
                                 if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                                     requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
                                 }
+
+                                 */
                                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, dl);
 
                             } else {
                                 scan.setVisibility(View.GONE);
+                                plantButton.setVisibility(View.GONE);
                                 parkid =Integer.parseInt(getIntent().getStringExtra("parkid"));
                                 Double latitude = Double.parseDouble(getIntent().getStringExtra("position").split(";")[0]);
                                 Double longitude = Double.parseDouble(getIntent().getStringExtra("position").split(";")[1]);
@@ -242,9 +246,12 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                                             .newCameraPosition(position), 7000);
 
                                     DistanceListener dl = new DistanceListener(GameMap.this, list);
+                                    /*
                                     if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                                         requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
                                     }
+
+                                     */
                                     dl.getWorldSensorDistance(point.getLatitude(), point.getLongitude());
                                     return true;
                                 });
@@ -285,7 +292,7 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
 
                                     String sensorid = marker.getTitle().split(";")[0];
                                     String animal = marker.getTitle().split(";")[1];
-                                    String ar = marker.getTitle().split(";")[3];
+
                                     String imgpath = marker.getTitle().split(";")[2];
 
                                     Intent intent = new Intent(GameMap.this, MainActivity.class);
@@ -296,7 +303,8 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                                     String position = getIntent().getStringExtra("position");
                                     intent.putExtra("position", position);
 
-                                    if(ar.length()>0) {
+                                    if(marker.getTitle().split(";").length > 3) {
+                                        String ar = marker.getTitle().split(";")[3];
                                         intent.putExtra("Qr_code", ar);
                                         intent.putExtra("rotation", marker.getTitle().split(";")[4]);
                                     }
@@ -358,9 +366,6 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
 
 // Set the component's render mode
             locationComponent.setRenderMode(RenderMode.COMPASS);
-        } else {
-            permissionsManager = new PermissionsManager(this);
-            permissionsManager.requestLocationPermissions(this);
         }
     }
 
@@ -495,35 +500,37 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
 
             } else {
                 Log.e("Scan", "Scanned");
+                if(result.getContents().contains("PreSense.com/")) {
+                    //Toast.makeText(this, "Scanned: " + result.getContents().split("PreSense.com/")[1], Toast.LENGTH_LONG).show();
 
-                //Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(this, MainActivity.class);
 
-                Intent intent = new Intent(this, MainActivity.class);
-
-                intent.putExtra("animal", neareastSensor.getAnimal());
-                intent.putExtra("sensorid", neareastSensor.getId() + "");
-                intent.putExtra("parkid", parkid + "");
-                if(getIntent().getStringExtra("position") != null) {
-                    String position = getIntent().getStringExtra("position");
-                    intent.putExtra("position", position);
-                }
-                //intent.putExtra("Qr_code", "andy_dance.sfb");
-                if(neareastSensor.getArImage().isPresent()) {
-                    intent.putExtra("Qr_code", neareastSensor.getArImage().get());
-                    intent.putExtra("rotation", ""+neareastSensor.getRotation().get());
-                }
-                intent.putExtra("2d_image", neareastSensor.getImagepath());
-                GlobalVariable.getDatabase_reference().addListenerForSingleValueEvent(new ValueEventListener(){
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot){
-                        if(dataSnapshot.child("user_captured_animals/"+ GlobalVariable.getInstance().getUsername()+"/"+neareastSensor.getImagepath()).exists()) {
-                            intent.putExtra("image_owned", "1");
-                        }
-                        startActivity(intent);
+                    intent.putExtra("animal", neareastSensor.getAnimal());
+                    intent.putExtra("sensorid", neareastSensor.getId() + "");
+                    intent.putExtra("parkid", parkid + "");
+                    if(getIntent().getStringExtra("position") != null) {
+                        String position = getIntent().getStringExtra("position");
+                        intent.putExtra("position", position);
                     }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {}
-                });
+                    //intent.putExtra("Qr_code", "andy_dance.sfb");
+                    if(neareastSensor.getArImage().isPresent()) {
+                        intent.putExtra("Qr_code", neareastSensor.getArImage().get());
+                        intent.putExtra("rotation", ""+neareastSensor.getRotation().get());
+                    }
+                    intent.putExtra("2d_image", neareastSensor.getImagepath());
+                    GlobalVariable.getDatabase_reference().addListenerForSingleValueEvent(new ValueEventListener(){
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot){
+                            if(dataSnapshot.child("user_captured_animals/"+ GlobalVariable.getInstance().getUsername()+"/"+neareastSensor.getImagepath()).exists()) {
+                                intent.putExtra("image_owned", "1");
+                            }
+                            startActivity(intent);
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                    });
+                }
+
 
             }
         } else {

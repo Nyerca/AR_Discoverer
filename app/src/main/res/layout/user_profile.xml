@@ -17,16 +17,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="405dp">
+        android:layout_height="305dp">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="200dp"
             android:orientation="vertical">
             <ImageView
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="25dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:src="@drawable/ic_profile"/>
             <TextView
                 android:id="@+id/username"
@@ -43,7 +43,10 @@
             android:layout_width="400dp"
             android:layout_height="120dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="275dp">
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="200dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -59,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Animals seen"
-                        android:textSize="20sp"
+                        android:textSize="15sp"
                         />
                     <TextView
                         android:id="@+id/count_animals"
@@ -82,7 +85,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Parks visited"
-                        android:textSize="20sp"
+                        android:textSize="15sp"
                         />
                     <TextView
                         android:id="@+id/count_parks"
@@ -104,8 +107,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Correct answ."
-                        android:textSize="20sp"
+                        android:text="Credibility"
+                        android:textSize="15sp"
                         />
                     <TextView
                         android:id="@+id/credibility"
@@ -127,6 +130,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="15dp"
         >
 
         <LinearLayout

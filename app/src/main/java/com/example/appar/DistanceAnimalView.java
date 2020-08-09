@@ -78,6 +78,7 @@ public class DistanceAnimalView extends View {
         int id = this.getResources().getIdentifier(image, "drawable",packagename);
 
         Bitmap bitmap = BitmapFactory.decodeResource(res, id);
+        Bitmap resized = Bitmap.createScaledBitmap(bitmap, 100, 100, true);
 
         //Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.bat);
 
@@ -86,7 +87,7 @@ public class DistanceAnimalView extends View {
 
         Bitmap foot = BitmapFactory.decodeResource(res, R.drawable.paw_one2);
 
-        canvas.drawBitmap(bitmap, 10, 0, paintShape);
+        canvas.drawBitmap(resized, 10, 0, paintShape);
         if(distance == 1) {
             canvas.drawBitmap(foot, 40, 80, paintShape);
         } else if(distance == 2) {

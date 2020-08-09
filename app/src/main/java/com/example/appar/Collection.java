@@ -69,8 +69,6 @@ public class Collection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.collection);
 
-        GlobalVariable.setInstance("prova3");
-
         Intent animal_profile = new Intent(this,AnimalProfile.class);
 
         findViewById(R.id.batcard).setOnClickListener(v -> {

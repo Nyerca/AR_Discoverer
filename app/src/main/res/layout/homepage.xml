@@ -51,7 +51,9 @@
                 android:id="@+id/worldcard"
                 android:layout_width="160dp"
                 android:layout_height="190dp"
-                android:layout_margin="10dp">
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="2dp">
                 <com.example.appar.Card
                     android:layout_width="match_parent"
                     app:title="World"
@@ -65,7 +67,9 @@
                 android:id="@+id/mapcard"
                 android:layout_width="160dp"
                 android:layout_height="190dp"
-                android:layout_margin="10dp">
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="2dp">
 
                 <com.example.appar.Card
                     android:layout_width="match_parent"
@@ -88,7 +92,9 @@
                 android:id="@+id/collectioncard"
                 android:layout_width="160dp"
                 android:layout_height="190dp"
-                android:layout_margin="10dp">
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
                 <com.example.appar.Card
                     android:layout_width="match_parent"
                     app:title="Collection"
@@ -100,7 +106,9 @@
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:id="@+id/profilecard"
-                android:layout_margin="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_width="160dp"
                 android:layout_height="190dp">
                 <com.example.appar.Card
@@ -112,29 +120,24 @@
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
-        <LinearLayout
-            android:clipToPadding="false"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <androidx.cardview.widget.CardView
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:layout_width="340dp"
-                android:id="@+id/tutorialcard"
-                android:layout_height="150dp"
-                android:layout_margin="10dp">
-                <com.example.appar.Card
-                    android:layout_width="match_parent"
-                    app:title="Tutorial"
-                    app:description="Read the tutorial"
-                    app:image="ic_wifi_black_24dp"
-                    android:layout_height="match_parent"/>
-            </androidx.cardview.widget.CardView>
-
-
-        </LinearLayout>
+        <androidx.cardview.widget.CardView
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:layout_width="330dp"
+            android:id="@+id/tutorialcard"
+            android:layout_height="150dp"
+            android:padding="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
+            <com.example.appar.Card
+                android:layout_width="match_parent"
+                app:title="Tutorial"
+                app:description="Read the tutorial"
+                app:image="ic_wifi_black_24dp"
+                android:layout_height="match_parent"/>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
     <Button
@@ -143,13 +146,14 @@
         android:text="x logout"
         android:id="@+id/logout"
         android:background="@null"
-        style="?android:attr/borderlessButtonStyle"
+
         android:shadowRadius="@null"
         android:drawableBottom="@null"
-        android:padding="0dp"
+
+
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-
+        android:layout_marginBottom="-20dp"
         />
 
 </RelativeLayout>
