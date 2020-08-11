@@ -95,7 +95,7 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
         row3.removeAllViews();
         root.removeAllViewsInLayout();
         for(int i=0; i<9 && i< animals.size(); i++) {
-            if(i == 0 && animals.get(i).getDistance() < 20) {
+            if(i == 0 && animals.get(i).getDistance() < 15) {
                 neareastSensor = animals.get(i);
                 scan.setEnabled(true);
             }
@@ -472,16 +472,14 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                         @Override
                         public void onSuccess(List<ImageLabel> labels) {
                             System.out.println("ENTER_ON_SC " + labels.size());
+                            if(labels.size() == 0 || (labels.size() == 1 && labels.get(0).getText() == "None")) new MaterialAlertDialogBuilder(GameMap.this).setMessage("No plants found!").show();
                             for (ImageLabel label : labels) {
                                 String text = label.getText();
                                 float confidence = label.getConfidence();
                                 int index = label.getIndex();
 
                                 System.out.println("RESULT_result: " + text + " conf: " + confidence + " index: " + index);
-                                MaterialAlertDialogBuilder build = new MaterialAlertDialogBuilder(GameMap.this)
-                                        .setTitle("The scanned plant is an")
-                                        .setMessage(text);
-                                build.show();
+                                new MaterialAlertDialogBuilder(GameMap.this).setTitle("The scanned plant is an").setMessage(text).show();
                             }
                         }
                     })
@@ -489,6 +487,7 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             System.out.println("FAIL_ON_SC " + e);
+                            new MaterialAlertDialogBuilder(GameMap.this).setMessage("No plants found!").show();
                             // Task failed with an exception
                             // ...
                         }

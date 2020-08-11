@@ -23,15 +23,15 @@ public class QuestionAnswer {
         String body;
         int answer_correct = 0;
         if (given == real) {
-            title = "CORRETTO";
+            title = "CORRECT";
             answer_correct = 1;
         } else {
-            title = "ERRATO";
+            title = "WRONG";
         }
         if(credibility.isPresent()) {
-            body = "Hai risposto: " + given + " \n e secondo gli utenti la risposta era: " + real + " con una confidenza del: " + Math.abs(credibility.get());
+            body = "You answered: " + given + " \n eand accordingly to the users the answer was: " + real + " with a confidence of: " + Math.abs(credibility.get());
         } else {
-            body = "Hai risposto: " + given + " \n e la risposta era: " + real;
+            body = "You answered: " + given + " \n and the answer was: " + real;
         }
         QuestionAnswer.changeUserCredibility(username, answer_correct);
         return Pair.create(title, body);

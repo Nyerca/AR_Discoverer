@@ -84,7 +84,7 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
         if(funfactid.isPresent()) {
             textdia.setText(funfactid.get().second);
         } else {
-            textdia.setText("FUN_FACT");
+            textdia.setText("Questionary");
         }
 
 
@@ -114,8 +114,8 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
                 question.setText(answers.second);
                 //dismiss();
             } else {
-                textdia.setText("CONGRATULAZIONI");
-                question.setText("Sei il primo utente ad aver contribuito alla classificazione di questo verso!");
+                textdia.setText("CONGRATULATION");
+                question.setText("You are the first user which contributed to classify this sound!");
             }
             FrameLayout frame_yes = findViewById(R.id.frame_yes);
             frame_yes.setVisibility(View.GONE);
@@ -136,8 +136,8 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
                 textdia.setText(answers.first);
                 question.setText(answers.second);
             } else {
-                textdia.setText("CONGRATULAZIONI");
-                question.setText("Sei il primo utente ad aver contribuito alla classificazione di questo verso!");
+                textdia.setText("CONGRATULATION");
+                question.setText("You are the first user which contributed to classify this sound!");
             }
 
             FrameLayout frame_yes = findViewById(R.id.frame_yes);
@@ -272,6 +272,87 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
     }
 
 
+    private static void takeSound(Activity activity, String username, String park, String animal, String sensorid, boolean isFirstCall) {
+        GlobalVariable.getDatabase_reference().child("sensor_sounds/" +  park + "/" + sensorid).addListenerForSingleValueEvent(new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot){
+                for(com.google.firebase.database.DataSnapshot el : dataSnapshot.getChildren()) {
+                    if(!el.child("users/"+username).exists()) {
+                        String sound = el.child("sound").getValue(String.class);
+                        Boolean expert_labelled = el.child("expert").exists();
+                        if(expert_labelled) {
+                            int answer = el.child("expert").getValue(Integer.class);
+                            AlertQuestionary cdd=new AlertQuestionary(activity, sound, animal, true, Optional.of(QuestionAnswer.intToBoolean(answer)), Optional.empty(), Integer.parseInt(park), Integer.parseInt(sensorid), Integer.parseInt(el.getKey()));
+                            cdd.show();
+                        } else {
+                            double total = 0.0;
+                            double weights_sum = 0.0;
+                            for (com.google.firebase.database.DataSnapshot element : el.child("users/").getChildren()) {
+                                int answer = element.child("answer").getValue(Integer.class);
+                                double weight = element.child("credibility").getValue(Double.class);
+                                total += answer*weight;
+                                weights_sum += weight;
+
+                            }
+                            if(weights_sum > 0) {
+                                double final_answer = total / weights_sum;
+                                int answer = final_answer > 0 ? 1 : -1;
+                                AlertQuestionary cdd = new AlertQuestionary(activity, sound, animal, true, Optional.of(QuestionAnswer.intToBoolean(answer)), Optional.of(final_answer), Integer.parseInt(park), Integer.parseInt(sensorid), Integer.parseInt(el.getKey()));
+                                cdd.show();
+
+                            } else {
+                                AlertQuestionary cdd = new AlertQuestionary(activity, sound, animal, true, Optional.empty(), Optional.empty(), Integer.parseInt(park), Integer.parseInt(sensorid), Integer.parseInt(el.getKey()));
+                                cdd.show();
+                            }
+
+                        }
+                        return;
+                    }
+                }
+                if(isFirstCall) {
+                    takeQuestion(activity, username, park, animal, sensorid, false);
+                } else {
+                    Toast.makeText(activity, "There aren't new sounds yet!", Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    private static void takeQuestion(Activity activity, String username, String park, String animal, String sensorid, boolean isFirstCall) {
+        GlobalVariable.getDatabase_reference().child("questions/" + animal).addListenerForSingleValueEvent(new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot){
+                for(com.google.firebase.database.DataSnapshot el : dataSnapshot.getChildren()) {
+                    if(!el.child("users/"+username).exists()) {
+                        String question = el.child("question").getValue(String.class);
+                        int answer = el.child("answer").getValue(Integer.class);
+
+
+                        AlertQuestionary cdd=new AlertQuestionary(activity, question, animal, false, Optional.of(QuestionAnswer.intToBoolean(answer)), Optional.empty(), Integer.parseInt(park), Integer.parseInt(sensorid), Integer.parseInt(el.getKey()));
+                        cdd.show();
+                        return;
+                    }
+                }
+                if(isFirstCall) {
+                    takeSound(activity, username, park, animal, sensorid, false);
+                } else {
+                    Toast.makeText(activity, "There aren't new sounds yet!", Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+
 
 
     public static void randomQuestionary(Activity activity, String username, String park, String animal, String sensorid) {
@@ -279,75 +360,14 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
         if(!r.nextBoolean()) {
             //Toast.makeText(activity, "question", Toast.LENGTH_LONG).show();
 
-            GlobalVariable.getDatabase_reference().child("questions/" + animal).addListenerForSingleValueEvent(new ValueEventListener(){
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot){
-                    for(com.google.firebase.database.DataSnapshot el : dataSnapshot.getChildren()) {
-                        if(!el.child("users/"+username).exists()) {
-                            String question = el.child("question").getValue(String.class);
-                            int answer = el.child("answer").getValue(Integer.class);
-
-
-                            AlertQuestionary cdd=new AlertQuestionary(activity, question, animal, false, Optional.of(QuestionAnswer.intToBoolean(answer)), Optional.empty(), Integer.parseInt(park), Integer.parseInt(sensorid), Integer.parseInt(el.getKey()));
-                            cdd.show();
-                            return;
-                        }
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
+            takeQuestion(activity, username, park, animal, sensorid, true);
 
 
 
         } else {
             //Toast.makeText(activity, "sound, park: " + park +  " sensid: " + sensorid, Toast.LENGTH_LONG).show();
-            GlobalVariable.getDatabase_reference().child("sensor_sounds/" +  park + "/" + sensorid).addListenerForSingleValueEvent(new ValueEventListener(){
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot){
-                    for(com.google.firebase.database.DataSnapshot el : dataSnapshot.getChildren()) {
-                        if(!el.child("users/"+username).exists()) {
-                            String sound = el.child("sound").getValue(String.class);
-                            Boolean expert_labelled = el.child("expert").exists();
-                            if(expert_labelled) {
-                                int answer = el.child("expert").getValue(Integer.class);
-                                AlertQuestionary cdd=new AlertQuestionary(activity, sound, animal, true, Optional.of(QuestionAnswer.intToBoolean(answer)), Optional.empty(), Integer.parseInt(park), Integer.parseInt(sensorid), Integer.parseInt(el.getKey()));
-                                cdd.show();
-                            } else {
-                                double total = 0.0;
-                                double weights_sum = 0.0;
-                                for (com.google.firebase.database.DataSnapshot element : el.child("users/").getChildren()) {
-                                    int answer = element.child("answer").getValue(Integer.class);
-                                    double weight = element.child("credibility").getValue(Double.class);
-                                    total += answer*weight;
-                                    weights_sum += weight;
 
-                                }
-                                if(weights_sum > 0) {
-                                    double final_answer = total / weights_sum;
-                                    int answer = final_answer > 0 ? 1 : -1;
-                                    AlertQuestionary cdd = new AlertQuestionary(activity, sound, animal, true, Optional.of(QuestionAnswer.intToBoolean(answer)), Optional.of(final_answer), Integer.parseInt(park), Integer.parseInt(sensorid), Integer.parseInt(el.getKey()));
-                                    cdd.show();
-
-                                } else {
-                                    AlertQuestionary cdd = new AlertQuestionary(activity, sound, animal, true, Optional.empty(), Optional.empty(), Integer.parseInt(park), Integer.parseInt(sensorid), Integer.parseInt(el.getKey()));
-                                    cdd.show();
-                                }
-
-                            }
-                            return;
-                        }
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
+            takeSound(activity, username, park, animal, sensorid, true);
         }
     }
 }

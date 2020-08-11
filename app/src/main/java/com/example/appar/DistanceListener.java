@@ -29,9 +29,9 @@ public class DistanceListener implements LocationListener {
             return distance;
         }
         public static Distance getStep(double value) {
-            if(value < 10) return ONE;
-            else if(value < 20) return TWO;
-            else if(value < 30) return THREE;
+            if(value < 15) return ONE;
+            else if(value < 45) return TWO;
+            else if(value < 75) return THREE;
             else return FAR;
         }
         public String toString() {
