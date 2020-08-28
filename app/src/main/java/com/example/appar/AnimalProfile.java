@@ -8,13 +8,11 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
@@ -23,14 +21,11 @@ import java.io.IOException;
 public class AnimalProfile extends AppCompatActivity {
     private TableRow row1, row2, row3;
 
-
     public TableRow getRow(int index) {
         if(index / 3 == 0) return row1;
         else if(index / 3 == 1) return row2;
         return row3;
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +37,9 @@ public class AnimalProfile extends AppCompatActivity {
         row3 = findViewById(R.id.tableRow3);
 
         if( getIntent().getStringExtra("images") != null) {
-            System.out.println("NOT NULLLLLLLLLLLLL");
             String[] images = getIntent().getStringExtra("images").split("---");
-            for (int i = 0; i < images.length; i++) {
-                System.out.println("IMMAGINI_CIAO: " + images[i]);
-            }
 
             for (int i = 0; i < images.length; i++) {
-                System.out.println("IMMGG: " + images[i]);
-
                 ImageView image;
 
                 IconFactory mIconFactory = IconFactory.getInstance(AnimalProfile.this);
@@ -75,7 +64,6 @@ public class AnimalProfile extends AppCompatActivity {
         findViewById(R.id.backButton).setOnClickListener(v -> startActivity(new Intent(AnimalProfile.this,Collection.class)));
 
         TextView title = findViewById(R.id.textView);
-        //Toast.makeText(this, "Scanned: " + getIntent().getStringExtra("animal"), Toast.LENGTH_LONG).show();
         title.setText(getIntent().getStringExtra("animal"));
 
         ImageView imageView = findViewById(R.id.imageView);
@@ -93,27 +81,21 @@ public class AnimalProfile extends AppCompatActivity {
         Uri uri = Uri.parse(getIntent().getStringExtra("sound"));
         mediaPlayer = MediaPlayer.create(this, uri);
 
-        findViewById(R.id.imageButton2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mediaPlayer.reset();
-                try {
-                    mediaPlayer.setDataSource(getIntent().getStringExtra("sound"));
-                    mediaPlayer.prepare();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                mediaPlayer.start();
+        findViewById(R.id.imageButton2).setOnClickListener(v -> {
+            mediaPlayer.reset();
+            try {
+                mediaPlayer.setDataSource(getIntent().getStringExtra("sound"));
+                mediaPlayer.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
+            mediaPlayer.start();
         });
 
-        findViewById(R.id.imageButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mediaPlayer.isPlaying()) {
-                    mediaPlayer.stop();
-                }
+        findViewById(R.id.imageButton).setOnClickListener(v -> {
+            if(mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
             }
         });
 
@@ -130,7 +112,6 @@ public class AnimalProfile extends AppCompatActivity {
         );
         params.setMargins(8, 24,0,0);
         tv.setLayoutParams(params);
-        //tv.setTextColor(ContextCompat.getColor(AnimalProfile.this, R.color.black_overlay));
         tv.setTextColor(Color.BLACK);
         return tv;
 

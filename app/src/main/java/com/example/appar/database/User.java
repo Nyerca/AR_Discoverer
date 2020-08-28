@@ -2,9 +2,9 @@ package com.example.appar.database;
 
 public class User {
 
-    public String password;
-    public int total;
-    public int correct;
+    private String password;
+    private int total;
+    private int correct;
 
     public User(String password, int total, int correct) {
         this.password = password;
@@ -12,5 +12,7 @@ public class User {
         this.correct = correct;
     }
 
-
+    public String getPassword() {return this.password;}
+    public Integer getTotal() {return this.total;}
+    public Integer getCorrect() {return this.correct;}
 }

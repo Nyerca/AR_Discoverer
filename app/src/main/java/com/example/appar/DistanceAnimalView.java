@@ -27,10 +27,7 @@ public class DistanceAnimalView extends View {
     private void setupAttributes(AttributeSet attrs) {
         // Obtain a typed array of attributes
         TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.DistanceAnimalView, 0, 0);
-        // Extract custom attributes into member variables
         try {
-            //shapeColor = a.getColor(R.styleable.DistanceAnimalView_shapeColor, Color.RED);
-            //displayShapeName = a.getBoolean(R.styleable.DistanceAnimalView_displayShapeName, true);
             distance = a.getFloat(R.styleable.DistanceAnimalView_distance, 0);
             imagePath = a.getString(R.styleable.DistanceAnimalView_imagePath);
         } finally {
@@ -99,11 +96,6 @@ public class DistanceAnimalView extends View {
             canvas.drawBitmap(foot, 40, 80, paintShape);
             canvas.drawBitmap(foot, 80, 80, paintShape);
         }
-
-
-
-        //canvas.drawText("" + distance, shapeWidth + textXOffset, shapeHeight + textXOffset, paintShape);
-
     }
 
     private void setupPaint(Boolean seen) {
@@ -118,7 +110,6 @@ public class DistanceAnimalView extends View {
 
 
         paintShape.setStyle(Style.FILL);
-        //paintShape.setColor(shapeColor);
         paintShape.setTextSize(10);
     }
 

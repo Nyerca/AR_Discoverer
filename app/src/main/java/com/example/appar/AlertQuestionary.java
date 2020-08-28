@@ -352,21 +352,11 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
         });
     }
 
-
-
-
     public static void randomQuestionary(Activity activity, String username, String park, String animal, String sensorid) {
         Random r = new Random();
         if(!r.nextBoolean()) {
-            //Toast.makeText(activity, "question", Toast.LENGTH_LONG).show();
-
             takeQuestion(activity, username, park, animal, sensorid, true);
-
-
-
         } else {
-            //Toast.makeText(activity, "sound, park: " + park +  " sensid: " + sensorid, Toast.LENGTH_LONG).show();
-
             takeSound(activity, username, park, animal, sensorid, true);
         }
     }

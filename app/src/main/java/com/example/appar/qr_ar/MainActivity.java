@@ -2,23 +2,17 @@ package com.example.appar.qr_ar;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appar.AlertQuestionary;
 import com.example.appar.GameMap;
@@ -34,18 +28,12 @@ import com.google.ar.core.Trackable;
 import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.animation.ModelAnimator;
-import com.google.ar.sceneform.rendering.AnimationData;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.BaseTransformableNode;
 import com.google.ar.sceneform.ux.SelectionVisualizer;
 import com.google.ar.sceneform.ux.TransformableNode;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
-
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private ArFragment fragment;
     private boolean isTracking;
     private boolean isHitting;
-    private ModelLoader modelLoader;
     private String qrcode;
     boolean created = false;
     private int rotation_intent;
@@ -140,15 +127,10 @@ public class MainActivity extends AppCompatActivity {
         fragment.getPlaneDiscoveryController().hide();
         fragment.getPlaneDiscoveryController().setInstructionView(null);
         if(qrcode.length()>0) {
-
             fragment.getArSceneView().getScene().addOnUpdateListener(frameTime -> {
                 fragment.onUpdate(frameTime);
                 onUpdate();
             });
-            if (fragment != null) {
-                //fragment.getTransformationSystem().setSelectionVisualizer(new CustomVisualizer());
-            }
-            modelLoader = new ModelLoader(new WeakReference<>(this));
         }
 
 
@@ -156,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onUpdate() {
-        //addObject(Uri.parse("andy_dance.sfb"));
         boolean trackingChanged = updateTracking();
 
 
@@ -169,21 +150,24 @@ public class MainActivity extends AppCompatActivity {
             Anchor anchor =  session.createAnchor(new Pose(pos, rotation));
             Frame frame = fragment.getArSceneView().getArFrame();
 
-            modelLoader.loadModel(anchor, Uri.parse(qrcode));
-
-
-
-            //modelLoader.loadModel(anchor, Uri.parse("andy_dance.sfb"));
-            //Toast.makeText(MainActivity.this, "ONUPDATE " + created, Toast.LENGTH_LONG).show();
+            ModelRenderable.builder()
+                    .setSource(this, Uri.parse(qrcode))
+                    .build()
+                    .handle((renderable, throwable) -> {
+                        MainActivity activity =this;
+                        if (throwable != null) {
+                            activity.onException(throwable);
+                        } else {
+                            activity.addNodeToScene(anchor, renderable);
+                        }
+                        return null;
+                    });
 
             created = true;
         }
         if(!isTracking) {
             created = false;
         }
-
-
-
 
     }
 
@@ -220,47 +204,6 @@ public class MainActivity extends AppCompatActivity {
         return new android.graphics.Point(vw.getWidth()/2, vw.getHeight()/2);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
-    private void addObject(Uri model) {
-        Frame frame = fragment.getArSceneView().getArFrame();
-        android.graphics.Point pt = getScreenCenter();
-        List<HitResult> hits;
-        if (frame != null) {
-            hits = frame.hitTest(pt.x, pt.y);
-            for (HitResult hit : hits) {
-                Trackable trackable = hit.getTrackable();
-                if (trackable instanceof Plane &&
-                        ((Plane) trackable).isPoseInPolygon(hit.getHitPose())) {
-                    modelLoader.loadModel(hit.createAnchor(), model);
-                    break;
-
-                }
-            }
-        }
-    }
 
     public void addNodeToScene(Anchor anchor, ModelRenderable renderable) {
         AnchorNode anchorNode = new AnchorNode(anchor);
@@ -276,8 +219,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onException(Throwable throwable){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(throwable.getMessage())
-                .setTitle("Codelab error!");
+        builder.setMessage(throwable.getMessage()).setTitle("Codelab error!");
         AlertDialog dialog = builder.create();
         dialog.show();
         return;
@@ -287,16 +229,16 @@ public class MainActivity extends AppCompatActivity {
         if(renderable==null || renderable.getAnimationDataCount() == 0) {
             return;
         }
-        for(int i = 0;i < renderable.getAnimationDataCount();i++){
-            System.out.println("ENTRO_ANIMAZIONE");
-            AnimationData animationData = renderable.getAnimationData(i);
-            ModelAnimator animator = new ModelAnimator(renderable.getAnimationData(0), renderable);
-            animator.setRepeatCount(10000);
-            animator.start();
-        }
-
-
+        ModelAnimator animator = new ModelAnimator(renderable.getAnimationData(0), renderable);
+        animator.setRepeatCount(10000);
+        animator.start();
     }
 
-
+    private class CustomVisualizer implements SelectionVisualizer {
+        @Override
+        public void applySelectionVisual(BaseTransformableNode node) {}
+        @Override
+        public void removeSelectionVisual(BaseTransformableNode node) {}
+    }
 }
+

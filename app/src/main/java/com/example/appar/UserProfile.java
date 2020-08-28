@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,8 +18,6 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class UserProfile  extends AppCompatActivity {
@@ -135,7 +132,6 @@ public class UserProfile  extends AppCompatActivity {
         time.setPadding(0,time_margin,0,0);
 
         inner4_linearlayout.addView(time);
-
 
 
         inner3_linearlayout.addView(inner4_linearlayout);

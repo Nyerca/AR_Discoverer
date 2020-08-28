@@ -17,8 +17,6 @@ public class GlobalVariable {
 
     public String getUsername() {return this.username;}
 
-    //public DatabaseReference getDatabase_reference() {return this.database_reference;}
-
     public static synchronized GlobalVariable getInstance() {
         return globalInstance;
     }

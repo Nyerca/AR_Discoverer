@@ -8,7 +8,6 @@ import com.example.appar.database.UserCredibility;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Optional;
@@ -61,7 +60,6 @@ public class QuestionAnswer {
     }
 
     public static void addUserSoundAnswer(String username, int parkid, int sensorid, int soundid, int answer) {
-        //TODO get credibility
         GlobalVariable.getDatabase_reference().addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot){

@@ -71,15 +71,6 @@
                             app:srcCompat="@drawable/ic_back"
                             tools:ignore="VectorDrawableCompat" />
 
-                        <ImageButton
-                            android:id="@+id/plantButton"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginLeft="20dp"
-                            android:background="@android:color/transparent"
-                            app:srcCompat="@drawable/ic_plant"
-                            tools:ignore="VectorDrawableCompat" />
 
                     </LinearLayout>
 

@@ -2,7 +2,6 @@ package com.example.appar.database;
 
 
 import android.content.Context;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import com.example.appar.GlobalVariable;
 import com.google.firebase.database.DataSnapshot;
@@ -63,23 +62,17 @@ public class AchievementChecker {
                 int total = 1;
                 for (com.google.firebase.database.DataSnapshot element : dataSnapshot.child("user_sensors/"+ GlobalVariable.getInstance().getUsername()).getChildren()) {
                     if(element.child(animal).exists()) {
-                        int amount = element.child(animal).getValue(Integer.class); //This is a1
+                        int amount = element.child(animal).getValue(Integer.class);
                         total += amount;
                     }
                 }
-
-                //Toast.makeText(context, "Total: " + total, Toast.LENGTH_LONG).show();
 
                 int value = 0;
 
                 if(dataSnapshot.child("user_sensors/" + GlobalVariable.getInstance().getUsername() + "/" + parkid + "/" + animal).exists())  {
                     value = dataSnapshot.child("user_sensors/" + GlobalVariable.getInstance().getUsername() + "/" + parkid + "/" + animal).getValue(Integer.class);
 
-                } else {
-
                 }
-
-                //Toast.makeText(context, "Specific one: " + value, Toast.LENGTH_LONG).show();
 
                 DatabaseReference usersRef = GlobalVariable.getDatabase_reference().child("user_sensors/" + GlobalVariable.getInstance().getUsername() + "/" + parkid + "/" + animal);
                 usersRef.setValue(value + 1);
@@ -94,8 +87,6 @@ public class AchievementChecker {
                     DatabaseReference achievement_ref = GlobalVariable.getDatabase_reference().child("achievements/" + GlobalVariable.getInstance().getUsername() + "/" + final_title + " " + achievement.get().getTitle());
                     achievement_ref.setValue(user_achievement);
                 }
-
-
             }
 
             @Override

@@ -4,7 +4,10 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.util.Log;
+import com.example.appar.database.AnimalFigure;
+import com.example.appar.database.Figure;
 import com.example.appar.database.Park;
+import com.example.appar.database.PlantFigure;
 import com.example.appar.database.Sensor;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,17 +45,17 @@ public class DistanceListener implements LocationListener {
     private GameMap context;
     private List<Sensor> list;
     private List<Double> positions;
-    private List<AnimalFigure> animals;
+    private List<Figure> map_elements;
 
     public DistanceListener(GameMap context, List<Sensor> list) {
         this.context = context;
         this.list = list;
     }
 
-    public class CustomComparator implements Comparator<AnimalFigure> {
+    public class CustomComparator implements Comparator<Figure> {
         @Override
-        public int compare(AnimalFigure animal1, AnimalFigure animal2) {
-            return animal1.getDistance().compareTo(animal2.getDistance());
+        public int compare(Figure element1, Figure element2) {
+            return element1.getDistance().compareTo(element2.getDistance());
         }
     }
 
@@ -60,41 +63,41 @@ public class DistanceListener implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         positions = new ArrayList<>();
-        animals = new ArrayList<>();
+        map_elements = new ArrayList<>();
 
-        //Toast.makeText(context, "Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude(), Toast.LENGTH_LONG).show();
         list.forEach(el -> {
             Double returnDistance = getMeasure(location.getLatitude(), location.getLongitude(), el.getLat(), el.getLon());
             positions.add(returnDistance);
-            animals.add(new AnimalFigure(el.getAnimal(), returnDistance, el.getId(), el.getSeen(), el.getImagepath(), el.getArImage(), el.getRotation()));
+            if(el.getIsPlant()) map_elements.add(new PlantFigure(el.getAnimal(), returnDistance, el.getSeen(), el.getImagepath()));
+            else map_elements.add(new AnimalFigure(el.getAnimal(), returnDistance, el.getId(), el.getSeen(), el.getImagepath(), el.getArImage(), el.getRotation()));
             Distance step = Distance.getStep(returnDistance);
         });
         Collections.sort(positions);
         positions.stream().limit(9).collect(Collectors.toList());
 
-        Collections.sort(animals, new CustomComparator());
-        animals.stream().limit(9).collect(Collectors.toList());
+        Collections.sort(map_elements, new CustomComparator());
+        map_elements.stream().limit(9).collect(Collectors.toList());
 
-        context.setDistance(animals);
+        context.setDistance(map_elements);
     }
 
     public void getWorldSensorDistance(Double latitude, Double longitude) {
         positions = new ArrayList<>();
-        animals = new ArrayList<>();
+        map_elements = new ArrayList<>();
 
         list.forEach(el -> {
             Double returnDistance = getMeasure(latitude, longitude, el.getLat(), el.getLon());
             positions.add(returnDistance);
-            animals.add(new AnimalFigure(el.getAnimal(), returnDistance, el.getId(), el.getSeen(), el.getImagepath(), el.getArImage(), el.getRotation()));
+            map_elements.add(new AnimalFigure(el.getAnimal(), returnDistance, el.getId(), el.getSeen(), el.getImagepath(), el.getArImage(), el.getRotation()));
             Distance step = Distance.getStep(returnDistance);
         });
         Collections.sort(positions);
         positions.stream().limit(9).collect(Collectors.toList());
 
-        Collections.sort(animals, new CustomComparator());
-        animals.stream().limit(9).collect(Collectors.toList());
+        Collections.sort(map_elements, new CustomComparator());
+        map_elements.stream().limit(9).collect(Collectors.toList());
 
-        context.setDistance(animals);
+        context.setDistance(map_elements);
     }
 
     public static Park getNearest(List<Park> parklist, double playerLat, double playerLong) {

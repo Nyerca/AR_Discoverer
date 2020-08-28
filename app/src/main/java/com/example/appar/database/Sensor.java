@@ -10,19 +10,23 @@ public class Sensor {
     private String animal;
     private Boolean seen;
     private String imagepath;
+    private Boolean isPlant;
     private Optional<String> arImage;
     private Optional<Integer> rotation;
 
-    public Sensor(String id, String lat_long, String animal, Boolean seen, String imagepath) {
+    public Sensor(String id, String lat_long, String animal, Boolean seen, String imagepath, Boolean isPlant) {
         this.id = Integer.parseInt(id);
         this.lat = Double.parseDouble(lat_long.split(";")[0]);
         this.lon = Double.parseDouble(lat_long.split(";")[1]);
         this.animal = animal;
         this.seen = seen;
         this.imagepath = imagepath;
+        this.isPlant = isPlant;
         arImage = Optional.empty();
         rotation = Optional.empty();
     }
+
+    public Boolean getIsPlant() {return this.isPlant;}
 
     public void setRotation(int rotation) {
         this.rotation = Optional.of(rotation);

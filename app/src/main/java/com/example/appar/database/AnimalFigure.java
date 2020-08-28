@@ -1,9 +1,9 @@
-package com.example.appar;
+package com.example.appar.database;
 
 import java.util.Optional;
 
-public class AnimalFigure {
-    private String animal;
+public class AnimalFigure implements Figure {
+    private String name;
     private Double distance;
     private Integer id;
     private Boolean seen;
@@ -11,8 +11,8 @@ public class AnimalFigure {
     private Optional<String> arImage;
     private Optional<Integer> rotation;
 
-    public AnimalFigure(String animal, Double distance, Integer id, Boolean seen, String imagepath, Optional<String> arImage, Optional<Integer> rotation) {
-        this.animal = animal;
+    public AnimalFigure(String name, Double distance, Integer id, Boolean seen, String imagepath, Optional<String> arImage, Optional<Integer> rotation) {
+        this.name = name;
         this.distance = distance;
         this.id = id;
         this.seen = seen;
@@ -25,8 +25,8 @@ public class AnimalFigure {
 
     public Optional<String> getArImage() {return this.arImage;}
 
-    public String getAnimal() {
-        return this.animal;
+    public String getName() {
+        return this.name;
     }
 
     public Double getDistance() {

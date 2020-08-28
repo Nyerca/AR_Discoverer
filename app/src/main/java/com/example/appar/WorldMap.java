@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appar.database.Sensor;
@@ -85,7 +84,7 @@ public class WorldMap extends AppCompatActivity {
                     dataSnapshot.child("parks").getChildren().forEach(el -> {
                         String position = el.child("position").getValue(String.class); //This is a1
                         String name = el.child("name").getValue(String.class); //This is a1
-                        list.add(new Sensor(el.getKey(), position, name, true, ""));
+                        list.add(new Sensor(el.getKey(), position, name, true, "", false));
                     });
                     mapboxMap.setStyle(Style.OUTDOORS, style -> {
 
@@ -101,9 +100,6 @@ public class WorldMap extends AppCompatActivity {
                         dynamicSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                                //Toast.makeText(parent.getContext(), city_map.get(list_str.get(position)), Toast.LENGTH_SHORT).show();
-
                                 Double lat = Double.parseDouble(city_map.get(list_str.get(position)).split(";")[0]);
                                 Double lon = Double.parseDouble(city_map.get(list_str.get(position)).split(";")[1]);
 
@@ -116,26 +112,16 @@ public class WorldMap extends AppCompatActivity {
                             }
                         });
 
-
-
-
-
-                        mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
-                            @Override
-                            public boolean onMarkerClick(@NonNull Marker marker) {
-                                // Show a toast with the title of the selected marker
-                                //Toast.makeText(WorldMap.this, marker.getTitle(), Toast.LENGTH_LONG).show();
-                                Intent foo = new Intent(WorldMap.this, GameMap.class);
-                                foo.putExtra("parkid", marker.getTitle());
-                                foo.putExtra("position", marker.getPosition().getLatitude()+ ";" + marker.getPosition().getLongitude());
-                                startActivity(foo);
-                                return true;
-                            }
+                        mapboxMap.setOnMarkerClickListener(marker -> {
+                            Intent foo = new Intent(WorldMap.this, GameMap.class);
+                            foo.putExtra("parkid", marker.getTitle());
+                            foo.putExtra("position", marker.getPosition().getLatitude()+ ";" + marker.getPosition().getLongitude());
+                            startActivity(foo);
+                            return true;
                         });
                     });
 
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {}
             });
