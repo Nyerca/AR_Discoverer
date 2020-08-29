@@ -1,9 +1,13 @@
 package com.example.appar;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +26,6 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.register);
 
         findViewById(R.id.login).setOnClickListener(v -> startActivity(new Intent(this,Login.class)));
-
         TextView error = findViewById(R.id.error);
 
         Button register = findViewById(R.id.register);

@@ -1,9 +1,11 @@
 package com.example.appar.database;
 
 
+import android.app.Activity;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import com.example.appar.GlobalVariable;
+import com.example.appar.qr_ar.MainActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -54,7 +56,7 @@ public class AchievementChecker {
         }
     }
 
-    public static void check(String animal, int parkid, Context context) {
+    public static void check(String animal, int parkid, MainActivity activity) {
         GlobalVariable.getDatabase_reference().addListenerForSingleValueEvent(new ValueEventListener(){
 
             @Override
@@ -83,6 +85,8 @@ public class AchievementChecker {
                     UserAchievement user_achievement = new UserAchievement(achievement.get().getImagePath() + animal, currentDate);
 
                     String final_title = animal.substring(0, 1).toUpperCase() + animal.substring(1);
+
+                    activity.setAnimationAchievement(final_title + " " + achievement.get().getTitle(), achievement.get().getImagePath() + animal);
 
                     DatabaseReference achievement_ref = GlobalVariable.getDatabase_reference().child("achievements/" + GlobalVariable.getInstance().getUsername() + "/" + final_title + " " + achievement.get().getTitle());
                     achievement_ref.setValue(user_achievement);

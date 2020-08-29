@@ -1,19 +1,26 @@
 package com.example.appar.qr_ar;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.example.appar.AlertQuestionary;
 import com.example.appar.GameMap;
 import com.example.appar.GlobalVariable;
@@ -46,6 +53,43 @@ public class MainActivity extends AppCompatActivity {
     private int rotation_intent;
 
     ImageView imageView;
+
+    public void setAnimationAchievement(String title, String img_path) {
+        RelativeLayout view = findViewById(R.id.achievement);
+        view.setOnClickListener(v -> {
+            Animation animation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadeout);
+            findViewById(R.id.achievement).startAnimation(animation);
+        });
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View imageViewContainer = inflater.inflate(R.layout.achievement, null);
+        view.addView(imageViewContainer, 0);
+
+        TextView badge_title = findViewById(R.id.badge_title);
+        badge_title.setText(title);
+
+        ImageView imageView = findViewById(R.id.badge);
+        Context context = imageView.getContext();
+        int id = context.getResources().getIdentifier(img_path, "drawable", context.getPackageName());
+        imageView.setImageDrawable(ContextCompat.getDrawable(this, id));
+
+        Animation animation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.righttoleft);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            public void onAnimationEnd(Animation animation) {
+                Animation animation2 = AnimationUtils.loadAnimation(MainActivity.this,R.anim.rotate);
+                findViewById(R.id.badge).startAnimation(animation2);
+            }
+
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        findViewById(R.id.achievement_panel).startAnimation(animation);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
