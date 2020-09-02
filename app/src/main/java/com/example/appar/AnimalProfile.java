@@ -8,6 +8,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -15,6 +17,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
+import com.example.appar.qr_ar.MainActivity;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
 import java.io.IOException;
 
@@ -60,9 +64,6 @@ public class AnimalProfile extends AppCompatActivity {
             tl.setVisibility(View.GONE);
         }
 
-
-        findViewById(R.id.backButton).setOnClickListener(v -> startActivity(new Intent(AnimalProfile.this,Collection.class)));
-
         TextView title = findViewById(R.id.textView);
         title.setText(getIntent().getStringExtra("animal"));
 
@@ -70,6 +71,9 @@ public class AnimalProfile extends AppCompatActivity {
         Context context = imageView.getContext();
         int id = context.getResources().getIdentifier(getIntent().getStringExtra("image"), "drawable", context.getPackageName());
         imageView.setImageDrawable(ContextCompat.getDrawable(this, id));
+
+        Animation animation = AnimationUtils.loadAnimation(this,R.anim.righttoleft);
+        imageView.startAnimation(animation);
 
         LinearLayout linear_layout = findViewById(R.id.facts);
         String[] parts = getIntent().getStringExtra("funfacts").split("---");
@@ -79,12 +83,16 @@ public class AnimalProfile extends AppCompatActivity {
 
         MediaPlayer mediaPlayer;
         Uri uri = Uri.parse(getIntent().getStringExtra("sound"));
+        //String filename = "android.resource://" + this.getPackageName() + "/raw/bat";
+        //Uri uri =Uri.parse(filename);
         mediaPlayer = MediaPlayer.create(this, uri);
 
         findViewById(R.id.imageButton2).setOnClickListener(v -> {
             mediaPlayer.reset();
             try {
-                mediaPlayer.setDataSource(getIntent().getStringExtra("sound"));
+                //mediaPlayer.setDataSource(uri.getPath());
+                mediaPlayer.setDataSource(this, uri);
+                //mediaPlayer.setDataSource(getIntent().getStringExtra("sound"));
                 mediaPlayer.prepare();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -98,6 +106,13 @@ public class AnimalProfile extends AppCompatActivity {
                 mediaPlayer.stop();
             }
         });
+
+        findViewById(R.id.backButton).setOnClickListener(v -> {
+            if(mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            startActivity(new Intent(AnimalProfile.this,Collection.class));
+        } );
 
     }
 

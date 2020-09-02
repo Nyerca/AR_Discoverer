@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textStyle="bold"
-        android:text="Scroll the pages"
+        android:text="Scorri verso destra per leggere"
         android:textSize="24sp" />
 
     <androidx.viewpager.widget.ViewPager

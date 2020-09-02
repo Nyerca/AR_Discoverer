@@ -462,14 +462,16 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                         @Override
                         public void onSuccess(List<ImageLabel> labels) {
                             System.out.println("ENTER_ON_SC " + labels.size());
-                            if(labels.size() == 0 || (labels.size() == 1 && labels.get(0).getText() == "None")) new MaterialAlertDialogBuilder(GameMap.this).setMessage("No plants found!").show();
-                            for (ImageLabel label : labels) {
-                                String text = label.getText();
-                                float confidence = label.getConfidence();
-                                int index = label.getIndex();
+                            if(labels.size() == 0 || (labels.size() > 0 && labels.get(0).getText().equals("None"))) new MaterialAlertDialogBuilder(GameMap.this).setMessage("Nessuna pianta trovata!").show();
+                            else {
+                                for (ImageLabel label : labels) {
+                                    String text = label.getText();
+                                    float confidence = label.getConfidence();
+                                    int index = label.getIndex();
 
-                                System.out.println("RESULT_result: " + text + " conf: " + confidence + " index: " + index);
-                                new MaterialAlertDialogBuilder(GameMap.this).setTitle("The scanned plant is an").setMessage(text).show();
+                                    System.out.println("RESULT_result: " + text + " conf: " + confidence + " index: " + index);
+                                    new MaterialAlertDialogBuilder(GameMap.this).setTitle("La pianta scannerizzata è: ").setMessage(text).show();
+                                }
                             }
                         }
                     })
@@ -477,7 +479,7 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             System.out.println("FAIL_ON_SC " + e);
-                            new MaterialAlertDialogBuilder(GameMap.this).setMessage("No plants found!").show();
+                            new MaterialAlertDialogBuilder(GameMap.this).setMessage("Nessuna pianta trovata!").show();
                             // Task failed with an exception
                             // ...
                         }

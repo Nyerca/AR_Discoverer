@@ -64,28 +64,30 @@ public class Collection extends AppCompatActivity {
         findViewById(R.id.batcard).setOnClickListener(v -> {
             animal_profile.putExtra("animal", "Bat");
             animal_profile.putExtra("image", "ic_bat");
-            animal_profile.putExtra("sound", "https://raw.githubusercontent.com/Nyerca/ar_images/master/cat_annoyed.wav");
+            //animal_profile.putExtra("sound", "bat.wav");
+            //animal_profile.putExtra("sound", "https://raw.githubusercontent.com/Nyerca/ar_images/master/cat_annoyed.wav");
+            animal_profile.putExtra("sound", "android.resource://" + this.getPackageName() + "/raw/bat");
             prepareIntent("bat", animal_profile);
         });
 
         findViewById(R.id.beecard).setOnClickListener(v -> {
             animal_profile.putExtra("animal", "Bee");
             animal_profile.putExtra("image", "ic_bee");
-            animal_profile.putExtra("sound", "https://raw.githubusercontent.com/Nyerca/ar_images/master/cat_annoyed.wav");
+            animal_profile.putExtra("sound", "android.resource://" + this.getPackageName() + "/raw/bee");
             prepareIntent("bee", animal_profile);
         });
 
         findViewById(R.id.butterflycard).setOnClickListener(v -> {
             animal_profile.putExtra("animal", "Butterfly");
             animal_profile.putExtra("image", "ic_butterfly");
-            animal_profile.putExtra("sound", "https://raw.githubusercontent.com/Nyerca/ar_images/master/cat_annoyed.wav");
+            animal_profile.putExtra("sound", "android.resource://" + this.getPackageName() + "/raw/butterfly");
             prepareIntent("butterfly", animal_profile);
         });
 
         findViewById(R.id.mosquitocard).setOnClickListener(v -> {
             animal_profile.putExtra("animal", "Mosquito");
             animal_profile.putExtra("image", "ic_mosquito");
-            animal_profile.putExtra("sound", "https://raw.githubusercontent.com/Nyerca/ar_images/master/cat_annoyed.wav");
+            animal_profile.putExtra("sound", "android.resource://" + this.getPackageName() + "/raw/mosquito");
             prepareIntent("mosquito", animal_profile);
         });
 

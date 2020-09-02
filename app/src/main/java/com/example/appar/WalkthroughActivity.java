@@ -15,7 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 
 public class WalkthroughActivity extends AppCompatActivity {
 
-    private static final int MAX_VIEWS = 5;
+    private static final int MAX_VIEWS = 7;
 
     private ViewPager mViewPager;
     private TextView bottom_text;
@@ -53,27 +53,37 @@ public class WalkthroughActivity extends AppCompatActivity {
 
             switch(position) {
                 case 0:
-                    bottom_text.setText("Explore a park in the world by navigating through the app");
+                    bottom_text.setText("Esplora un parco nel mondo utilizzando l'applicazione");
                     imageView.setImageResource(R.drawable.world_click);
                     break;
 
                 case 1:
-                    bottom_text.setText("After choosing a park you can get to the sensor by clicking on the map to reach them and then by clicking on the sensors pin");
+                    bottom_text.setText("Dopo la scelta del parco puoi utilizzare un sensore, cliccando sulla mappa per muoverti e poi sul sensore per attivarlo");
                     imageView.setImageResource(R.drawable.world_click2);
                     break;
 
                 case 2:
-                    bottom_text.setText("Explore a nearby park and search for a QR_CODE to find the animal hiding");
+                    bottom_text.setText("Esplora un parco nella zona per cercare dei QR_CODE e trovare l'animale nascosto!");
                     imageView.setImageResource(R.drawable.map_click);
                     break;
 
                 case 3:
-                    bottom_text.setText("Explore the informations you gathered about an animal");
-                    imageView.setImageResource(R.drawable.collection_click);
+                    bottom_text.setText("Quando trovi l'animale puoi 'catturarlo' per inserirlo nella tua collezione!");
+                    imageView.setImageResource(R.drawable.capture_click);
                     break;
 
                 case 4:
-                    bottom_text.setText("View your own profile");
+                    bottom_text.setText("Talvolta l'applicazione ti indicherà delle piante che potrai fotografare per scoprirne il nome!");
+                    imageView.setImageResource(R.drawable.plant_click);
+                    break;
+
+                case 5:
+                    bottom_text.setText("Leggi le informazioni che hai raccolto su un animale!");
+                    imageView.setImageResource(R.drawable.collection_click);
+                    break;
+
+                case 6:
+                    bottom_text.setText("Visualizza il tuo profilo!");
                     imageView.setImageResource(R.drawable.profile_click);
                     close.setVisibility(View.VISIBLE);
                     break;

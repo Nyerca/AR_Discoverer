@@ -182,7 +182,7 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
                 public void onPrepared(MediaPlayer mediaPlayer) {
                     seekbar.setMax(mediaPlayer.getDuration());
                     mediaPlayer.start();
-                    //changeSeekbar();
+                    changeSeekbar();
                 }
             });
 
@@ -231,6 +231,8 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
         if(mediaPlayer.isPlaying()) {
             runnable= () -> changeSeekbar();
             handler.postDelayed(runnable,1000);
+        } else {
+            btn.setText(">");
         }
     }
 

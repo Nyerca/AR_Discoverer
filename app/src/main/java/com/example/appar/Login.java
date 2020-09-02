@@ -23,6 +23,8 @@ public class Login  extends AppCompatActivity {
 
         TextView error = findViewById(R.id.error);
 
+        findViewById(R.id.backButton).setOnClickListener(v -> startActivity(new Intent(this,Register.class)));
+
         Button login = findViewById(R.id.login);
         Intent login_intent = new Intent(this,Homepage.class);
         login.setOnClickListener(v -> GlobalVariable.getDatabase_reference().addListenerForSingleValueEvent(new ValueEventListener(){

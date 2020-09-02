@@ -52,17 +52,15 @@ public class MainActivity extends AppCompatActivity {
     boolean created = false;
     private int rotation_intent;
 
+    RelativeLayout view;
+    View imageViewContainer;
     ImageView imageView;
 
     public void setAnimationAchievement(String title, String img_path) {
-        RelativeLayout view = findViewById(R.id.achievement);
-        view.setOnClickListener(v -> {
-            Animation animation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadeout);
-            findViewById(R.id.achievement).startAnimation(animation);
+
+        imageViewContainer.setOnClickListener(v -> {
+            imageViewContainer.setVisibility(View.INVISIBLE);
         });
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View imageViewContainer = inflater.inflate(R.layout.achievement, null);
-        view.addView(imageViewContainer, 0);
 
         TextView badge_title = findViewById(R.id.badge_title);
         badge_title.setText(title);
@@ -72,21 +70,16 @@ public class MainActivity extends AppCompatActivity {
         int id = context.getResources().getIdentifier(img_path, "drawable", context.getPackageName());
         imageView.setImageDrawable(ContextCompat.getDrawable(this, id));
 
+        imageViewContainer.setVisibility(View.VISIBLE);
+
         Animation animation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.righttoleft);
         animation.setAnimationListener(new Animation.AnimationListener() {
-
-            public void onAnimationStart(Animation animation) {
-
-            }
-
+            public void onAnimationStart(Animation animation) {}
             public void onAnimationEnd(Animation animation) {
                 Animation animation2 = AnimationUtils.loadAnimation(MainActivity.this,R.anim.rotate);
                 findViewById(R.id.badge).startAnimation(animation2);
             }
-
-            public void onAnimationRepeat(Animation animation) {
-
-            }
+            public void onAnimationRepeat(Animation animation) {}
         });
         findViewById(R.id.achievement_panel).startAnimation(animation);
     }
@@ -107,6 +100,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(back);
         });
 
+
+        view = findViewById(R.id.achievement);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        imageViewContainer = inflater.inflate(R.layout.achievement, null);
+        view.addView(imageViewContainer, 0);
+        imageViewContainer.setVisibility(View.INVISIBLE);
 
 
         //qrcode = getIntent().getStringExtra("Qr_code");
