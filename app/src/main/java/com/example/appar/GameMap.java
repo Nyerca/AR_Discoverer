@@ -286,7 +286,9 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
 
                                 String imgpath = marker.getTitle().split(";")[2];
 
-                                Intent intent = new Intent(GameMap.this, MainActivity.class);
+                                Intent intent;
+                                if (GlobalVariable.getInstance().getArsupport()) intent = new Intent(GameMap.this, MainActivity.class);
+                                else intent = new Intent(GameMap.this, Camera2d.class);
 
                                 intent.putExtra("animal",animal);
                                 intent.putExtra("sensorid", sensorid);
@@ -494,7 +496,9 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                 if(result.getContents().contains("PreSense.com/")) {
                     //Toast.makeText(this, "Scanned: " + result.getContents().split("PreSense.com/")[1], Toast.LENGTH_LONG).show();
 
-                    Intent intent = new Intent(this, MainActivity.class);
+                    Intent intent;
+                    if (GlobalVariable.getInstance().getArsupport()) intent = new Intent(GameMap.this, MainActivity.class);
+                    else intent = new Intent(GameMap.this, Camera2d.class);
 
                     AnimalFigure nearestAnimalSensor = (AnimalFigure)neareastSensor;
 

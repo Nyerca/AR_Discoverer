@@ -4,22 +4,47 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appar.database.AESCrypt;
+import com.google.ar.core.ArCoreApk;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 public class Login  extends AppCompatActivity {
 
+    private boolean arsupport = false;
+
+    void maybeEnableArButton() {
+        // Likely called from Activity.onCreate() of an activity with AR buttons.
+        ArCoreApk.Availability availability = ArCoreApk.getInstance().checkAvailability(this);
+        if (availability.isTransient()) {
+            // re-query at 5Hz while we check compatibility.
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    maybeEnableArButton();
+                }
+            }, 200);
+        }
+        if (availability.isSupported()) {
+            System.out.println("SUPPORTED_AR: true");
+            arsupport = true;
+        } else {
+            System.out.println("SUPPORTED_AR: false");
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        maybeEnableArButton();
 
         TextView error = findViewById(R.id.error);
 
@@ -39,7 +64,7 @@ public class Login  extends AppCompatActivity {
                     try {
                         String decrypted = AESCrypt.decrypt(dataSnapshot.child("users/" + username).child("password").getValue(String.class));
                         if(decrypted.equals(password)) {
-                            GlobalVariable.setInstance(username);
+                            GlobalVariable.setInstance(username, arsupport);
                             if(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
                             if(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
                             if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);

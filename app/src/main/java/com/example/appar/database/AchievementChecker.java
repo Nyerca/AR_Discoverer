@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import com.example.appar.GlobalVariable;
+import com.example.appar.qr_ar.AnimationClass;
 import com.example.appar.qr_ar.MainActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -56,7 +57,7 @@ public class AchievementChecker {
         }
     }
 
-    public static void check(String animal, int parkid, MainActivity activity) {
+    public static void check(String animal, int parkid, AnimationClass activity) {
         GlobalVariable.getDatabase_reference().addListenerForSingleValueEvent(new ValueEventListener(){
 
             @Override

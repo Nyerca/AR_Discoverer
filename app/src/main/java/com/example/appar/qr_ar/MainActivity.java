@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -26,6 +27,8 @@ import com.example.appar.GameMap;
 import com.example.appar.GlobalVariable;
 import com.example.appar.R;
 import com.google.ar.core.Anchor;
+import com.google.ar.core.ArCoreApk;
+import com.google.ar.core.Config;
 import com.google.ar.core.Frame;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
@@ -43,7 +46,7 @@ import com.google.ar.sceneform.ux.TransformableNode;
 import com.google.firebase.database.DatabaseReference;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AnimationClass {
 
     private ArFragment fragment;
     private boolean isTracking;
@@ -88,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         Intent back = new Intent(this, GameMap.class);
         findViewById(R.id.backButton).setOnClickListener(v -> {
@@ -176,8 +181,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-
-
     }
 
     private void onUpdate() {
@@ -261,6 +264,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onException(Throwable throwable){
+        System.out.println("ECCEZIONE_GENERATA");
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(throwable.getMessage()).setTitle("Codelab error!");
         AlertDialog dialog = builder.create();
