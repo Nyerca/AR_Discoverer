@@ -17,20 +17,26 @@ public class QuestionAnswer {
         return number == 1;
     }
 
+    public static String boolToString(boolean answer) {
+        if(answer) return "vero";
+        return "falso";
+    }
+
     public static Pair<String, String> valueAnswer(boolean given, boolean real, Optional<Double> credibility, String username) {
         String title;
         String body;
         int answer_correct = 0;
         if (given == real) {
-            title = "CORRECT";
+            title = "Corretto";
             answer_correct = 1;
         } else {
-            title = "WRONG";
+            title = "Errato";
         }
         if(credibility.isPresent()) {
-            body = "You answered: " + given + " \n eand accordingly to the users the answer was: " + real + " with a confidence of: " + Math.abs(credibility.get());
+            int value = (int) (Math.abs(credibility.get()) * 100);
+            body = "Hai risposto: " + boolToString(given) + " \n e per gli altri utenti la risposta era: " + boolToString(real) + " con una confidenza di: " + value + "%";
         } else {
-            body = "You answered: " + given + " \n and the answer was: " + real;
+            body = "Hai risposto: " + boolToString(given) + " \n e la risposta era: " + boolToString(real);
         }
         QuestionAnswer.changeUserCredibility(username, answer_correct);
         return Pair.create(title, body);

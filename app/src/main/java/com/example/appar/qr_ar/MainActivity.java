@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements AnimationClass {
     private ArFragment fragment;
     private boolean isTracking;
     private boolean isHitting;
+    private boolean clickable = true;
     private String qrcode;
     boolean created = false;
     private int rotation_intent;
@@ -250,13 +251,23 @@ public class MainActivity extends AppCompatActivity implements AnimationClass {
         return new android.graphics.Point(vw.getWidth()/2, vw.getHeight()/2);
     }
 
+    public void setClickable(boolean clickable){
+        this.clickable = clickable;
+    }
+
 
     public void addNodeToScene(Anchor anchor, ModelRenderable renderable) {
         AnchorNode anchorNode = new AnchorNode(anchor);
         TransformableNode node = new TransformableNode(fragment.getTransformationSystem());
         node.setRenderable(renderable);
         node.setParent(anchorNode);
-        node.setOnTapListener((v, event) -> AlertQuestionary.randomQuestionary(MainActivity.this, GlobalVariable.getInstance().getUsername(), getIntent().getStringExtra("parkid"), getIntent().getStringExtra("animal"), getIntent().getStringExtra("sensorid")));
+        node.setOnTapListener((v, event) -> {
+            if(clickable) {
+                clickable = false;
+                AlertQuestionary.randomQuestionary(MainActivity.this, GlobalVariable.getInstance().getUsername(),
+                        getIntent().getStringExtra("parkid"), getIntent().getStringExtra("animal"), getIntent().getStringExtra("sensorid"));
+            }
+        });
         fragment.getArSceneView().getScene().addChild(anchorNode);
         node.select();
         startAnimation(node, renderable);

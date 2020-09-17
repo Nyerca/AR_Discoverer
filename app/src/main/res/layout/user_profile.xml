@@ -61,7 +61,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Animals seen"
+                        android:text="Animali visti"
                         android:textSize="15sp"
                         />
                     <TextView
@@ -84,7 +84,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Parks visited"
+                        android:text="Parchi visitati"
                         android:textSize="15sp"
                         />
                     <TextView
@@ -107,7 +107,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Credibility"
+                        android:text="Credibilità"
                         android:textSize="15sp"
                         />
                     <TextView

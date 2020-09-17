@@ -40,7 +40,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="-25dp"
-                android:text="Collection"
+                android:text="Collezione"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
                 />
@@ -75,7 +75,7 @@
 
                 <com.example.appar.Card
                     android:layout_width="match_parent"
-                    app:title="Bat"
+                    app:title="Pipistrello"
                     app:image="ic_bat"
                     android:layout_height="match_parent"/>
             </androidx.cardview.widget.CardView>
@@ -90,7 +90,7 @@
                 android:layout_marginBottom="2dp">
                 <com.example.appar.Card
                     android:layout_width="match_parent"
-                    app:title="Bee"
+                    app:title="Ape"
                     app:image="ic_bee"
                     android:layout_height="match_parent"/>
             </androidx.cardview.widget.CardView>
@@ -114,7 +114,7 @@
                 android:layout_marginBottom="5dp">
                 <com.example.appar.Card
                     android:layout_width="match_parent"
-                    app:title="Butterfly"
+                    app:title="Farfalla"
                     app:image="ic_butterfly"
                     android:layout_height="match_parent"/>
             </androidx.cardview.widget.CardView>
@@ -130,7 +130,7 @@
 
                 <com.example.appar.Card
                     android:layout_width="match_parent"
-                    app:title="Mosquito"
+                    app:title="Zanzara"
                     app:image="ic_mosquito"
                     android:layout_height="match_parent"/>
             </androidx.cardview.widget.CardView>

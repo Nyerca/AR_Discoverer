@@ -65,6 +65,10 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
         this.parkid = parkid;
         this.sensorid = sensorid;
         this.elementid = elementid;
+
+        //Uri uri = Uri.parse("https://raw.githubusercontent.com/Nyerca/ar_images/master/cat_annoyed.wav");
+        Uri uri = Uri.parse(body);
+        mediaPlayer = MediaPlayer.create(c, uri);
     }
 
     @Override
@@ -86,7 +90,7 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
         if(funfactid.isPresent()) {
             textdia.setText(funfactid.get().second);
         } else {
-            textdia.setText("Questionary");
+            textdia.setText("Domanda");
         }
 
 
@@ -105,19 +109,20 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
             usersRef.setValue(1);
 
             dismiss();
-
+            if (c instanceof MainActivity) ((MainActivity) c).setClickable(true);
         });
 
         yes = findViewById(R.id.btn_yes);
         yes.setOnClickListener(v12 -> {
+            if(mediaPlayer != null && mediaPlayer.isPlaying()) mediaPlayer.stop();
             if(answer.isPresent()) {
                 Pair<String, String> answers = QuestionAnswer.valueAnswer(true, answer.get(), credibility, GlobalVariable.getInstance().getUsername());
                 textdia.setText(answers.first);
                 question.setText(answers.second);
                 //dismiss();
             } else {
-                textdia.setText("CONGRATULATION");
-                question.setText("You are the first user which contributed to classify this sound!");
+                textdia.setText("CONGRATULATIONI");
+                question.setText("Sei il primo utente ad aver classificato questo suono!");
             }
             FrameLayout frame_yes = findViewById(R.id.frame_yes);
             frame_yes.setVisibility(View.GONE);
@@ -133,13 +138,14 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
         });
         no = findViewById(R.id.btn_no);
         no.setOnClickListener(v13 -> {
+            if(mediaPlayer != null && mediaPlayer.isPlaying()) mediaPlayer.stop();
             if(answer.isPresent()) {
                 Pair<String, String> answers = QuestionAnswer.valueAnswer(false, answer.get(), credibility, GlobalVariable.getInstance().getUsername());
                 textdia.setText(answers.first);
                 question.setText(answers.second);
             } else {
-                textdia.setText("CONGRATULATION");
-                question.setText("You are the first user which contributed to classify this sound!");
+                textdia.setText("CONGRATULATIONI");
+                question.setText("Sei il primo utente ad aver classificato questo suono!");
             }
 
             FrameLayout frame_yes = findViewById(R.id.frame_yes);
@@ -159,7 +165,7 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
         btn = findViewById(R.id.btnPlay);
 
         if(isSound) {
-            question.setText("Is this a/an " + animal);
+            question.setText("É un/una/un' " + animalToString(animal) + "?");
             btn.setOnClickListener(view -> {
                 if (mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();
@@ -174,9 +180,7 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
             handler = new Handler();
 
 
-            //Uri uri = Uri.parse("https://raw.githubusercontent.com/Nyerca/ar_images/master/cat_annoyed.wav");
-            Uri uri = Uri.parse(body);
-            mediaPlayer = MediaPlayer.create(c, uri);
+
 
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
@@ -215,6 +219,13 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
 
 
 
+    }
+
+    private String animalToString(String animal) {
+        if(animal.equals("bat")) return "pipistrello";
+        else if(animal.equals("bee")) return "ape";
+        else if(animal.equals("butterfly")) return "farfalla";
+        return "zanzara";
     }
 
     private void answer(Boolean isSound, String animal, int answer, int parkid, int sensorid, int elementid) {
@@ -316,7 +327,7 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
                 if(isFirstCall) {
                     takeQuestion(activity, username, park, animal, sensorid, false);
                 } else {
-                    Toast.makeText(activity, "There aren't new sounds yet!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Non ci sono nuovi suoni da classificare!", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -345,7 +356,7 @@ public class AlertQuestionary extends Dialog implements android.view.View.OnClic
                 if(isFirstCall) {
                     takeSound(activity, username, park, animal, sensorid, false);
                 } else {
-                    Toast.makeText(activity, "There aren't new sounds yet!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Non ci sono nuovi suoni da classificare!", Toast.LENGTH_LONG).show();
                 }
 
             }

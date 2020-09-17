@@ -39,7 +39,10 @@ public class UserProfile  extends AppCompatActivity {
         count_animals.setText(getIntent().getStringExtra("count_animals"));
 
         TextView credibility = findViewById(R.id.credibility);
-        credibility.setText(getIntent().getStringExtra("credibility"));
+
+        double d = Double.parseDouble(getIntent().getStringExtra("credibility")) * 100;
+        int value = (int)d;
+        credibility.setText(value + "%");
 
         LinearLayout medals = findViewById(R.id.medals);
 

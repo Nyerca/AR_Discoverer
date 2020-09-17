@@ -51,7 +51,7 @@ public class Register extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                             } else {
-                                error.setText("The username is already taken.");
+                                error.setText("Lo username è già in uso.");
                             }
                         }
 
@@ -60,11 +60,11 @@ public class Register extends AppCompatActivity {
 
                     });
                 } else {
-                    error.setText("Password and repeated password dont match.");
+                    error.setText("La password non fa match.");
                 }
             }
             else {
-                error.setText("Both username and password has to be atleast 5 characters long.");
+                error.setText("Sia username che password devono contenere almeno 5 caratteri.");
             }
         });
 

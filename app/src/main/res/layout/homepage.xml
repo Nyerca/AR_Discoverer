@@ -56,8 +56,8 @@
                 android:layout_marginBottom="2dp">
                 <com.example.appar.Card
                     android:layout_width="match_parent"
-                    app:title="World"
-                    app:description="Check a park in the world"
+                    app:title="Mondo"
+                    app:description="Visita un parco nel mondo"
                     app:image="ic_world"
                     android:layout_height="match_parent"/>
             </androidx.cardview.widget.CardView>
@@ -73,8 +73,8 @@
 
                 <com.example.appar.Card
                     android:layout_width="match_parent"
-                    app:title="Map"
-                    app:description="Check a nearby park"
+                    app:title="Mappa"
+                    app:description="Visita un parco in zona"
                     app:image="ic_map"
                     android:layout_height="match_parent"/>
             </androidx.cardview.widget.CardView>
@@ -97,8 +97,8 @@
                 android:layout_marginBottom="5dp">
                 <com.example.appar.Card
                     android:layout_width="match_parent"
-                    app:title="Collection"
-                    app:description="Check your animal collection"
+                    app:title="Collezione"
+                    app:description="Controlla la tua collezione"
                     app:image="ic_collection"
                     android:layout_height="match_parent"/>
             </androidx.cardview.widget.CardView>
@@ -113,8 +113,8 @@
                 android:layout_height="190dp">
                 <com.example.appar.Card
                     android:layout_width="match_parent"
-                    app:title="Profile"
-                    app:description="Check your profile"
+                    app:title="Profilo"
+                    app:description="Controlla il tuo profilo"
                     app:image="ic_profile"
                     android:layout_height="match_parent"/>
             </androidx.cardview.widget.CardView>
@@ -134,7 +134,7 @@
             <com.example.appar.Card
                 android:layout_width="match_parent"
                 app:title="Tutorial"
-                app:description="Read the tutorial"
+                app:description="Leggi il tutorial"
                 app:image="ic_wifi_black_24dp"
                 android:layout_height="match_parent"/>
         </androidx.cardview.widget.CardView>

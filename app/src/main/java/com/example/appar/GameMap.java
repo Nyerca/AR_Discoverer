@@ -320,6 +320,8 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                                 //intent.putExtra("Qr_code", "andy_dance.sfb");
 
                             });
+                        } else {
+                            mapboxMap.setOnMarkerClickListener(marker -> {return true;});
                         }
 
                     });

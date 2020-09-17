@@ -73,7 +73,7 @@ public class Login  extends AppCompatActivity {
 
                             startActivity(login_intent);
                         } else {
-                            error.setText("The password is wrong.");
+                            error.setText("La password è sbagliata.");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -81,7 +81,7 @@ public class Login  extends AppCompatActivity {
 
 
                 } else {
-                    error.setText("The username doesn't exist.");
+                    error.setText("Lo username non esiste.");
                 }
 
             }

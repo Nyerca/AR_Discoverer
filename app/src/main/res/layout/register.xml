@@ -18,7 +18,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome to ArDiscoverer"
+            android:layout_gravity="center"
+            android:text="Benvenuto su PreSense"
             android:textColor="#fff"
             android:textSize="30sp" />
 
@@ -26,7 +27,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:text="Are you already registered? Jump to the login!"
+            android:layout_gravity="center"
+            android:text="Sei già registrato? Passa al login!"
             android:textColor="#fff"
             android:textSize="15sp" />
 
