@@ -37,6 +37,7 @@ import com.google.ar.core.Session;
 import com.google.ar.core.Trackable;
 import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.AnchorNode;
+import com.google.ar.sceneform.Node;
 import com.google.ar.sceneform.animation.ModelAnimator;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
@@ -45,6 +46,7 @@ import com.google.ar.sceneform.ux.SelectionVisualizer;
 import com.google.ar.sceneform.ux.TransformableNode;
 import com.google.firebase.database.DatabaseReference;
 import java.util.List;
+import java.util.Optional;
 
 public class MainActivity extends AppCompatActivity implements AnimationClass {
 
@@ -257,20 +259,32 @@ public class MainActivity extends AppCompatActivity implements AnimationClass {
 
 
     public void addNodeToScene(Anchor anchor, ModelRenderable renderable) {
-        AnchorNode anchorNode = new AnchorNode(anchor);
-        TransformableNode node = new TransformableNode(fragment.getTransformationSystem());
-        node.setRenderable(renderable);
-        node.setParent(anchorNode);
-        node.setOnTapListener((v, event) -> {
-            if(clickable) {
-                clickable = false;
-                AlertQuestionary.randomQuestionary(MainActivity.this, GlobalVariable.getInstance().getUsername(),
-                        getIntent().getStringExtra("parkid"), getIntent().getStringExtra("animal"), getIntent().getStringExtra("sensorid"));
+        System.out.println("FIGLI_SU_ARCORE: " + fragment.getArSceneView().getScene().getChildren().size());
+
+        Optional<Node> tobeRemoved = Optional.empty();
+        for (Node el : fragment.getArSceneView().getScene().getChildren()) {
+            //method to avoid double nodes appearing
+            if(el instanceof AnchorNode) {
+                tobeRemoved = Optional.of(el);
             }
-        });
-        fragment.getArSceneView().getScene().addChild(anchorNode);
-        node.select();
-        startAnimation(node, renderable);
+        }
+        if(tobeRemoved.isPresent()) fragment.getArSceneView().getScene().removeChild(tobeRemoved.get());
+        if(fragment.getArSceneView().getScene().getChildren().size() <= 3) {
+            AnchorNode anchorNode = new AnchorNode(anchor);
+            TransformableNode node = new TransformableNode(fragment.getTransformationSystem());
+            node.setRenderable(renderable);
+            node.setParent(anchorNode);
+            node.setOnTapListener((v, event) -> {
+                if (clickable) {
+                    clickable = false;
+                    AlertQuestionary.randomQuestionary(MainActivity.this, GlobalVariable.getInstance().getUsername(),
+                            getIntent().getStringExtra("parkid"), getIntent().getStringExtra("animal"), getIntent().getStringExtra("sensorid"));
+                }
+            });
+            fragment.getArSceneView().getScene().addChild(anchorNode);
+            node.select();
+            startAnimation(node, renderable);
+        }
 
     }
 

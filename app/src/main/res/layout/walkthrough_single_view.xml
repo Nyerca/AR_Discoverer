@@ -30,7 +30,6 @@
         android:textColor="#fff"
         android:foreground="?android:attr/selectableItemBackground"
         android:background="@drawable/gradienteditext"
-        android:layout_marginTop="40dp"
         android:text="Close"
         android:layout_width="148dp"
         android:layout_height="wrap_content" />
