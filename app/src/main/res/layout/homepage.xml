@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:padding="3dp"
     android:background="#fcfcfc"
     android:gravity="center"
     android:id="@+id/ll">
@@ -15,7 +15,6 @@
         android:orientation="horizontal"
         android:layout_marginBottom="50dp"
         android:gravity="center"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -50,7 +49,7 @@
                 android:clickable="true"
                 android:id="@+id/worldcard"
                 android:layout_width="160dp"
-                android:layout_height="190dp"
+                android:layout_height="160dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="2dp">
@@ -66,7 +65,7 @@
                 android:clickable="true"
                 android:id="@+id/mapcard"
                 android:layout_width="160dp"
-                android:layout_height="190dp"
+                android:layout_height="160dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginBottom="2dp">
@@ -91,7 +90,7 @@
                 android:clickable="true"
                 android:id="@+id/collectioncard"
                 android:layout_width="160dp"
-                android:layout_height="190dp"
+                android:layout_height="160dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp">
@@ -110,7 +109,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_width="160dp"
-                android:layout_height="190dp">
+                android:layout_height="160dp">
                 <com.example.appar.Card
                     android:layout_width="match_parent"
                     app:title="Profilo"
@@ -125,7 +124,7 @@
             android:clickable="true"
             android:layout_width="330dp"
             android:id="@+id/tutorialcard"
-            android:layout_height="150dp"
+            android:layout_height="140dp"
             android:padding="10dp"
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"

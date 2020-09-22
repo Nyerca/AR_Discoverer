@@ -287,6 +287,7 @@ public class GameMap extends AppCompatActivity implements PermissionsListener{
                                 String imgpath = marker.getTitle().split(";")[2];
 
                                 Intent intent;
+                                System.out.println("GlobalVariable.getInstance().getArsupport(): " + GlobalVariable.getInstance().getArsupport());
                                 if (GlobalVariable.getInstance().getArsupport()) intent = new Intent(GameMap.this, MainActivity.class);
                                 else intent = new Intent(GameMap.this, Camera2d.class);
 

@@ -76,10 +76,9 @@ public class Homepage extends AppCompatActivity  {
         switch (requestCode) {
             case 100: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED && grantResults[3] == PackageManager.PERMISSION_GRANTED && grantResults[4] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
+                    System.out.println("GRANT_RESULTS length: " + grantResults.length + "PERMISSION_GRANTED: " + (grantResults[0] == PackageManager.PERMISSION_GRANTED) + ", " + (grantResults[1] == PackageManager.PERMISSION_GRANTED) + ", " + (grantResults[2] == PackageManager.PERMISSION_GRANTED) + ", " + (grantResults[3] == PackageManager.PERMISSION_GRANTED)  + ", " + (grantResults[4] == PackageManager.PERMISSION_GRANTED));
                 } else {
+                    System.out.println("GRANT_RESULTS length: " + grantResults.length + "PERMISSION_GRANTED: " + (grantResults[0] == PackageManager.PERMISSION_GRANTED) + ", " + (grantResults[1] == PackageManager.PERMISSION_GRANTED) + ", " + (grantResults[2] == PackageManager.PERMISSION_GRANTED) + ", " + (grantResults[3] == PackageManager.PERMISSION_GRANTED)  + ", " + (grantResults[4] == PackageManager.PERMISSION_GRANTED));
                     Intent back = new Intent(this,Login.class);
                     startActivity(back);
                 }

@@ -21,9 +21,11 @@ public class Login  extends AppCompatActivity {
     private boolean arsupport = false;
 
     void maybeEnableArButton() {
+
         // Likely called from Activity.onCreate() of an activity with AR buttons.
         ArCoreApk.Availability availability = ArCoreApk.getInstance().checkAvailability(this);
         if (availability.isTransient()) {
+            System.out.println("SUPPORTED_AR: later");
             // re-query at 5Hz while we check compatibility.
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -38,6 +40,9 @@ public class Login  extends AppCompatActivity {
         } else {
             System.out.println("SUPPORTED_AR: false");
         }
+
+
+
     }
 
     @Override
